@@ -1,0 +1,65 @@
+﻿<phone:PhoneApplicationPage
+    x:Class="ImageProcessingApp.PhotoPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="PortraitOrLandscape" Orientation="Portrait"
+    mc:Ignorable="d"
+    shell:SystemTray.IsVisible="False">
+    
+    <Grid x:Name="LayoutRoot" Background="{StaticResource ImageProcessingAppBackgroundColorBrush}" Tap="LayoutRoot_Tap">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <ViewportControl x:Name="Viewport" Grid.Row="0" Grid.RowSpan="2" SizeChanged="Viewport_SizeChanged">
+            <Image x:Name="Image" Stretch="Uniform" CacheMode="BitmapCache"
+                   ManipulationStarted="Viewport_ManipulationStarted"
+                   ManipulationDelta="Viewport_ManipulationDelta"
+                   ManipulationCompleted="Viewport_ManipulationCompleted">
+            </Image>
+        </ViewportControl>
+        
+        <Grid x:Name="TitlePanel" Grid.Row="0" IsHitTestVisible="False" Width="480">
+            <Rectangle Fill="Black" Opacity="0.5"/>
+
+            <StackPanel>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <TextBlock Text="{Binding Path=LocalizedResources.PhotoPage_TextBlock_Filters, Source={StaticResource LocalizedStrings}}"
+                        Style="{StaticResource PhoneTextNormalStyle}" Margin="24,12,24,6" FontWeight="Bold"/>
+                    
+                    <TextBlock x:Name="ResolutionTextBlock" Grid.Column="1" HorizontalAlignment="Right"
+                        Style="{StaticResource PhoneTextNormalStyle}" Margin="24,12,24,6" FontWeight="Bold"/>
+                </Grid>
+                <TextBlock x:Name="FiltersTextBlock" Style="{StaticResource PhoneTextNormalStyle}"
+                           TextWrapping="Wrap" Margin="24,6,24,17"/>
+            </StackPanel>
+        </Grid>
+
+        <ProgressBar x:Name="ProgressBar" VerticalAlignment="Top"
+                     Visibility="Collapsed" IsIndeterminate="False"/>
+
+        <!--<toolkit:GestureService.GestureListener>
+            <toolkit:GestureListener DragDelta="GestureListener_DragDelta"/>
+        </toolkit:GestureService.GestureListener>-->
+    </Grid>
+
+    <phone:PhoneApplicationPage.ApplicationBar >
+        <shell:ApplicationBar Opacity="0.5"
+                              BackgroundColor="{StaticResource ImageProcessingAppApplicationBarBackgroundColor}"
+                              ForegroundColor="{StaticResource ImageProcessingAppApplicationBarForegroundColor}"/>
+    </phone:PhoneApplicationPage.ApplicationBar>
+</phone:PhoneApplicationPage>

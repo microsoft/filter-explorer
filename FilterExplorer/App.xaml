@@ -1,0 +1,61 @@
+﻿<Application
+    x:Class="ImageProcessingApp.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:converters="clr-namespace:ImageProcessingApp.Converters">
+
+    <!--Application Resources-->
+    <Application.Resources>
+        <local:LocalizedStrings xmlns:local="clr-namespace:ImageProcessingApp" x:Key="LocalizedStrings"/>
+
+        <Color x:Key="ImageProcessingAppAccentColor">#8AB8DC</Color>
+        <Color x:Key="ImageProcessingAppHyperlinkColor">White</Color>
+        <Color x:Key="ImageProcessingAppBackgroundColor">Black</Color>
+        <Color x:Key="ImageProcessingAppForegroundColor">White</Color>
+        <Color x:Key="ImageProcessingAppApplicationBarBackgroundColor">#262626</Color>
+        <Color x:Key="ImageProcessingAppApplicationBarForegroundColor">White</Color>
+        <Color x:Key="ImageProcessingAppRootFrameBackgroundColor">Black</Color>
+        <Color x:Key="ImageProcessingAppFrameBackgroundColor">AntiqueWhite</Color>
+        <Color x:Key="ImageProcessingAppFrameForegroundColor">Brown</Color>
+
+        <SolidColorBrush x:Key="ImageProcessingAppBackgroundColorBrush" Color="{StaticResource ImageProcessingAppBackgroundColor}"/>
+        <SolidColorBrush x:Key="ImageProcessingAppForegroundColorBrush" Color="{StaticResource ImageProcessingAppForegroundColor}"/>
+        <SolidColorBrush x:Key="ImageProcessingAppAccentColorBrush" Color="{StaticResource ImageProcessingAppAccentColor}"/>
+        <SolidColorBrush x:Key="ImageProcessingAppHyperlinkColorBrush" Color="{StaticResource ImageProcessingAppHyperlinkColor}"/>
+        <SolidColorBrush x:Key="ImageProcessingApplicationBarBackgroundColorBrush" Color="{StaticResource ImageProcessingAppApplicationBarBackgroundColor}"/>
+        <SolidColorBrush x:Key="ImageProcessingApplicationBarForegroundColorBrush" Color="{StaticResource ImageProcessingAppApplicationBarForegroundColor}"/>
+        <SolidColorBrush x:Key="ImageProcessingAppFrameBackgroundColorBrush" Color="{StaticResource ImageProcessingAppFrameBackgroundColor}"/>
+        <SolidColorBrush x:Key="ImageProcessingAppFrameForegroundColorBrush" Color="{StaticResource ImageProcessingAppFrameForegroundColor}"/>
+
+        <Style x:Key="ImageProcessingAppTextNormalStyle" TargetType="TextBlock" BasedOn="{StaticResource PhoneTextNormalStyle}">
+            <Setter Property="Foreground" Value="{StaticResource ImageProcessingAppForegroundColorBrush}"/>
+        </Style>
+
+        <Style x:Key="ImageProcessingAppTextSmallStyle" TargetType="TextBlock" BasedOn="{StaticResource PhoneTextSmallStyle}">
+            <Setter Property="Foreground" Value="{StaticResource ImageProcessingAppForegroundColorBrush}"/>
+            <Setter Property="FontSize" Value="14"/>
+        </Style>
+
+        <Style x:Key="ImageProcessingAppTextLargeStyle" TargetType="TextBlock" BasedOn="{StaticResource PhoneTextLargeStyle}">
+            <Setter Property="Foreground" Value="{StaticResource ImageProcessingAppForegroundColorBrush}"/>
+        </Style>
+
+        <Style x:Key="ImageProcessingAppTextTitle1Style" TargetType="TextBlock" BasedOn="{StaticResource PhoneTextTitle1Style}">
+            <Setter Property="Foreground" Value="{StaticResource ImageProcessingAppForegroundColorBrush}"/>
+            <Setter Property="FontSize" Value="{StaticResource PhoneFontSizeExtraLarge}"/>
+        </Style>
+
+        <converters:BoolOpacityConverter x:Key="BoolOpacityConverter"/>
+        <converters:BoolVisibilityConverter x:Key="BoolVisibilityConverter"/>
+        <converters:NullVisibilityConverter x:Key="NullVisibilityConverter"/>
+    </Application.Resources>
+
+    <Application.ApplicationLifetimeObjects>
+        <!--Required object that handles lifetime events for the application-->
+        <shell:PhoneApplicationService
+            Launching="Application_Launching" Closing="Application_Closing"
+            Activated="Application_Activated" Deactivated="Application_Deactivated"/>
+    </Application.ApplicationLifetimeObjects>
+</Application>
