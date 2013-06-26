@@ -19,7 +19,7 @@
     </SupportedCultures>
     <XapOutputs>true</XapOutputs>
     <GenerateSilverlightManifest>true</GenerateSilverlightManifest>
-    <XapFilename>Filter Explorer.xap</XapFilename>
+    <XapFilename>FilterExplorer.xap</XapFilename>
     <SilverlightManifestTemplate>Properties\AppManifest.xml</SilverlightManifestTemplate>
     <SilverlightAppEntry>ImageProcessingApp.App</SilverlightAppEntry>
     <ValidateXaml>true</ValidateXaml>

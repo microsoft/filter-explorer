@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Deployment xmlns="http://schemas.microsoft.com/windowsphone/2012/deployment" AppPlatformVersion="8.0">
   <DefaultLanguage xmlns="" code="en-US" />
-  <App xmlns="" ProductID="{84975528-8a0e-4fba-aa7f-430533c99b99}" Title="Filter Explorer" RuntimeType="Silverlight" Version="0.7.0.0" Genre="apps.normal" Author="Nokia" Description="Filter Explorer application demonstrates some of the image editing capabilities and performance of the Nokia Imaging SDK by allowing you to apply a number of filter layers to existing or newly captured photos." Publisher="Nokia Developer" PublisherID="{26fd29c2-5c48-422a-9c35-b50da55e9aba}">
+  <App xmlns="" ProductID="{84975528-8a0e-4fba-aa7f-430533c99b99}" Title="Filter Explorer" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="Nokia" Description="Filter Explorer application demonstrates some of the image editing capabilities and performance of the Nokia Imaging SDK by allowing you to apply a number of filter layers to existing or newly captured photos." Publisher="Nokia Developer" PublisherID="{26fd29c2-5c48-422a-9c35-b50da55e9aba}">
     <IconPath IsRelative="true" IsResource="false">Assets\ApplicationIcon.png</IconPath>
     <Capabilities>
       <Capability Name="ID_CAP_MEDIALIB_PHOTO" />

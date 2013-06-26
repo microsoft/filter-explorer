@@ -9,12 +9,6 @@ The example has been developed with Silverlight for Windows Phone devices
 and tested to work on Nokia Lumia devices with Windows Phone 8.
 
 
-What's new
-----------
-
-Version 0.7.0.0: Beta release of Filter Explorer
-
-
 1. Usage
 -------------------------------------------------------------------------------
 
@@ -141,16 +135,13 @@ http://msdn.microsoft.com/en-us/library/gg588378%28v=vs.92%29.aspx
 6. License
 -------------------------------------------------------------------------------
 
-See the license text file delivered with this project.
+See the license text file delivered with this project. The license file is also
+available online at
+https://projects.developer.nokia.com/filterexplorer/browser/filterexplorer/Licence.txt
 
 
-7. Related documentation
+7. Version history
 -------------------------------------------------------------------------------
 
-None.
-
-
-8. Version history
--------------------------------------------------------------------------------
-
+1.0.0.0 First public release.
 0.7.0.0 Beta release.
