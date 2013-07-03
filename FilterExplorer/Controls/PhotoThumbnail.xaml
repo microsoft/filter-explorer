@@ -17,7 +17,7 @@
 
         <Image Grid.Row="0" Margin="4,4,4,0" Source="{Binding Bitmap}" Stretch="UniformToFill"/>
 
-        <TextBlock Grid.Row="1" Text="{Binding Text}" Margin="4"
+        <TextBlock Grid.Row="1" Text="{Binding Text}" Margin="4,3,4,5"
                    Style="{StaticResource ImageProcessingAppTextSmallStyle}"
                    HorizontalAlignment="Center" VerticalAlignment="Center"
                    Foreground="{StaticResource ImageProcessingAppFrameForegroundColorBrush}"/>
