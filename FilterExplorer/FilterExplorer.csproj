@@ -200,7 +200,6 @@
     <Content Include="Assets\Lens.Screen-WXGA.png" />
     <Content Include="Assets\Tiles\tile_medium.png" />
     <Content Include="Assets\Tiles\tile_small.png" />
-    <Content Include="Assets\Tiles\tile_large.png" />
     <Content Include="SplashScreenImage.jpg" />
     <Content Include="README_FIRST.txt" />
     <Content Include="Toolkit.Content\ApplicationBar.Cancel.png" />
@@ -221,7 +220,7 @@
     </Reference>
     <Reference Include="Nokia.Graphics.Imaging">
       <HintPath>..\NokiaImagingSDK\$(Platform)\Nokia.Graphics.Imaging.winmd</HintPath>
-    </Reference>   
+    </Reference>
     <Reference Include="Nokia.InteropServices.WindowsRuntime">
       <HintPath>..\NokiaImagingSDK\$(Platform)\Nokia.InteropServices.WindowsRuntime.winmd</HintPath>
     </Reference>

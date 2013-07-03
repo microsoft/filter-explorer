@@ -17,8 +17,8 @@
         <Color x:Key="ImageProcessingAppApplicationBarBackgroundColor">#262626</Color>
         <Color x:Key="ImageProcessingAppApplicationBarForegroundColor">White</Color>
         <Color x:Key="ImageProcessingAppRootFrameBackgroundColor">Black</Color>
-        <Color x:Key="ImageProcessingAppFrameBackgroundColor">AntiqueWhite</Color>
-        <Color x:Key="ImageProcessingAppFrameForegroundColor">Brown</Color>
+        <Color x:Key="ImageProcessingAppFrameBackgroundColor">White</Color>
+        <Color x:Key="ImageProcessingAppFrameForegroundColor">Black</Color>
 
         <SolidColorBrush x:Key="ImageProcessingAppBackgroundColorBrush" Color="{StaticResource ImageProcessingAppBackgroundColor}"/>
         <SolidColorBrush x:Key="ImageProcessingAppForegroundColorBrush" Color="{StaticResource ImageProcessingAppForegroundColor}"/>
@@ -35,7 +35,7 @@
 
         <Style x:Key="ImageProcessingAppTextSmallStyle" TargetType="TextBlock" BasedOn="{StaticResource PhoneTextSmallStyle}">
             <Setter Property="Foreground" Value="{StaticResource ImageProcessingAppForegroundColorBrush}"/>
-            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontSize" Value="12"/>
         </Style>
 
         <Style x:Key="ImageProcessingAppTextLargeStyle" TargetType="TextBlock" BasedOn="{StaticResource PhoneTextLargeStyle}">

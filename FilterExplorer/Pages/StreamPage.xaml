@@ -27,7 +27,7 @@
         </Grid.RowDefinitions>
 
         <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,28">
-            <Image Source="/Assets/Graphics/title.png" Stretch="None" HorizontalAlignment="Left"/>
+            <Image Source="/Assets/Graphics/title.png" Stretch="None" HorizontalAlignment="Left" Margin="4,0,0,0"/>
         </StackPanel>
 
         <Grid x:Name="ContentPanel" Grid.Row="1">
@@ -37,7 +37,7 @@
                         <pages:PhotoMosaicListBoxSelector Content="{Binding}">
                             <pages:PhotoMosaicListBoxSelector.PhotoMosaicTemplate>
                                 <DataTemplate>
-                                    <controls:PhotoMosaic MaxWidth="430" MaxHeight="860" Margin="24,0,24,0"/>
+                                    <controls:PhotoMosaic Margin="24,0,0,0"/>
                                 </DataTemplate>
                             </pages:PhotoMosaicListBoxSelector.PhotoMosaicTemplate>
                                 <pages:PhotoMosaicListBoxSelector.PhotoMosaicButtonTemplate>

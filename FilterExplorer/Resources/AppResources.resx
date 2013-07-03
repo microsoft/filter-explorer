@@ -177,7 +177,7 @@ Press ok to discard changes and go back to the camera roll stream. Press cancel 
     <value>None</value>
   </data>
   <data name="AboutPage_TextBlock_About" xml:space="preserve">
-    <value>Filter Explorer application demonstrates some of the image editing capabilities and performance of the Nokia Imaging SDK by allowing you to apply a number of filter layers to existing or newly captured photos.</value>
+    <value>Filter Explorer application demonstrates some of the image editing capabilities and performance of the Nokia Image Editing SDK by allowing you to apply a number of filter layers to existing or newly captured photos.</value>
   </data>
   <data name="StreamPage_Button_More" xml:space="preserve">
     <value>more</value>
