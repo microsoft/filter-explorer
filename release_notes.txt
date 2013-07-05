@@ -143,5 +143,5 @@ https://projects.developer.nokia.com/filterexplorer/browser/filterexplorer/Licen
 7. Version history
 -------------------------------------------------------------------------------
 
+1.1.0.0 Updated looks, new green theme.
 1.0.0.0 First public release.
-0.7.0.0 Beta release.
