@@ -20,7 +20,8 @@
         <TextBlock Grid.Row="1" Text="{Binding Text}" Margin="4,3,4,5"
                    Style="{StaticResource ImageProcessingAppTextSmallStyle}"
                    HorizontalAlignment="Center" VerticalAlignment="Center"
-                   Foreground="{StaticResource ImageProcessingAppFrameForegroundColorBrush}"/>
+                   Foreground="{StaticResource ImageProcessingAppFrameForegroundColorBrush}"
+                   FontFamily="Comic Sans MS" FontStyle="Italic"/>
 
         <Image Grid.Row="1" Source="/Assets/Graphics/shadow.png" VerticalAlignment="Bottom" Margin="0,0,0,-8"/>
     </Grid>
