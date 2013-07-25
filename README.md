@@ -1,5 +1,5 @@
-filterexplorer
-==============
+Filter Explorer
+===============
 
 Filter Explorer application demonstrates some of the image editing capabilities
 and performance of the Nokia Imaging SDK by allowing you to apply a number of
@@ -27,57 +27,17 @@ to run the application on your Windows Phone 8 device.
 3. Project structure and implementation
 -------------------------------------------------------------------------------
 
-3.1 Folders
------------
-
- |                       The root folder contains the project file, the license 
- |                       information and this file (release_notes.txt).
- |
- |- ImageProcessingApp   Root folder for the implementation files.  
- |  |
- |  |- Assets            Graphic assets like icons and tiles.
- |  |
- |  |- Controls          Custom UI controls.
- |  |
- |  |- Converters        Utilities to convert various data types in XAML.
- |  |
- |  |- Helpers           Rendering, tombstorning, etc. helpers.
- |  |
- |  |- Models            Application model.
- |  |
- |  |- Pages             XAML pages.
- |  |
- |  |- Properties        Application property files.
- |  |
- |  |- Resources         Application resources.
-
-
-3.2 Important files and classes
+3.1 Important files and classes
 -------------------------------
 
-| File                             | Description                                |
-|----------------------------------|--------------------------------------------|
-| Helpers/StreamRenderingHelper.cs | Helper utilities for fast photo stream     |
-|                                  | rendering.                                 |
-|----------------------------------|--------------------------------------------|
-| Models/FilterModel.cs            | Different individual filters.              |
-|                                  |                                            |
-|----------------------------------|--------------------------------------------|
-| Models/PhotoModel.cs             | Main model class including photo data,     |
-|                                  | editing session and rendering functions.   |
-|----------------------------------|--------------------------------------------|
-| Pages/FilterPage.xaml(.cs)       | Filter selection page.                     |
-|                                  |                                            |
-|----------------------------------|--------------------------------------------|
-| Pages/PhotoPage.xaml(.cs)        | Main selected photo display/editing page.  |
-|                                  |                                            |
-|----------------------------------|--------------------------------------------|
-| Pages/StreamPage.cs              | Startup page, displays Camera Roll photos  |
-|                                  | rendered with randomly applied filters.    |
-|----------------------------------|--------------------------------------------|
+- Helpers/StreamRenderingHelper.cs: Helper utilities for fast photo stream rendering.
+- Models/FilterModel.cs: Different individual filters.
+- Models/PhotoModel.cs: Main model class including photo data, editing session and rendering functions.
+- Pages/FilterPage.xaml(.cs): Filter selection page. 
+- Pages/PhotoPage.xaml(.cs): Main selected photo display/editing page.
+- Pages/StreamPage.cs: Startup page, displays Camera Roll photos rendered with randomly applied filters.
 
-
-3.3 Used Nokia Image Editing APIs
+3.2 Used Nokia Image Editing APIs
 ---------------------------------
 
 using Nokia.Graphics;
