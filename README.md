@@ -40,9 +40,9 @@ to run the application on your Windows Phone 8 device.
 3.2 Used Nokia Image Editing APIs
 ---------------------------------
 
-using Nokia.Graphics;
-using Nokia.Graphics.Imaging;
-using Nokia.Graphics.Utilities;
+- Nokia.Graphics
+- Nokia.Graphics.Imaging
+- Nokia.Graphics.Utilities
 
 
 4. Compatibility
