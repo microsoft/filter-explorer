@@ -4,6 +4,7 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using Microsoft.Phone.Tasks;
 using Microsoft.Xna.Framework.Media;
+using Microsoft.Xna.Framework.Media.PhoneExtensions;
 using System;
 using System.IO;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -24,12 +25,14 @@ namespace ImageProcessingApp
 
         private PhotoChooserTask _photoChooserTask = new PhotoChooserTask();
         private CameraCaptureTask _cameraCaptureTask = new CameraCaptureTask();
+        private ShareMediaTask _shareMediaTask = new ShareMediaTask();
 
         private bool _busy = false;
 
         private ApplicationBarIconButton _addButton = null;
         private ApplicationBarIconButton _undoButton = null;
         private ApplicationBarIconButton _saveButton = null;
+        private ApplicationBarIconButton _shareButton = null;
 
         private ApplicationBarMenuItem _libraryItem = null;
         private ApplicationBarMenuItem _cameraItem = null;
@@ -73,6 +76,7 @@ namespace ImageProcessingApp
                     _addButton.IsEnabled = !_busy && App.PhotoModel != null;
                     _undoButton.IsEnabled = !_busy && App.PhotoModel != null && App.PhotoModel.CanUndoFilter;
                     _saveButton.IsEnabled = !_busy && App.PhotoModel != null && App.PhotoModel.Dirty;
+                    _shareButton.IsEnabled = !_busy && App.PhotoModel != null;
 
                     ProgressBar.Visibility = _busy ? Visibility.Visible : Visibility.Collapsed;
                     ProgressBar.IsIndeterminate = _busy;
@@ -130,9 +134,17 @@ namespace ImageProcessingApp
             _saveButton.Text = AppResources.PhotoPage_Button_Save;
             _saveButton.IsEnabled = true;
             _saveButton.IconUri = new Uri("/Assets/Icons/save.png", UriKind.Relative);
-            _saveButton.Click += SaveItem_Click;
+            _saveButton.Click += SaveButton_Click;
 
             ApplicationBar.Buttons.Add(_saveButton);
+
+            _shareButton = new ApplicationBarIconButton();
+            _shareButton.Text = AppResources.PhotoPage_Button_Share;
+            _shareButton.IsEnabled = true;
+            _shareButton.IconUri = new Uri("/Assets/Icons/share.png", UriKind.Relative);
+            _shareButton.Click += ShareButton_Click;
+
+            ApplicationBar.Buttons.Add(_shareButton);
 
             _libraryItem = new ApplicationBarMenuItem();
             _libraryItem.Text = AppResources.PhotoPage_Menu_Library;
@@ -289,9 +301,28 @@ namespace ImageProcessingApp
             RenderAsync();
         }
 
-        private async void SaveItem_Click(object sender, EventArgs e)
+        private async void SaveButton_Click(object sender, EventArgs e)
         {
             await SaveAsync();
+        }
+
+        private async void ShareButton_Click(object sender, EventArgs e)
+        {
+            await ShareAsync();
+        }
+
+        private async Task ShareAsync()
+        {
+            if (App.PhotoModel.Dirty)
+            {
+                await SaveAsync();
+            }
+
+            if (App.PhotoModel.Path != null && App.PhotoModel.Path.Length > 0)
+            {
+                _shareMediaTask.FilePath = App.PhotoModel.Path;
+                _shareMediaTask.Show();
+            }
         }
 
         private void AboutItem_Click(object sender, EventArgs e)
@@ -329,6 +360,7 @@ namespace ImageProcessingApp
                         App.PhotoModel = new PhotoModel() { Buffer = stream.GetWindowsRuntimeBuffer() };
                         App.PhotoModel.Captured = (sender == _cameraCaptureTask);
                         App.PhotoModel.Dirty = App.PhotoModel.Captured;
+                        App.PhotoModel.Path = e.OriginalFileName;
                     }
 
                     if (_loaded)
@@ -476,7 +508,10 @@ namespace ImageProcessingApp
 
                     using (MediaLibrary library = new MediaLibrary())
                     {
-                        library.SavePicture(DateTime.UtcNow.Ticks.ToString(), buffer.AsStream());
+                        using (Picture picture = library.SavePicture(DateTime.UtcNow.Ticks.ToString(), buffer.AsStream()))
+                        {
+                            App.PhotoModel.Path = picture.GetPath();
+                        }
                     }
 
                     App.PhotoModel.Dirty = false;

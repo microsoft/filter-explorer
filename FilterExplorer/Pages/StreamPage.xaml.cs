@@ -5,6 +5,8 @@ using ImageProcessingApp.ViewModels;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using Microsoft.Phone.Tasks;
+using Microsoft.Xna.Framework.Media;
+using Microsoft.Xna.Framework.Media.PhoneExtensions;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -205,11 +207,15 @@ namespace ImageProcessingApp
         {
             using (MemoryStream stream = new MemoryStream())
             {
-                e.Item.Picture.GetImage().CopyTo(stream);
+                using (Picture picture = e.Item.Picture)
+                {
+                    picture.GetImage().CopyTo(stream);
 
-                App.PhotoModel = new PhotoModel() { Buffer = stream.GetWindowsRuntimeBuffer() };
-                App.PhotoModel.Captured = false;
-                App.PhotoModel.Dirty = true;
+                    App.PhotoModel = new PhotoModel() { Buffer = stream.GetWindowsRuntimeBuffer() };
+                    App.PhotoModel.Captured = false;
+                    App.PhotoModel.Dirty = true;
+                    App.PhotoModel.Path = e.Item.Picture.GetPath();
+                }
 
                 if (e.Item.Filter != null)
                 {
@@ -284,6 +290,7 @@ namespace ImageProcessingApp
                         App.PhotoModel = new PhotoModel() { Buffer = stream.GetWindowsRuntimeBuffer() };
                         App.PhotoModel.Captured = (sender == _cameraCaptureTask);
                         App.PhotoModel.Dirty = App.PhotoModel.Captured;
+                        App.PhotoModel.Path = e.OriginalFileName;
                     }
 
                     Dispatcher.BeginInvoke(() => { NavigationService.Navigate(new Uri("/Pages/PhotoPage.xaml", UriKind.Relative)); });

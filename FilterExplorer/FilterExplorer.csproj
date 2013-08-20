@@ -194,6 +194,7 @@
     <Content Include="Assets\Icons\folder.png" />
     <Content Include="Assets\Icons\refresh.png" />
     <Content Include="Assets\Icons\save.png" />
+    <Content Include="Assets\Icons\share.png" />
     <Content Include="Assets\Icons\undo.png" />
     <Content Include="Assets\Lens.Screen-720p.png" />
     <Content Include="Assets\Lens.Screen-WVGA.png" />

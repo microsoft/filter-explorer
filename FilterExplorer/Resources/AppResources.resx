@@ -200,4 +200,7 @@ Press ok to discard changes and go back to the camera roll stream. Press cancel 
   <data name="StreamPage_Button_Refresh" xml:space="preserve">
     <value>refresh</value>
   </data>
+  <data name="PhotoPage_Button_Share" xml:space="preserve">
+    <value>share photo</value>
+  </data>
 </root>

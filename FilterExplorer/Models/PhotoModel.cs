@@ -142,6 +142,9 @@ namespace ImageProcessingApp.Models
         public bool Dirty { get; set; }
 
         [XmlAttribute]
+        public string Path { get; set; }
+
+        [XmlAttribute]
         public bool Captured { get; set; }
 
         /// <summary>
