@@ -8,6 +8,13 @@ filter layers to existing or newly captured photos.
 The example has been developed with Silverlight for Windows Phone devices
 and tested to work on Nokia Lumia devices with Windows Phone 8.
 
+This example application is hosted in GitHub:
+https://github.com/nokia-developer/filter-explorer
+
+For more information on implementation, visit Nokia Lumia
+Developer's Library:
+http://developer.nokia.com/Resources/Library/Lumia/#!nokia-imaging-sdk/sample-projects/filter-explorer.html
+
 
 1. Usage
 -------------------------------------------------------------------------------
