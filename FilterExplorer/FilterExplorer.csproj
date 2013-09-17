@@ -202,6 +202,7 @@
     <Content Include="Assets\Tiles\tile_medium.png" />
     <Content Include="Assets\Tiles\tile_small.png" />
     <Content Include="SplashScreenImage.jpg" />
+    <Content Include="SplashScreenImage.Screen-720p.jpg" />
     <Content Include="README_FIRST.txt" />
     <Content Include="Toolkit.Content\ApplicationBar.Cancel.png" />
     <Content Include="Toolkit.Content\ApplicationBar.Check.png" />

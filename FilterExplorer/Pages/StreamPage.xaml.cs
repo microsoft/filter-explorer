@@ -207,15 +207,12 @@ namespace ImageProcessingApp
         {
             using (MemoryStream stream = new MemoryStream())
             {
-                using (Picture picture = e.Item.Picture)
-                {
-                    picture.GetImage().CopyTo(stream);
+                e.Item.Picture.GetImage().CopyTo(stream);
 
-                    App.PhotoModel = new PhotoModel() { Buffer = stream.GetWindowsRuntimeBuffer() };
-                    App.PhotoModel.Captured = false;
-                    App.PhotoModel.Dirty = true;
-                    App.PhotoModel.Path = e.Item.Picture.GetPath();
-                }
+                App.PhotoModel = new PhotoModel() { Buffer = stream.GetWindowsRuntimeBuffer() };
+                App.PhotoModel.Captured = false;
+                App.PhotoModel.Dirty = true;
+                App.PhotoModel.Path = e.Item.Picture.GetPath();
 
                 if (e.Item.Filter != null)
                 {

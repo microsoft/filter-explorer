@@ -15,7 +15,7 @@
 
     <Grid x:Name="LayoutRoot">
         <Grid.Background>
-            <ImageBrush ImageSource="/Assets/Graphics/background.png" Stretch="None"/>
+            <ImageBrush ImageSource="/Assets/Graphics/background.png" Stretch="UniformToFill"/>
         </Grid.Background>
         
         <Grid.RowDefinitions>

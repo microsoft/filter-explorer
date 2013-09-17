@@ -16,9 +16,9 @@
     SupportedOrientations="Portrait" Orientation="Portrait"
     shell:SystemTray.IsVisible="False">
 
-    <Grid x:Name="LayoutRoot">
+    <Grid x:Name="LayoutRoot" Margin="0,0,0,-71">
         <Grid.Background>
-            <ImageBrush ImageSource="/Assets/Graphics/background.png" Stretch="None"/>
+            <ImageBrush ImageSource="/Assets/Graphics/background.png" Stretch="UniformToFill"/>
         </Grid.Background>
         
         <Grid.RowDefinitions>

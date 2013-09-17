@@ -48,6 +48,8 @@ namespace ImageProcessingApp
         {
             InitializeComponent();
 
+            ApplyOrientation(Orientation);
+
             Loaded += FilterPage_Loaded;
         }
 
@@ -57,16 +59,7 @@ namespace ImageProcessingApp
         {
             base.OnOrientationChanged(e);
 
-            if (e.Orientation.HasFlag(PageOrientation.Portrait))
-            {
-                TitleImage.Visibility = Visibility.Visible;
-                Pivot.Margin = new Thickness(0);
-            }
-            else
-            {
-                TitleImage.Visibility = Visibility.Collapsed;
-                Pivot.Margin = new Thickness(0,-16,0,0);
-            }
+            ApplyOrientation(e.Orientation);
         }
 
         #endregion
@@ -166,6 +159,24 @@ namespace ImageProcessingApp
 
                     session.UndoAll();
                 }
+            }
+        }
+
+        /// <summary>
+        /// Apply orientation specific layout.
+        /// </summary>
+        /// <param name="orientation">Page orientation</param>
+        private void ApplyOrientation(PageOrientation orientation)
+        {
+            if (orientation.HasFlag(PageOrientation.Portrait))
+            {
+                TitleImage.Visibility = Visibility.Visible;
+                Pivot.Margin = new Thickness(0);
+            }
+            else
+            {
+                TitleImage.Visibility = Visibility.Collapsed;
+                Pivot.Margin = new Thickness(0, -16, 0, 0);
             }
         }
 

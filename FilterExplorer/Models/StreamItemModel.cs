@@ -68,6 +68,11 @@ namespace ImageProcessingApp.Models
             _filter = filter;
         }
 
+        ~StreamItemModel()
+        {
+            _picture.Dispose();
+        }
+
         public void RandomizeFilter()
         {
             Filter = App.FilterModel.RandomFilter();
