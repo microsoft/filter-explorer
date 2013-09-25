@@ -207,10 +207,12 @@ namespace ImageProcessingApp.Models
                     thumbnailStream.Position = 0;
 
                     using (StreamImageSource source = new StreamImageSource(thumbnailStream))
+                    using (FilterEffect effect = new FilterEffect(source))
                     {
+                        List<IFilter> filters = new List<IFilter>();
+
                         if (item.RequestedSize == StreamItemViewModel.Size.Large)
                         {
-                            List<IFilter> filters = new List<IFilter>();
                             int width = item.Model.Picture.Width;
                             int height = item.Model.Picture.Height;
 
@@ -234,31 +236,21 @@ namespace ImageProcessingApp.Models
                                     Y = height / 2 - width / 2
                                 }));
                             }
+                        }
 
-                            using (FilterEffect effect = new FilterEffect(source))
+                        if (item.Model.Filter != null)
+                        {
+                            foreach (IFilter f in item.Model.Filter.Components)
                             {
-                                if (item.Model.Filter != null)
-                                {
-                                    foreach (IFilter f in item.Model.Filter.Components)
-                                    {
-                                        filters.Add(f);
-                                    }
-                                }
-
-                                effect.Filters = filters;
-
-                                using (WriteableBitmapRenderer renderer = new WriteableBitmapRenderer(effect, bitmap))
-                                {
-                                    await renderer.RenderAsync();
-                                }
+                                filters.Add(f);
                             }
                         }
-                        else
+
+                        effect.Filters = filters;
+
+                        using (WriteableBitmapRenderer renderer = new WriteableBitmapRenderer(effect, bitmap))
                         {
-                            using (WriteableBitmapRenderer renderer = new WriteableBitmapRenderer(source, bitmap))
-                            {
-                                await renderer.RenderAsync();
-                            }
+                            await renderer.RenderAsync();
                         }
                     }
                     
