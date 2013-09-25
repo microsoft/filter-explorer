@@ -170,16 +170,17 @@ namespace ImageProcessingApp
             Loaded += PhotoPage_Loaded;
         }
 
-        void PhotoPage_Loaded(object sender, RoutedEventArgs e)
+        private async void PhotoPage_Loaded(object sender, RoutedEventArgs e)
         {
             _loaded = true;
 
-            RenderAsync();
+            await SetupAsync();
+            await RenderAsync();
         }
 
         #region Protected methods
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
 
@@ -189,7 +190,7 @@ namespace ImageProcessingApp
 
                 if (!Busy)
                 {
-                    Setup();
+                    await SetupAsync();
                 }
             }
             else if (e.Uri.ToString().Contains("ViewfinderLaunch"))
@@ -292,13 +293,13 @@ namespace ImageProcessingApp
             NavigationService.Navigate(new Uri("/Pages/FilterPage.xaml", UriKind.Relative));
         }
 
-        private void UndoButton_Click(object sender, EventArgs e)
+        private async void UndoButton_Click(object sender, EventArgs e)
         {
             App.PhotoModel.UndoFilter();
             App.PhotoModel.Dirty = !App.PhotoModel.CanUndoFilter && App.PhotoModel.Captured || App.PhotoModel.CanUndoFilter;
 
-            Setup();
-            RenderAsync();
+            await SetupAsync();
+            await RenderAsync();
         }
 
         private async void SaveButton_Click(object sender, EventArgs e)
@@ -365,8 +366,8 @@ namespace ImageProcessingApp
 
                     if (_loaded)
                     {
-                        Setup();
-                        RenderAsync();
+                        await SetupAsync();
+                        await RenderAsync();
                     }
                 }
                 else
@@ -385,9 +386,9 @@ namespace ImageProcessingApp
             }
         }
 
-        private void UpdateInfoDisplay()
+        private void UpdateInfoDisplay(Windows.Foundation.Size dimensions)
         {
-            ResolutionTextBlock.Text = App.PhotoModel.Width + " x " + App.PhotoModel.Height;
+            ResolutionTextBlock.Text = dimensions.Width + " x " + dimensions.Height;
 
             if (App.PhotoModel.AppliedFilters.Count > 0)
             {
@@ -439,28 +440,30 @@ namespace ImageProcessingApp
             }
         }
 
-        private void Setup()
+        private async Task SetupAsync()
         {
             try
             {
+                Windows.Foundation.Size dimensions = await App.PhotoModel.GetImageSizeAsync();
+
                 double scale;
 
-                if (App.PhotoModel.Width > App.PhotoModel.Height)
+                if (dimensions.Width > dimensions.Height)
                 {
-                    scale = _maxWidth / App.PhotoModel.Width;
+                    scale = _maxWidth / dimensions.Width;
                 }
                 else
                 {
-                    scale = _maxHeight / App.PhotoModel.Height;
+                    scale = _maxHeight / dimensions.Height;
                 }
 
-                _width = App.PhotoModel.Width * scale;
-                _height = App.PhotoModel.Height * scale;
+                _width = dimensions.Width * scale;
+                _height = dimensions.Height * scale;
 
                 HighQuality = false;
 
                 ConfigureViewport();
-                UpdateInfoDisplay();
+                UpdateInfoDisplay(dimensions);
             }
             catch (Exception ex)
             {

@@ -12,14 +12,9 @@ namespace ImageProcessingApp.Models
         public string Name { get; set; }
 
         [XmlIgnore]
-        public Queue<IFilter> Components { get; set; }
+        abstract public Queue<IFilter> Components { get; }
 
         #endregion
-
-        public FilterModel()
-        {
-            Components = new Queue<IFilter>();
-        }
     }
 
     #region Art filters
@@ -29,7 +24,19 @@ namespace ImageProcessingApp.Models
         public AntiqueFilterModel()
         {
             Name = "Antique";
-            Components.Enqueue(FilterFactory.CreateAntiqueFilter());
+        }
+
+        [XmlIgnore]
+        public override Queue<IFilter> Components
+        {
+            get
+            {
+                Queue<IFilter> components = new Queue<IFilter>();
+
+                components.Enqueue(new AntiqueFilter());
+
+                return components;
+            }
         }
     }
 
@@ -38,7 +45,19 @@ namespace ImageProcessingApp.Models
         public BlurFilterModel()
         {
             Name = "Blur";
-            Components.Enqueue(FilterFactory.CreateBlurFilter(BlurLevel.Blur5));
+        }
+
+        [XmlIgnore]
+        public override Queue<IFilter> Components
+        {
+            get
+            {
+                Queue<IFilter> components = new Queue<IFilter>();
+
+                components.Enqueue(new BlurFilter(5));
+
+                return components;
+            }
         }
     }
 
@@ -47,7 +66,19 @@ namespace ImageProcessingApp.Models
         public BrightnessFilterModel()
         {
             Name = "Brightness";
-            Components.Enqueue(FilterFactory.CreateBrightnessFilter(0.35f));
+        }
+
+        [XmlIgnore]
+        public override Queue<IFilter> Components
+        {
+            get
+            {
+                Queue<IFilter> components = new Queue<IFilter>();
+
+                components.Enqueue(new BrightnessFilter(0.35f));
+
+                return components;
+            }
         }
     }
 
@@ -56,7 +87,19 @@ namespace ImageProcessingApp.Models
         public CartoonFilterModel()
         {
             Name = "Cartoon";
-            Components.Enqueue(FilterFactory.CreateCartoonFilter(true));
+        }
+
+        [XmlIgnore]
+        public override Queue<IFilter> Components
+        {
+            get
+            {
+                Queue<IFilter> components = new Queue<IFilter>();
+
+                components.Enqueue(new CartoonFilter(true));
+
+                return components;
+            }
         }
     }
 
@@ -65,7 +108,19 @@ namespace ImageProcessingApp.Models
         public ColorAdjustRedFilterModel()
         {
             Name = "Color Adjust Red";
-            Components.Enqueue(FilterFactory.CreateColorAdjustFilter(1.0f, 0.0f, 0.0f));
+        }
+
+        [XmlIgnore]
+        public override Queue<IFilter> Components
+        {
+            get
+            {
+                Queue<IFilter> components = new Queue<IFilter>();
+
+                components.Enqueue(new ColorAdjustFilter(1.0f, 0.0f, 0.0f));
+
+                return components;
+            }
         }
     }
 
@@ -74,7 +129,19 @@ namespace ImageProcessingApp.Models
         public ColorAdjustGreenFilterModel()
         {
             Name = "Color Adjust Green";
-            Components.Enqueue(FilterFactory.CreateColorAdjustFilter(0.0f, 1.0f, 0.0f));
+        }
+
+        [XmlIgnore]
+        public override Queue<IFilter> Components
+        {
+            get
+            {
+                Queue<IFilter> components = new Queue<IFilter>();
+
+                components.Enqueue(new ColorAdjustFilter(0.0f, 1.0f, 0.0f));
+
+                return components;
+            }
         }
     }
 
@@ -83,7 +150,19 @@ namespace ImageProcessingApp.Models
         public ColorAdjustBlueFilterModel()
         {
             Name = "Color Adjust Blue";
-            Components.Enqueue(FilterFactory.CreateColorAdjustFilter(0.0f, 0.0f, 1.0f));
+        }
+
+        [XmlIgnore]
+        public override Queue<IFilter> Components
+        {
+            get
+            {
+                Queue<IFilter> components = new Queue<IFilter>();
+
+                components.Enqueue(new ColorAdjustFilter(0.0f, 0.0f, 1.0f));
+
+                return components;
+            }
         }
     }
 
@@ -92,7 +171,19 @@ namespace ImageProcessingApp.Models
         public ContrastFilterModel()
         {
             Name = "Contrast";
-            Components.Enqueue(FilterFactory.CreateContrastFilter(0.8f));
+        }
+
+        [XmlIgnore]
+        public override Queue<IFilter> Components
+        {
+            get
+            {
+                Queue<IFilter> components = new Queue<IFilter>();
+
+                components.Enqueue(new ContrastFilter(0.8f));
+
+                return components;
+            }
         }
     }
 
@@ -101,7 +192,19 @@ namespace ImageProcessingApp.Models
         public DespeckleFilterModel()
         {
             Name = "Despeckle";
-            Components.Enqueue(FilterFactory.CreateDespeckleFilter(DespeckleLevel.High));
+        }
+
+        [XmlIgnore]
+        public override Queue<IFilter> Components
+        {
+            get
+            {
+                Queue<IFilter> components = new Queue<IFilter>();
+
+                components.Enqueue(new DespeckleFilter(DespeckleLevel.High));
+
+                return components;
+            }
         }
     }
 
@@ -110,7 +213,19 @@ namespace ImageProcessingApp.Models
         public EmbossFilterModel()
         {
             Name = "Emboss";
-            Components.Enqueue(FilterFactory.CreateEmbossFilter(1.0f));
+        }
+
+        [XmlIgnore]
+        public override Queue<IFilter> Components
+        {
+            get
+            {
+                Queue<IFilter> components = new Queue<IFilter>();
+
+                components.Enqueue(new EmbossFilter(1.0f));
+
+                return components;
+            }
         }
     }
 
@@ -119,7 +234,19 @@ namespace ImageProcessingApp.Models
         public FlipFilterModel()
         {
             Name = "Flip";
-            Components.Enqueue(FilterFactory.CreateFlipFilter(FlipMode.Horizontal));
+        }
+
+        [XmlIgnore]
+        public override Queue<IFilter> Components
+        {
+            get
+            {
+                Queue<IFilter> components = new Queue<IFilter>();
+
+                components.Enqueue(new FlipFilter(FlipMode.Horizontal));
+
+                return components;
+            }
         }
     }
 
@@ -128,7 +255,19 @@ namespace ImageProcessingApp.Models
         public GrayscaleFilterModel()
         {
             Name = "Grayscale";
-            Components.Enqueue(FilterFactory.CreateGrayscaleFilter());
+        }
+
+        [XmlIgnore]
+        public override Queue<IFilter> Components
+        {
+            get
+            {
+                Queue<IFilter> components = new Queue<IFilter>();
+
+                components.Enqueue(new GrayscaleFilter());
+
+                return components;
+            }
         }
     }
 
@@ -137,7 +276,19 @@ namespace ImageProcessingApp.Models
         public HueSaturationFilterModel()
         {
             Name = "Hue Saturation";
-            Components.Enqueue(FilterFactory.CreateHueSaturationFilter(228, 228));
+        }
+
+        [XmlIgnore]
+        public override Queue<IFilter> Components
+        {
+            get
+            {
+                Queue<IFilter> components = new Queue<IFilter>();
+
+                components.Enqueue(new HueSaturationFilter(0.9, 0.9));
+
+                return components;
+            }
         }
     }
 
@@ -146,7 +297,19 @@ namespace ImageProcessingApp.Models
         public LomoFilterModel()
         {
             Name = "Lomo";
-            Components.Enqueue(FilterFactory.CreateLomoFilter(0.5f, 0.75f, LomoVignetting.Medium, LomoStyle.Neutral));
+        }
+
+        [XmlIgnore]
+        public override Queue<IFilter> Components
+        {
+            get
+            {
+                Queue<IFilter> components = new Queue<IFilter>();
+
+                components.Enqueue(new LomoFilter(0.5f, 0.75f, LomoVignetting.Medium, LomoStyle.Neutral));
+
+                return components;
+            }
         }
     }
 
@@ -155,7 +318,19 @@ namespace ImageProcessingApp.Models
         public MagicPenFilterModel()
         {
             Name = "Magic Pen";
-            Components.Enqueue(FilterFactory.CreateMagicPenFilter());
+        }
+
+        [XmlIgnore]
+        public override Queue<IFilter> Components
+        {
+            get
+            {
+                Queue<IFilter> components = new Queue<IFilter>();
+
+                components.Enqueue(new MagicPenFilter());
+
+                return components;
+            }
         }
     }
 
@@ -164,7 +339,19 @@ namespace ImageProcessingApp.Models
         public MilkyFilterModel()
         {
             Name = "Milky";
-            Components.Enqueue(FilterFactory.CreateMilkyFilter());
+        }
+
+        [XmlIgnore]
+        public override Queue<IFilter> Components
+        {
+            get
+            {
+                Queue<IFilter> components = new Queue<IFilter>();
+
+                components.Enqueue(new MilkyFilter());
+
+                return components;
+            }
         }
     }
 
@@ -173,7 +360,19 @@ namespace ImageProcessingApp.Models
         public MirrorFilterModel()
         {
             Name = "Mirror";
-            Components.Enqueue(FilterFactory.CreateMirrorFilter());
+        }
+
+        [XmlIgnore]
+        public override Queue<IFilter> Components
+        {
+            get
+            {
+                Queue<IFilter> components = new Queue<IFilter>();
+
+                components.Enqueue(new MirrorFilter());
+
+                return components;
+            }
         }
     }
 
@@ -182,7 +381,19 @@ namespace ImageProcessingApp.Models
         public MonocolorRedFilterModel()
         {
             Name = "Monocolor Red";
-            Components.Enqueue(FilterFactory.CreateMonoColorFilter(new Windows.UI.Color() { R = 0xff, G = 0x00, B = 0x00 }, 64));
+        }
+
+        [XmlIgnore]
+        public override Queue<IFilter> Components
+        {
+            get
+            {
+                Queue<IFilter> components = new Queue<IFilter>();
+
+                components.Enqueue(new MonoColorFilter(new Windows.UI.Color() { R = 0xff, G = 0x00, B = 0x00 }, 0.64));
+
+                return components;
+            }
         }
     }
 
@@ -191,7 +402,19 @@ namespace ImageProcessingApp.Models
         public MonocolorGreenFilterModel()
         {
             Name = "Monocolor Green";
-            Components.Enqueue(FilterFactory.CreateMonoColorFilter(new Windows.UI.Color() { R = 0x00, G = 0xff, B = 0x00 }, 64));
+        }
+
+        [XmlIgnore]
+        public override Queue<IFilter> Components
+        {
+            get
+            {
+                Queue<IFilter> components = new Queue<IFilter>();
+
+                components.Enqueue(new MonoColorFilter(new Windows.UI.Color() { R = 0x00, G = 0xff, B = 0x00 }, 0.64));
+
+                return components;
+            }
         }
     }
 
@@ -200,7 +423,19 @@ namespace ImageProcessingApp.Models
         public MonocolorBlueFilterModel()
         {
             Name = "Monocolor Blue";
-            Components.Enqueue(FilterFactory.CreateMonoColorFilter(new Windows.UI.Color() { R = 0x00, G = 0x00, B = 0xff }, 64));
+        }
+
+        [XmlIgnore]
+        public override Queue<IFilter> Components
+        {
+            get
+            {
+                Queue<IFilter> components = new Queue<IFilter>();
+
+                components.Enqueue(new MonoColorFilter(new Windows.UI.Color() { R = 0x00, G = 0x00, B = 0xff }, 0.64));
+
+                return components;
+            }
         }
     }
 
@@ -210,7 +445,19 @@ namespace ImageProcessingApp.Models
         public MoonlightFilterModel()
         {
             Name = "Moonlight";
-            Components.Enqueue(FilterFactory.CreateMoonlightFilter(24));
+        }
+
+        [XmlIgnore]
+        public override Queue<IFilter> Components
+        {
+            get
+            {
+                Queue<IFilter> components = new Queue<IFilter>();
+
+                components.Enqueue(new MoonlightFilter(21));
+
+                return components;
+            }
         }
     }
 
@@ -219,7 +466,19 @@ namespace ImageProcessingApp.Models
         public NegativeFilterModel()
         {
             Name = "Negative";
-            Components.Enqueue(FilterFactory.CreateNegativeFilter());
+        }
+
+        [XmlIgnore]
+        public override Queue<IFilter> Components
+        {
+            get
+            {
+                Queue<IFilter> components = new Queue<IFilter>();
+
+                components.Enqueue(new NegativeFilter());
+
+                return components;
+            }
         }
     }
 
@@ -228,7 +487,19 @@ namespace ImageProcessingApp.Models
         public OilyFilterModel()
         {
             Name = "Oily";
-            Components.Enqueue(FilterFactory.CreateOilyFilter());
+        }
+
+        [XmlIgnore]
+        public override Queue<IFilter> Components
+        {
+            get
+            {
+                Queue<IFilter> components = new Queue<IFilter>();
+
+                components.Enqueue(new OilyFilter());
+
+                return components;
+            }
         }
     }
 
@@ -237,7 +508,19 @@ namespace ImageProcessingApp.Models
         public PaintFilterModel()
         {
             Name = "Paint";
-            Components.Enqueue(FilterFactory.CreatePaintFilter(1));
+        }
+
+        [XmlIgnore]
+        public override Queue<IFilter> Components
+        {
+            get
+            {
+                Queue<IFilter> components = new Queue<IFilter>();
+
+                components.Enqueue(new PaintFilter(1));
+
+                return components;
+            }
         }
     }
 
@@ -246,7 +529,19 @@ namespace ImageProcessingApp.Models
         public PosterizeFilterModel()
         {
             Name = "Posterize";
-            Components.Enqueue(FilterFactory.CreatePosterizeFilter(8));
+        }
+
+        [XmlIgnore]
+        public override Queue<IFilter> Components
+        {
+            get
+            {
+                Queue<IFilter> components = new Queue<IFilter>();
+
+                components.Enqueue(new PosterizeFilter(8));
+
+                return components;
+            }
         }
     }
 
@@ -255,7 +550,19 @@ namespace ImageProcessingApp.Models
         public SepiaFilterModel()
         {
             Name = "Sepia";
-            Components.Enqueue(FilterFactory.CreateSepiaFilter());
+        }
+
+        [XmlIgnore]
+        public override Queue<IFilter> Components
+        {
+            get
+            {
+                Queue<IFilter> components = new Queue<IFilter>();
+
+                components.Enqueue(new SepiaFilter());
+
+                return components;
+            }
         }
     }
 
@@ -264,7 +571,19 @@ namespace ImageProcessingApp.Models
         public SharpnessFilterModel()
         {
             Name = "Sharpness";
-            Components.Enqueue(FilterFactory.CreateSharpnessFilter(SharpnessLevel.Level4));
+        }
+
+        [XmlIgnore]
+        public override Queue<IFilter> Components
+        {
+            get
+            {
+                Queue<IFilter> components = new Queue<IFilter>();
+
+                components.Enqueue(new SharpnessFilter(4));
+
+                return components;
+            }
         }
     }
 
@@ -273,7 +592,19 @@ namespace ImageProcessingApp.Models
         public SketchFilterModel()
         {
             Name = "Sketch";
-            Components.Enqueue(FilterFactory.CreateSketchFilter(SketchMode.Color));
+        }
+
+        [XmlIgnore]
+        public override Queue<IFilter> Components
+        {
+            get
+            {
+                Queue<IFilter> components = new Queue<IFilter>();
+
+                components.Enqueue(new SketchFilter(SketchMode.Color));
+
+                return components;
+            }
         }
     }
 
@@ -282,7 +613,19 @@ namespace ImageProcessingApp.Models
         public SolarizeFilterModel()
         {
             Name = "Solarize";
-            Components.Enqueue(FilterFactory.CreateSolarizeFilter(0.5f));
+        }
+
+        [XmlIgnore]
+        public override Queue<IFilter> Components
+        {
+            get
+            {
+                Queue<IFilter> components = new Queue<IFilter>();
+
+                components.Enqueue(new SolarizeFilter(0.5f));
+
+                return components;
+            }
         }
     }
 
@@ -291,7 +634,19 @@ namespace ImageProcessingApp.Models
         public StampFilterModel()
         {
             Name = "Stamp";
-            Components.Enqueue(FilterFactory.CreateStampFilter(3, 60));
+        }
+
+        [XmlIgnore]
+        public override Queue<IFilter> Components
+        {
+            get
+            {
+                Queue<IFilter> components = new Queue<IFilter>();
+
+                components.Enqueue(new StampFilter(3, 60));
+
+                return components;
+            }
         }
     }
 
@@ -300,7 +655,19 @@ namespace ImageProcessingApp.Models
         public StepRotationLeftFilterModel()
         {
             Name = "Rotate left";
-            Components.Enqueue(FilterFactory.CreateStepRotationFilter(Rotation.Rotate270));
+        }
+
+        [XmlIgnore]
+        public override Queue<IFilter> Components
+        {
+            get
+            {
+                Queue<IFilter> components = new Queue<IFilter>();
+
+                components.Enqueue(new RotationFilter(270));
+
+                return components;
+            }
         }
     }
 
@@ -309,7 +676,19 @@ namespace ImageProcessingApp.Models
         public StepRotationRightFilterModel()
         {
             Name = "Rotate right";
-            Components.Enqueue(FilterFactory.CreateStepRotationFilter(Rotation.Rotate90));
+        }
+
+        [XmlIgnore]
+        public override Queue<IFilter> Components
+        {
+            get
+            {
+                Queue<IFilter> components = new Queue<IFilter>();
+
+                components.Enqueue(new RotationFilter(90));
+
+                return components;
+            }
         }
     }
 
@@ -318,7 +697,19 @@ namespace ImageProcessingApp.Models
         public WarpTwisterFilterModel()
         {
             Name = "Warp Twister";
-            Components.Enqueue(FilterFactory.CreateWarpFilter(WarpEffect.Twister, 0.3f));
+        }
+
+        [XmlIgnore]
+        public override Queue<IFilter> Components
+        {
+            get
+            {
+                Queue<IFilter> components = new Queue<IFilter>();
+
+                components.Enqueue(new WarpFilter(WarpEffect.Twister, 0.3f));
+
+                return components;
+            }
         }
     }
 
@@ -327,7 +718,19 @@ namespace ImageProcessingApp.Models
         public WatercolorFilterModel()
         {
             Name = "Watercolor";
-            Components.Enqueue(FilterFactory.CreateWatercolorFilter(0.8f, 0.5f));
+        }
+
+        [XmlIgnore]
+        public override Queue<IFilter> Components
+        {
+            get
+            {
+                Queue<IFilter> components = new Queue<IFilter>();
+
+                components.Enqueue(new WatercolorFilter(0.8f, 0.5f));
+
+                return components;
+            }
         }
     }
 
@@ -336,7 +739,19 @@ namespace ImageProcessingApp.Models
         public VignettingFilterModel()
         {
             Name = "Vignetting";
-            Components.Enqueue(FilterFactory.CreateVignettingFilter(0.4f, Windows.UI.Color.FromArgb(0xff, 0x00, 0x00, 0x00)));
+        }
+
+        [XmlIgnore]
+        public override Queue<IFilter> Components
+        {
+            get
+            {
+                Queue<IFilter> components = new Queue<IFilter>();
+
+                components.Enqueue(new VignettingFilter(0.4f, Windows.UI.Color.FromArgb(0xff, 0x00, 0x00, 0x00)));
+
+                return components;
+            }
         }
     }
 
@@ -349,12 +764,19 @@ namespace ImageProcessingApp.Models
         public AutoEnhanceFilterModel()
         {
             Name = "Auto Enhance";
+        }
 
-            AutoEnhanceConfiguration configuration =  new AutoEnhanceConfiguration();
-            configuration.ApplyAutomaticContrastAndBrightness();
-            configuration.ApplyAutomaticLocalBoost();
+        [XmlIgnore]
+        public override Queue<IFilter> Components
+        {
+            get
+            {
+                Queue<IFilter> components = new Queue<IFilter>();
 
-            Components.Enqueue(FilterFactory.CreateAutoEnhanceFilter(configuration));
+                components.Enqueue(new AutoEnhanceFilter(true, true));
+
+                return components;
+            }
         }
     }
 
@@ -363,7 +785,19 @@ namespace ImageProcessingApp.Models
         public AutoLevelsFilterModel()
         {
             Name = "Auto Levels";
-            Components.Enqueue(FilterFactory.CreateAutoLevelsFilter());
+        }
+
+        [XmlIgnore]
+        public override Queue<IFilter> Components
+        {
+            get
+            {
+                Queue<IFilter> components = new Queue<IFilter>();
+
+                components.Enqueue(new AutoLevelsFilter());
+
+                return components;
+            }
         }
     }
 
@@ -372,7 +806,19 @@ namespace ImageProcessingApp.Models
         public ColorBoostFilterModel()
         {
             Name = "Color Boost";
-            Components.Enqueue(FilterFactory.CreateColorBoostFilter(3.0f));
+        }
+
+        [XmlIgnore]
+        public override Queue<IFilter> Components
+        {
+            get
+            {
+                Queue<IFilter> components = new Queue<IFilter>();
+
+                components.Enqueue(new ColorBoostFilter(3.0f));
+
+                return components;
+            }
         }
     }
 
@@ -381,7 +827,19 @@ namespace ImageProcessingApp.Models
         public ExposureFilterModel()
         {
             Name = "Exposure";
-            Components.Enqueue(FilterFactory.CreateExposureFilter(ExposureMode.Natural, 0.9f));
+        }
+
+        [XmlIgnore]
+        public override Queue<IFilter> Components
+        {
+            get
+            {
+                Queue<IFilter> components = new Queue<IFilter>();
+
+                components.Enqueue(new ExposureFilter(ExposureMode.Natural, 0.9f));
+
+                return components;
+            }
         }
     }
 
@@ -390,7 +848,19 @@ namespace ImageProcessingApp.Models
         public FoundationFilterModel()
         {
             Name = "Foundation";
-            Components.Enqueue(FilterFactory.CreateFoundationFilter());
+        }
+
+        [XmlIgnore]
+        public override Queue<IFilter> Components
+        {
+            get
+            {
+                Queue<IFilter> components = new Queue<IFilter>();
+
+                components.Enqueue(new FoundationFilter());
+
+                return components;
+            }
         }
     }
 
@@ -399,7 +869,19 @@ namespace ImageProcessingApp.Models
         public LevelsFilterModel()
         {
             Name = "Levels";
-            Components.Enqueue(FilterFactory.CreateLevelsFilter(0.7f, 0.2f, 0.4f));
+        }
+
+        [XmlIgnore]
+        public override Queue<IFilter> Components
+        {
+            get
+            {
+                Queue<IFilter> components = new Queue<IFilter>();
+
+                components.Enqueue(new LevelsFilter(0.7f, 0.2f, 0.4f));
+
+                return components;
+            }
         }
     }
 
@@ -408,7 +890,19 @@ namespace ImageProcessingApp.Models
         public LocalBoostFilterModel()
         {
             Name = "Local Boost";
-            Components.Enqueue(FilterFactory.CreateLocalBoostFilter(10));
+        }
+
+        [XmlIgnore]
+        public override Queue<IFilter> Components
+        {
+            get
+            {
+                Queue<IFilter> components = new Queue<IFilter>();
+
+                components.Enqueue(new LocalBoostAutomaticFilter());
+
+                return components;
+            }
         }
     }
 
@@ -417,7 +911,19 @@ namespace ImageProcessingApp.Models
         public TemperatureAndTintFilterModel()
         {
             Name = "Temperature & Tint";
-            Components.Enqueue(FilterFactory.CreateTemperatureAndTintFilter(80, -40));
+        }
+
+        [XmlIgnore]
+        public override Queue<IFilter> Components
+        {
+            get
+            {
+                Queue<IFilter> components = new Queue<IFilter>();
+
+                components.Enqueue(new TemperatureAndTintFilter(0.8, -0.4));
+
+                return components;
+            }
         }
     }
 
@@ -426,7 +932,19 @@ namespace ImageProcessingApp.Models
         public WhiteboardEnhancementFilterModel()
         {
             Name = "Whiteboard";
-            Components.Enqueue(FilterFactory.CreateWhiteboardEnhancementFilter(true));
+        }
+
+        [XmlIgnore]
+        public override Queue<IFilter> Components
+        {
+            get
+            {
+                Queue<IFilter> components = new Queue<IFilter>();
+
+                components.Enqueue(new WhiteboardEnhancementFilter(WhiteboardEnhancementMode.Soft));
+
+                return components;
+            }
         }
     }
 

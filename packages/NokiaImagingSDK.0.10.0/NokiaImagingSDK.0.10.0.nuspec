@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>NokiaImagingSDK</id>
+    <version>0.10.0</version>
+    <title>Nokia Imaging SDK</title>
+    <authors>Nokia</authors>
+    <owners>Nokia</owners>
+    <licenseUrl>http://www.developer.nokia.com/General/Nokia_Imaging_SDK_License_Agreement.xhtml</licenseUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>The Nokia Imaging SDK, currently as early Beta version, makes some of the technologies that Nokia uses in its own imaging applications available to developers. It is a productive library for manipulating image data captured and stored by mobile devices in an efficient way. The features include decoding and encoding JPEG images, applying filters, cropping, rotating and resizing. The SDK provides more than 50 pre-made filters and effects that have been specifically developed for mobile imaging, with speed and memory performance as key drivers. The SDK is highly optimized to be super-fast by meticulous memory and code optimization. The patented JPEG technology, RAJPEG, contributes to making this possible, as it allows access to any image data without decoding the whole image. That means you can apply effects to high resolution images, without worrying about your memory budget.</description>
+    <summary>Nokia Imaging SDK has more than 50 filters that have been specifically developed for mobile imaging, with speed and memory performance as key drivers.</summary>
+    <copyright>Copyright (c) 2012-2013, Nokia. All rights reserved.</copyright>
+    <tags>Nokia Imaging NokiaImagingSDK WindowsPhone wp8</tags>
+    <references>
+      <reference file="Nokia.Graphics.Imaging.Managed.dll" />
+    </references>
+  </metadata>
+</package>

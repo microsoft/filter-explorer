@@ -84,10 +84,11 @@ namespace ImageProcessingApp
 
                 try
                 {
-                    Bitmap bitmap = await App.PhotoModel.RenderThumbnailBitmapAsync(side);
-
-                    await RenderThumbnailsAsync(bitmap, side, App.FilterModel.ArtisticFilters, StandardFiltersWrapPanel);
-                    await RenderThumbnailsAsync(bitmap, side, App.FilterModel.EnhancementFilters, EnhancementFiltersWrapPanel);
+                    using (Bitmap bitmap = await App.PhotoModel.RenderThumbnailBitmapAsync(side))
+                    {
+                        await RenderThumbnailsAsync(bitmap, side, App.FilterModel.ArtisticFilters, StandardFiltersWrapPanel);
+                        await RenderThumbnailsAsync(bitmap, side, App.FilterModel.EnhancementFilters, EnhancementFiltersWrapPanel);
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -110,54 +111,39 @@ namespace ImageProcessingApp
         /// <param name="panel">Wrap panel to be populated with the generated thumbnails</param>
         private async Task RenderThumbnailsAsync(Bitmap bitmap, int side, List<FilterModel> list, WrapPanel panel)
         {
-            using (EditingSession session = new EditingSession(bitmap))
+            using (BitmapImageSource source = new BitmapImageSource(bitmap))
+            using (FilterEffect effect = new FilterEffect(source))
             {
-                int i = 0;
-
                 foreach (FilterModel filter in list)
                 {
+                    effect.Filters = filter.Components;
+
                     WriteableBitmap writeableBitmap = new WriteableBitmap(side, side);
 
-                    foreach (IFilter f in filter.Components)
+                    using (WriteableBitmapRenderer renderer = new WriteableBitmapRenderer(effect, writeableBitmap))
                     {
-                        session.AddFilter(f);
+                        await renderer.RenderAsync();
+
+                        writeableBitmap.Invalidate();
+
+                        PhotoThumbnail photoThumbnail = new PhotoThumbnail()
+                        {
+                            Bitmap = writeableBitmap,
+                            Text = filter.Name,
+                            Width = side,
+                            Margin = new Thickness(6)
+                        };
+
+                        photoThumbnail.Tap += (object sender, System.Windows.Input.GestureEventArgs e) =>
+                        {
+                            App.PhotoModel.ApplyFilter(filter);
+                            App.PhotoModel.Dirty = true;
+
+                            NavigationService.GoBack();
+                        };
+
+                        panel.Children.Add(photoThumbnail);
                     }
-
-                    Windows.Foundation.IAsyncAction action = session.RenderToBitmapAsync(writeableBitmap.AsBitmap());
-
-                    i++;
-
-                    if (i % 10 == 0)
-                    {
-                        // async, give control back to UI before proceeding.
-                        await action;
-                    }
-                    else
-                    {
-                        // synchroneous, we keep the CPU for ourselves.
-                        Task task = action.AsTask();
-                        task.Wait();
-                    }
-
-                    PhotoThumbnail photoThumbnail = new PhotoThumbnail()
-                    {
-                        Bitmap = writeableBitmap,
-                        Text = filter.Name,
-                        Width = side,
-                        Margin = new Thickness(6)
-                    };
-
-                    photoThumbnail.Tap += (object sender, System.Windows.Input.GestureEventArgs e) =>
-                    {
-                        App.PhotoModel.ApplyFilter(filter);
-                        App.PhotoModel.Dirty = true;
-
-                        NavigationService.GoBack();
-                    };
-
-                    panel.Children.Add(photoThumbnail);
-
-                    session.UndoAll();
                 }
             }
         }

@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        "Nokia.InteropServices.WindowsRuntime.WinRT"
+    </assembly>
+    <members>
+        <member name="M:Nokia.InteropServices.WindowsRuntime.BufferFactory.CreateBuffer(Nokia.InteropServices.WindowsRuntime.ILockableMemory)">
+            <summary>Create an IBuffer from an ILockableMemory.</summary>
+            <param name="bufferPointer">A pointer to the data to wrap in an IBuffer.</param>
+            <returns>An IBuffer pointing to the same data as bufferPointer</returns>
+        </member>
+        <member name="T:Nokia.InteropServices.WindowsRuntime.BufferFactory">
+            <summary>Factory for creating an instance of IBuffer from an ILockableMemory.</summary>
+        </member>
+        <member name="P:Nokia.InteropServices.WindowsRuntime.ILockableMemory.Length">
+            <summary>The length of the buffer.</summary>
+        </member>
+        <member name="M:Nokia.InteropServices.WindowsRuntime.ILockableMemory.Unlock">
+            <summary>Unlock the buffer for pointer access, invalidating the previously returned raw pointer.</summary>
+        </member>
+        <member name="M:Nokia.InteropServices.WindowsRuntime.ILockableMemory.Lock">
+            <summary>Lock the buffer for pointer access.</summary>
+            <returns>Raw pointer as an int64.</returns>
+        </member>
+        <member name="T:Nokia.InteropServices.WindowsRuntime.ILockableMemory">
+            <summary>
+A buffer represented by a pointer to a memory location and a length.
+Implementations can be used to create IBuffer objects using a BufferFactory.
+</summary>
+        </member>
+        <member name="T:Nokia.InteropServices.WindowsRuntime.LockableMemoryBufferByteAccess">
+            <summary>RAII wrapper for IBufferByteAccess, managing Lock()/Unlock() on an ILockableMemory instance.</summary>
+        </member>
+    </members>
+</doc>

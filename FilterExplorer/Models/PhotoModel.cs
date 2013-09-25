@@ -1,11 +1,10 @@
-﻿using Nokia.Graphics;
-using Nokia.Graphics.Imaging;
-using Nokia.InteropServices.WindowsRuntime;
+﻿using Nokia.Graphics.Imaging;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 using System.Xml.Serialization;
+using Windows.Foundation;
 using Windows.Storage.Streams;
 
 namespace ImageProcessingApp.Models
@@ -20,7 +19,8 @@ namespace ImageProcessingApp.Models
     {
         #region Members
 
-        private EditingSession _session = null;
+        private IBuffer _buffer = null;
+        private List<IFilter> _components = new List<IFilter>();
 
         #endregion
 
@@ -34,51 +34,22 @@ namespace ImageProcessingApp.Models
         {
             get
             {
-                IBuffer buffer;
-
-                try
+                using (BufferImageSource source = new BufferImageSource(_buffer))
+                using (JpegRenderer renderer = new JpegRenderer(source))
                 {
-                    _session.UndoAll();
+                    IBuffer buffer = null;
 
-                    Task<IBuffer> t = _session.RenderToJpegAsync().AsTask();
-                    buffer = t.Result;
+                    Task.Run(async () => { buffer = await renderer.RenderAsync(); }).Wait();
 
-                    foreach (FilterModel fm in AppliedFilters)
-                    {
-                        foreach (IFilter f in fm.Components)
-                        {
-                            _session.AddFilter(f);
-                        }
-                    }
+                    return buffer;
                 }
-                catch (Exception ex)
-                {
-                    buffer = null;
-                }
-
-                return buffer;
             }
 
             set
             {
-                if (_session == null)
+                if (_buffer != value)
                 {
-                    _session = new EditingSession(value);
-
-                    foreach (FilterModel fm in AppliedFilters)
-                    {
-                        foreach (IFilter f in fm.Components)
-                        {
-                            _session.AddFilter(f);
-                        }
-                    }
-
-                    Width = _session.Dimensions.Width;
-                    Height = _session.Dimensions.Height;
-                }
-                else
-                {
-                    throw new Exception();
+                    _buffer = value;
                 }
             }
         }
@@ -132,12 +103,6 @@ namespace ImageProcessingApp.Models
         [XmlArrayItem("VignettingFilterModel", Type = typeof(VignettingFilterModel))]
         public List<FilterModel> AppliedFilters { get; set; }
 
-        [XmlIgnore]
-        public double Width { get; private set; }
-
-        [XmlIgnore]
-        public double Height { get; private set; }
-
         [XmlAttribute]
         public bool Dirty { get; set; }
 
@@ -155,7 +120,7 @@ namespace ImageProcessingApp.Models
         {
             get
             {
-                return _session.CanUndo();
+                return AppliedFilters.Count > 0;
             }
         }
 
@@ -170,10 +135,8 @@ namespace ImageProcessingApp.Models
 
         public void Dispose()
         {
-            if (_session != null)
-            {
-                _session.Dispose();
-            }
+            _buffer = null;
+            _components = null;
         }
 
         /// <summary>
@@ -182,7 +145,14 @@ namespace ImageProcessingApp.Models
         /// <param name="bitmap">Bitmap to render to</param>
         public async Task RenderBitmapAsync(WriteableBitmap bitmap)
         {
-            await _session.RenderToBitmapAsync(bitmap.AsBitmap());
+            using (BufferImageSource source = new BufferImageSource(_buffer))
+            using (FilterEffect effect = new FilterEffect(source) { Filters = _components })
+            using (WriteableBitmapRenderer renderer = new WriteableBitmapRenderer(effect, bitmap))
+            {
+                await renderer.RenderAsync();
+
+                bitmap.Invalidate();
+            }
         }
 
         /// <summary>
@@ -193,18 +163,20 @@ namespace ImageProcessingApp.Models
         /// <returns>Buffer containing the filtered image data</returns>
         public async Task<IBuffer> RenderFullBufferAsync()
         {
-            IBuffer buffer;
-
-            try
+            using (BufferImageSource source = new BufferImageSource(_buffer))
+            using (FilterEffect effect = new FilterEffect(source) { Filters = _components })
+            using (JpegRenderer renderer = new JpegRenderer(effect))
             {
-                buffer = await _session.RenderToJpegAsync();
+                return await renderer.RenderAsync();
             }
-            catch (Exception ex)
-            {
-                buffer = null;
-            }
+        }
 
-            return buffer;
+        public async Task<Windows.Foundation.Size> GetImageSizeAsync()
+        {
+            using (BufferImageSource source = new BufferImageSource(_buffer))
+            {
+                return (await source.GetInfoAsync()).ImageSize;
+            }
         }
 
         /// <summary>
@@ -215,30 +187,30 @@ namespace ImageProcessingApp.Models
         /// <returns>Rendered thumbnail bitmap</returns>
         public async Task<Bitmap> RenderThumbnailBitmapAsync(int side)
         {
-            int minSide = (int)Math.Min(Width, Height);
+            Windows.Foundation.Size dimensions = await GetImageSizeAsync();
+
+            int minSide = (int)Math.Min(dimensions.Width, dimensions.Height);
 
             Windows.Foundation.Rect rect = new Windows.Foundation.Rect()
             {
                 Width = minSide,
                 Height = minSide,
-                X = (Width - minSide) / 2,
-                Y = (Height - minSide) / 2,
+                X = (dimensions.Width - minSide) / 2,
+                Y = (dimensions.Height - minSide) / 2,
             };
 
-            _session.AddFilter(FilterFactory.CreateCropFilter(rect));
+            _components.Add(new CropFilter(rect));
 
             Bitmap bitmap = new Bitmap(new Windows.Foundation.Size(side, side), ColorMode.Ayuv4444);
 
-            try
+            using (BufferImageSource source = new BufferImageSource(_buffer))
+            using (FilterEffect effect = new FilterEffect(source) { Filters = _components })
+            using (BitmapRenderer renderer = new BitmapRenderer(effect, bitmap, OutputOption.Stretch))
             {
-                await _session.RenderToBitmapAsync(bitmap, OutputOption.Stretch);
-            }
-            catch (Exception ex)
-            {
-                bitmap = null;
+                await renderer.RenderAsync();
             }
 
-            _session.Undo();
+            _components.RemoveAt(_components.Count - 1);
 
             return bitmap;
         }
@@ -253,11 +225,8 @@ namespace ImageProcessingApp.Models
 
             foreach (IFilter f in filter.Components)
             {
-                _session.AddFilter(f);
+                _components.Add(f);
             }
-
-            Width = _session.Dimensions.Width;
-            Height = _session.Dimensions.Height;
         }
 
         /// <summary>
@@ -267,12 +236,14 @@ namespace ImageProcessingApp.Models
         {
             if (CanUndoFilter)
             {
+                FilterModel filter = AppliedFilters[AppliedFilters.Count - 1];
+
+                for (int i = 0; i < filter.Components.Count; i++)
+                {
+                    _components.RemoveAt(_components.Count - 1);
+                }
+
                 AppliedFilters.RemoveAt(AppliedFilters.Count - 1);
-
-                _session.Undo();
-
-                Width = _session.Dimensions.Width;
-                Height = _session.Dimensions.Height;
             }
         }
 
@@ -280,10 +251,9 @@ namespace ImageProcessingApp.Models
         {
             if (CanUndoFilter)
             {
-                _session.UndoAll();
+                AppliedFilters.Clear();
 
-                Width = _session.Dimensions.Width;
-                Height = _session.Dimensions.Height;
+                _components.Clear();
             }
         }
     }

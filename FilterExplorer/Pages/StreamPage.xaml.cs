@@ -33,7 +33,7 @@ namespace ImageProcessingApp
 
         private ApplicationBarMenuItem _aboutItem = null;
 
-        private DispatcherTimer _timer = new DispatcherTimer() { Interval = new TimeSpan(0, 0, 0, 0, 700) };
+        private DispatcherTimer _timer = new DispatcherTimer() { Interval = new TimeSpan(0, 0, 0, 0, 1000) };
 
         private List<PhotoMosaic> _realizedPhotoMosaics = new List<PhotoMosaic>();
 

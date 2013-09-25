@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 
 namespace ImageProcessingApp.Models
@@ -149,6 +150,8 @@ namespace ImageProcessingApp.Models
             {
                 Process();
             }
+
+            System.Diagnostics.Debug.WriteLine("Processing now: " + _processingNow);
         }
 
         /// <summary>
@@ -181,66 +184,81 @@ namespace ImageProcessingApp.Models
                 try
                 {
                     WriteableBitmap bitmap = null;
+                    Stream thumbnailStream = null;
 
-                    using (MemoryStream thumbnailStream = new MemoryStream())
+                    System.Diagnostics.Debug.Assert(item.RequestedSize != StreamItemViewModel.Size.None);
+
+                    if (item.RequestedSize == StreamItemViewModel.Size.Large)
                     {
-                        System.Diagnostics.Debug.Assert(item.RequestedSize != StreamItemViewModel.Size.None);
+                        bitmap = new WriteableBitmap(280, 280);
+                        thumbnailStream = item.Model.Picture.GetImage();
+                    }
+                    else if (item.RequestedSize == StreamItemViewModel.Size.Medium)
+                    {
+                        bitmap = new WriteableBitmap(140, 140);
+                        thumbnailStream = item.Model.Picture.GetThumbnail();
+                    }
+                    else
+                    {
+                        bitmap = new WriteableBitmap(70, 70);
+                        thumbnailStream = item.Model.Picture.GetThumbnail();
+                    }
 
+                    thumbnailStream.Position = 0;
+
+                    using (StreamImageSource source = new StreamImageSource(thumbnailStream))
+                    {
                         if (item.RequestedSize == StreamItemViewModel.Size.Large)
                         {
-                            bitmap = new WriteableBitmap(280, 280);
+                            List<IFilter> filters = new List<IFilter>();
+                            int width = item.Model.Picture.Width;
+                            int height = item.Model.Picture.Height;
 
-                            item.Model.Picture.GetImage().CopyTo(thumbnailStream);
-                        }
-                        else if (item.RequestedSize == StreamItemViewModel.Size.Medium)
-                        {
-                            bitmap = new WriteableBitmap(140, 140);
-
-                            item.Model.Picture.GetThumbnail().CopyTo(thumbnailStream);
-                        }
-                        else
-                        {
-                            bitmap = new WriteableBitmap(70, 70);
-
-                            item.Model.Picture.GetThumbnail().CopyTo(thumbnailStream);
-                        }
-
-                        using (EditingSession session = new EditingSession(thumbnailStream.GetWindowsRuntimeBuffer()))
-                        {
-                            Windows.Foundation.Rect rect;
-
-                            if (session.Dimensions.Width > session.Dimensions.Height)
+                            if (width > height)
                             {
-                                rect = new Windows.Foundation.Rect()
+                                filters.Add(new CropFilter(new Windows.Foundation.Rect()
                                 {
-                                    Width = session.Dimensions.Height,
-                                    Height = session.Dimensions.Height,
-                                    X = session.Dimensions.Width / 2 - session.Dimensions.Height / 2,
+                                    Width = height,
+                                    Height = height,
+                                    X = width / 2 - height / 2,
                                     Y = 0
-                                };
+                                }));
                             }
                             else
                             {
-                                rect = new Windows.Foundation.Rect()
+                                filters.Add(new CropFilter(new Windows.Foundation.Rect()
                                 {
-                                    Width = session.Dimensions.Width,
-                                    Height = session.Dimensions.Width,
+                                    Width = width,
+                                    Height = width,
                                     X = 0,
-                                    Y = session.Dimensions.Height / 2 - session.Dimensions.Width / 2
-                                };
+                                    Y = height / 2 - width / 2
+                                }));
                             }
 
-                            session.AddFilter(FilterFactory.CreateCropFilter(rect));
-
-                            if (item.Model.Filter != null)
+                            using (FilterEffect effect = new FilterEffect(source))
                             {
-                                foreach (IFilter f in item.Model.Filter.Components)
+                                if (item.Model.Filter != null)
                                 {
-                                    session.AddFilter(f);
+                                    foreach (IFilter f in item.Model.Filter.Components)
+                                    {
+                                        filters.Add(f);
+                                    }
+                                }
+
+                                effect.Filters = filters;
+
+                                using (WriteableBitmapRenderer renderer = new WriteableBitmapRenderer(effect, bitmap))
+                                {
+                                    await renderer.RenderAsync();
                                 }
                             }
-
-                            await session.RenderToBitmapAsync(bitmap.AsBitmap());
+                        }
+                        else
+                        {
+                            using (WriteableBitmapRenderer renderer = new WriteableBitmapRenderer(source, bitmap))
+                            {
+                                await renderer.RenderAsync();
+                            }
                         }
                     }
                     
