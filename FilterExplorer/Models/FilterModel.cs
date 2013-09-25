@@ -390,7 +390,7 @@ namespace ImageProcessingApp.Models
             {
                 Queue<IFilter> components = new Queue<IFilter>();
 
-                components.Enqueue(new MonoColorFilter(new Windows.UI.Color() { R = 0xff, G = 0x00, B = 0x00 }, 0.64));
+                components.Enqueue(new MonoColorFilter(new Windows.UI.Color() { R = 0xff, G = 0x00, B = 0x00 }, 0.3));
 
                 return components;
             }
@@ -411,7 +411,7 @@ namespace ImageProcessingApp.Models
             {
                 Queue<IFilter> components = new Queue<IFilter>();
 
-                components.Enqueue(new MonoColorFilter(new Windows.UI.Color() { R = 0x00, G = 0xff, B = 0x00 }, 0.64));
+                components.Enqueue(new MonoColorFilter(new Windows.UI.Color() { R = 0x00, G = 0xff, B = 0x00 }, 0.3));
 
                 return components;
             }
@@ -432,7 +432,7 @@ namespace ImageProcessingApp.Models
             {
                 Queue<IFilter> components = new Queue<IFilter>();
 
-                components.Enqueue(new MonoColorFilter(new Windows.UI.Color() { R = 0x00, G = 0x00, B = 0xff }, 0.64));
+                components.Enqueue(new MonoColorFilter(new Windows.UI.Color() { R = 0x00, G = 0x00, B = 0xff }, 0.3));
 
                 return components;
             }
