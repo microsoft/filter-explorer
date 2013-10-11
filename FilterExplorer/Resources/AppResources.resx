@@ -203,4 +203,10 @@ Press ok to discard changes and go back to the camera roll stream. Press cancel 
   <data name="PhotoPage_Button_Share" xml:space="preserve">
     <value>share photo</value>
   </data>
+  <data name="FiltersPage_PivotItemHeader_Artistic" xml:space="preserve">
+    <value>artistic</value>
+  </data>
+  <data name="FiltersPage_PivotItemHeader_Enhancement" xml:space="preserve">
+    <value>enhancement</value>
+  </data>
 </root>

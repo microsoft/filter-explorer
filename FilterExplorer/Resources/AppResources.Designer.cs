@@ -151,6 +151,24 @@ namespace ImageProcessingApp.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to artistic.
+        /// </summary>
+        public static string FiltersPage_PivotItemHeader_Artistic {
+            get {
+                return ResourceManager.GetString("FiltersPage_PivotItemHeader_Artistic", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to enhancement.
+        /// </summary>
+        public static string FiltersPage_PivotItemHeader_Enhancement {
+            get {
+                return ResourceManager.GetString("FiltersPage_PivotItemHeader_Enhancement", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to add filter.
         /// </summary>
         public static string PhotoPage_Button_AddFilter {

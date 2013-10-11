@@ -24,14 +24,14 @@
                 <Image x:Name="TitleImage" Source="/Assets/Graphics/title.png" Stretch="None"
                        HorizontalAlignment="Left" Margin="-8,0,-6,0"/>
             </phone:Pivot.Title>
-            
-            <phone:PivotItem Header="artistic" Margin="12,0,12,0">
+
+            <phone:PivotItem Header="{Binding Path=LocalizedResources.FiltersPage_PivotItemHeader_Artistic, Source={StaticResource LocalizedStrings}}" Margin="12,0,12,0">
                 <ScrollViewer>
                     <toolkit:WrapPanel x:Name="StandardFiltersWrapPanel" Margin="6,0,6,18"/>
                 </ScrollViewer>
             </phone:PivotItem>
 
-            <phone:PivotItem Header="enhancement" Margin="12,0,12,0">
+            <phone:PivotItem Header="{Binding Path=LocalizedResources.FiltersPage_PivotItemHeader_Enhancement, Source={StaticResource LocalizedStrings}}" Margin="12,0,12,0">
                 <ScrollViewer>
                     <toolkit:WrapPanel x:Name="EnhancementFiltersWrapPanel" Margin="6,0,6,18"/>
                 </ScrollViewer>
