@@ -63,14 +63,6 @@ to run the application on your Windows Phone 8 device.
 | `Pages/StreamPage.cs` | Startup page, displays Camera Roll photos rendered with randomly applied filters. |
 
 
-3.3 Used Nokia Image Editing APIs
----------------------------------
-
-* Nokia.Graphics
-* Nokia.Graphics.Imaging
-* Nokia.Graphics.Utilities
-
-
 4. Compatibility
 -------------------------------------------------------------------------------
 
@@ -78,12 +70,6 @@ to run the application on your Windows Phone 8 device.
 
 Tested to work on Nokia Lumia 520, Nokia Lumia 620, Nokia Lumia 820 and Nokia
 Lumia 920. Developed with Microsoft Visual Studio Express for Windows Phone 2012.
-
-
-4.1 Required Capabilities
--------------------------
-
-* `ID_CAP_MEDIALIB_PHOTO`
 
 
 4.2 Known Issues
@@ -129,6 +115,11 @@ https://github.com/nokia-developer/filter-explorer/blob/master/Licence.txt
 7. Version history
 -------------------------------------------------------------------------------
 
-* 1.1.0.0 Updated looks, new green theme.
-* 1.0.0.0 First public release.
+* 1.2.0.0: Third public release of Filter Explorer
+  - Updated to use the latest Nokia Imaging SDK
+  - Using Nuget Package Restore for external libraries
 
+* 1.1.0.0: Second public release of Filter Explorer
+  - Updated looks: new green theme
+  
+* 1.0.0.0: First public release of Filter Explorer
