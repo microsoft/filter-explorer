@@ -61,7 +61,7 @@ namespace ImageProcessingApp.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Filter Explorer application demonstrates some of the image editing capabilities and performance of the Nokia Image Editing SDK by allowing you to apply a number of filter layers to existing or newly captured photos..
+        ///   Looks up a localized string similar to Filter Explorer application demonstrates some of the image editing capabilities and performance of the Nokia Imaging SDK by allowing you to apply a number of filter layers to existing or newly captured photos..
         /// </summary>
         public static string AboutPage_TextBlock_About {
             get {
