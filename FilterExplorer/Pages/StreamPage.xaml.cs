@@ -136,7 +136,7 @@ namespace ImageProcessingApp
                             m.RandomizeFilter();
                         }
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                     }
                 }

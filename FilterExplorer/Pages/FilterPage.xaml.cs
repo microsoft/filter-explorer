@@ -90,7 +90,7 @@ namespace ImageProcessingApp
                         await RenderThumbnailsAsync(bitmap, side, App.FilterModel.EnhancementFilters, EnhancementFiltersWrapPanel);
                     }
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     NavigationService.GoBack();
                 }

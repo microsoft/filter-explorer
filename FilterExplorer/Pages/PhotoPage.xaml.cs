@@ -99,7 +99,7 @@ namespace ImageProcessingApp
 
                     if (_highQuality)
                     {
-                        RenderAsync();
+                        var task = RenderAsync();
                     }
                 }
             }
@@ -378,7 +378,7 @@ namespace ImageProcessingApp
             }
         }
 
-        private async void Viewport_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void Viewport_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (Image.Width < Viewport.ActualWidth)
             {
@@ -465,7 +465,7 @@ namespace ImageProcessingApp
                 ConfigureViewport();
                 UpdateInfoDisplay(dimensions);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
             }
         }
@@ -519,7 +519,7 @@ namespace ImageProcessingApp
 
                     App.PhotoModel.Dirty = false;
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     MessageBox.Show(AppResources.App_MessageBox_SaveFailed_Message,
                         AppResources.App_MessageBox_SaveFailed_Caption, MessageBoxButton.OK);

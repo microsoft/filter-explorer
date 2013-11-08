@@ -322,7 +322,7 @@ namespace ImageProcessingApp.Models
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
             }
         }

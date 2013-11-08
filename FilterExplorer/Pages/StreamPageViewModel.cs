@@ -75,12 +75,12 @@ namespace ImageProcessingApp.ViewModels
                 _enumerator.Dispose();
                 _enumerator = null;
             }
-            
+
             try
             {
                 ListBoxItems.Clear();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
             }
 
