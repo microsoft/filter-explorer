@@ -66,10 +66,12 @@ to run the application on your Windows Phone 8 device.
 4. Compatibility
 -------------------------------------------------------------------------------
 
-* Windows Phone 8
+Application works on Windows Phone 8.
 
 Tested to work on Nokia Lumia 520, Nokia Lumia 620, Nokia Lumia 820 and Nokia
-Lumia 920. Developed with Microsoft Visual Studio Express for Windows Phone 2012.
+Lumia 920.
+
+Developed with Microsoft Visual Studio Express for Windows Phone 2012.
 
 
 4.2 Known Issues
@@ -101,15 +103,14 @@ Make sure you have the following installed:
 
 Please see official documentation for deploying and testing applications on
 Windows Phone devices:
-http://msdn.microsoft.com/en-us/library/gg588378%28v=vs.92%29.aspx
+http://msdn.microsoft.com/library/windowsphone/develop/ff402565(v=vs.105).aspx
 
 
 6. License
 -------------------------------------------------------------------------------
 
-See the license text file delivered with this project. The license file is also
-available online at
-https://github.com/nokia-developer/filter-explorer/blob/master/Licence.txt
+See the license text file delivered with this project:
+https://github.com/nokia-developer/filter-explorer/blob/master/License.txt
 
 
 7. Version history
