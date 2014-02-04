@@ -50,7 +50,9 @@ namespace FilterExplorer.ViewModels
 
             foreach (var filter in filters)
             {
-                Thumbnails.Add(new FilterThumbnailViewModel(model, filter));
+                var modelCopy = new FilteredPhotoModel(model);
+
+                Thumbnails.Add(new FilterThumbnailViewModel(modelCopy, filter));
             }
         }
     }
