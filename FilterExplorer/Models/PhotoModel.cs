@@ -106,7 +106,7 @@ namespace FilterExplorer.Models
                     var buffer = new byte[stream.Size].AsBuffer();
                     await stream.ReadAsync(buffer, buffer.Length, InputStreamOptions.None);
 
-                    var resizeConfiguration = new AutoResizeConfiguration(3 * 1024 * 1024, new Size(1280, 1280), new Size(0, 0), AutoResizeMode.Automatic, 0.9, ColorSpace.Yuv420);
+                    var resizeConfiguration = new AutoResizeConfiguration(5 * 1024 * 1024, new Size(1920, 1920), new Size(0, 0), AutoResizeMode.Automatic, 0.9, ColorSpace.Yuv420);
                     buffer = await JpegTools.AutoResizeAsync(buffer, resizeConfiguration);
 
                     var resizedStream = new InMemoryRandomAccessStream();
