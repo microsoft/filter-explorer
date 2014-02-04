@@ -51,11 +51,6 @@ namespace FilterExplorer.ViewModels
             foreach (var filter in filters)
             {
                 Thumbnails.Add(new FilterThumbnailViewModel(model, filter));
-                Thumbnails.Add(new FilterThumbnailViewModel(model, filter));
-                Thumbnails.Add(new FilterThumbnailViewModel(model, filter));
-                Thumbnails.Add(new FilterThumbnailViewModel(model, filter));
-                Thumbnails.Add(new FilterThumbnailViewModel(model, filter));
-                Thumbnails.Add(new FilterThumbnailViewModel(model, filter));
             }
         }
     }

@@ -95,7 +95,7 @@ namespace FilterExplorer.ViewModels
                     },
                 () =>
                     {
-                        return Photo != null ? Photo.Model.Modified : false;
+                        return Photo != null;
                     });
 
             SharePhotoCommand = new DelegateCommand(

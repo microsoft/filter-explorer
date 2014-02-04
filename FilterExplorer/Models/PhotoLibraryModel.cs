@@ -58,10 +58,6 @@ namespace FilterExplorer.Models
 
         public static async Task<StorageFile> SavePhotoAsync(PhotoModel photo)
         {
-            var modified = photo.Modified;
-
-            photo.Modified = false;
-
             var filenameFormat = new Windows.ApplicationModel.Resources.ResourceLoader().GetString("PhotoSaveFilenameFormat");
             var filename = String.Format(filenameFormat, DateTime.Now.ToString("yyyyMMddHHmmss"));
 
@@ -75,10 +71,6 @@ namespace FilterExplorer.Models
             if (file != null)
             {
                 file = await SavePhotoAsync(photo, file);
-            }
-            else
-            {
-                photo.Modified = modified;
             }
 
             return file;
@@ -99,7 +91,7 @@ namespace FilterExplorer.Models
             CachedFileManager.DeferUpdates(file);
 
             using (var fileStream = await file.OpenAsync(Windows.Storage.FileAccessMode.ReadWrite))
-            using (var photoStream = await photo.GetPhotoAsync())
+            using (var photoStream = await photo.GetFilteredPhotoAsync())
             using (var reader = new DataReader(photoStream))
             using (var writer = new DataWriter(fileStream))
             {

@@ -104,35 +104,29 @@ namespace FilterExplorer.ViewModels
             }
             else
             {
-                UpdateThumbnailsAsync(Windows.Storage.KnownFolders.CameraRoll);
+                UpdateThumbnailsAsync(Windows.Storage.KnownFolders.PicturesLibrary);
             }
         }
 
         private async void UpdateThumbnailsAsync(StorageFolder folder)
         {
-            try
+            FolderName = folder.Name;
+
+            Thumbnails.Clear();
+
+            var photos = await PhotoLibraryModel.GetPhotosFromFolderAsync(folder);
+
+            for (int i = 0; i < photos.Count; i++)
             {
-                FolderName = folder.Name;
-
-                Thumbnails.Clear();
-
-                var photos = await PhotoLibraryModel.GetPhotosFromFolderAsync(folder);
-
-                for (int i = 0; i < photos.Count; i++)
+                for (int k = 0; k < 4 * 9 && i < photos.Count;)
                 {
-                    for (int k = 0; k < 4 * 9 && i < photos.Count;)
-                    {
-                        Thumbnails.Add(new PhotoThumbnailViewModel(photos[i]));
+                    Thumbnails.Add(new PhotoThumbnailViewModel(photos[i]));
 
-                        k++;
-                        i++;
-                    }
-
-                    await Task.Delay(TimeSpan.FromMilliseconds(1000));
+                    k++;
+                    i++;
                 }
-            }
-            catch (Exception)
-            {
+
+                await Task.Delay(TimeSpan.FromMilliseconds(1000));
             }
         }
     }

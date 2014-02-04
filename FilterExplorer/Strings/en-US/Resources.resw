@@ -117,20 +117,104 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AntiqueFilterName" xml:space="preserve">
+    <value>Antique</value>
+  </data>
   <data name="ApplicationDescription" xml:space="preserve">
     <value>TODO</value>
   </data>
   <data name="ApplicationName" xml:space="preserve">
     <value>Filter Explorer</value>
   </data>
-  <data name="DummyFilterDescription" xml:space="preserve">
-    <value>Just a dummy filter that does not do any filtering:)</value>
+  <data name="AutoEnhanceFilterName" xml:space="preserve">
+    <value>Auto enhance</value>
   </data>
-  <data name="DummyFilterName" xml:space="preserve">
-    <value>Dummy</value>
+  <data name="AutoLevelsFilterName" xml:space="preserve">
+    <value>Auto levels</value>
+  </data>
+  <data name="BlueColorAdjustFilterName" xml:space="preserve">
+    <value>Adjust blue color</value>
+  </data>
+  <data name="BlueMonoColorFilterName" xml:space="preserve">
+    <value>Mono color blue</value>
+  </data>
+  <data name="BlurFilterName" xml:space="preserve">
+    <value>Blur</value>
+  </data>
+  <data name="BrightnessFilterName" xml:space="preserve">
+    <value>Brightness</value>
+  </data>
+  <data name="CartoonFilterCartoon" xml:space="preserve">
+    <value>Cartoon</value>
+  </data>
+  <data name="ColorBoostFilterName" xml:space="preserve">
+    <value>Color boost</value>
+  </data>
+  <data name="ContrastFilterName" xml:space="preserve">
+    <value>Contrast</value>
+  </data>
+  <data name="DespeckleFilterName" xml:space="preserve">
+    <value>Despeckle</value>
+  </data>
+  <data name="EmbossFilterName" xml:space="preserve">
+    <value>Emboss</value>
+  </data>
+  <data name="ExposureFilterName" xml:space="preserve">
+    <value>Exposure</value>
   </data>
   <data name="FilterPageTitle.Text" xml:space="preserve">
     <value>select filter</value>
+  </data>
+  <data name="FoundationFilterName" xml:space="preserve">
+    <value>Foundation</value>
+  </data>
+  <data name="GrayscaleFilterName" xml:space="preserve">
+    <value>Grayscale</value>
+  </data>
+  <data name="GreenColorAdjustFilterName" xml:space="preserve">
+    <value>Adjust green color</value>
+  </data>
+  <data name="GreenMonoColorFilterName" xml:space="preserve">
+    <value>Mono color green</value>
+  </data>
+  <data name="HorizontalFlipFilterName" xml:space="preserve">
+    <value>Flip horizontally</value>
+  </data>
+  <data name="HueSaturationFilterName" xml:space="preserve">
+    <value>HUE saturation</value>
+  </data>
+  <data name="LeftRotationFilterName" xml:space="preserve">
+    <value>Rotate left</value>
+  </data>
+  <data name="LevelsFilterName" xml:space="preserve">
+    <value>Levels</value>
+  </data>
+  <data name="LocalBoostAutomaticFilterName" xml:space="preserve">
+    <value>Local boost</value>
+  </data>
+  <data name="LomoFilterName" xml:space="preserve">
+    <value>Lomo</value>
+  </data>
+  <data name="MagicPenFilterName" xml:space="preserve">
+    <value>Magic pen</value>
+  </data>
+  <data name="MilkyFilterName" xml:space="preserve">
+    <value>Milky</value>
+  </data>
+  <data name="MirrorFilterName" xml:space="preserve">
+    <value>Mirror</value>
+  </data>
+  <data name="MoonlightFilterName" xml:space="preserve">
+    <value>Moonlight</value>
+  </data>
+  <data name="NegativeFilterName" xml:space="preserve">
+    <value>Negative</value>
+  </data>
+  <data name="OilyFilterName" xml:space="preserve">
+    <value>Oily</value>
+  </data>
+  <data name="PaintFilterName" xml:space="preserve">
+    <value>Paint</value>
   </data>
   <data name="PhotoPageAddFilterButton.Label" xml:space="preserve">
     <value>Add filter</value>
@@ -148,10 +232,10 @@
     <value>Undo filter</value>
   </data>
   <data name="PhotoPageSavePhotoButton.Label" xml:space="preserve">
-    <value>Save photo</value>
+    <value>Save a copy</value>
   </data>
   <data name="PhotoPageSharePhotoButton.Label" xml:space="preserve">
-    <value>Share photo</value>
+    <value>Share</value>
   </data>
   <data name="PhotoSaveFilenameFormat" xml:space="preserve">
     <value>Filter Explorer {0}</value>
@@ -171,6 +255,33 @@
   <data name="PhotoSharingTitle" xml:space="preserve">
     <value>Filter Explorer</value>
   </data>
+  <data name="PosterizeFilterName" xml:space="preserve">
+    <value>Posterize</value>
+  </data>
+  <data name="RedColorAdjustFilterName" xml:space="preserve">
+    <value>Adjust red color</value>
+  </data>
+  <data name="RedMonoColorFilterName" xml:space="preserve">
+    <value>Mono color red</value>
+  </data>
+  <data name="RightRotationFilterName" xml:space="preserve">
+    <value>Rotate right</value>
+  </data>
+  <data name="SepiaFilterName" xml:space="preserve">
+    <value>Sepia</value>
+  </data>
+  <data name="SharpnessFilterName" xml:space="preserve">
+    <value>Sharpness</value>
+  </data>
+  <data name="SketchFilterName" xml:space="preserve">
+    <value>Sketch</value>
+  </data>
+  <data name="SolarizeFilterName" xml:space="preserve">
+    <value>Solarize</value>
+  </data>
+  <data name="StampFilterName" xml:space="preserve">
+    <value>Stamp</value>
+  </data>
   <data name="StreamPageOpenFolderButton.Label" xml:space="preserve">
     <value>Open folder</value>
   </data>
@@ -179,5 +290,23 @@
   </data>
   <data name="StreamPageTitle.Text" xml:space="preserve">
     <value>Filter Explorer</value>
+  </data>
+  <data name="TemperatureAndTintFilterName" xml:space="preserve">
+    <value>Temperature &amp; tint</value>
+  </data>
+  <data name="VerticalFlipFilterName" xml:space="preserve">
+    <value>Flip vertically</value>
+  </data>
+  <data name="VignettingFilterName" xml:space="preserve">
+    <value>Vignetting</value>
+  </data>
+  <data name="WarpFilterName" xml:space="preserve">
+    <value>Warp</value>
+  </data>
+  <data name="WatercolorFilterName" xml:space="preserve">
+    <value>Watercolor</value>
+  </data>
+  <data name="WhiteboardEnhancementFilterName" xml:space="preserve">
+    <value>Whiteboard</value>
   </data>
 </root>

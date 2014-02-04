@@ -15,7 +15,6 @@ namespace FilterExplorer.ViewModels
     public class FilterThumbnailViewModel : INotifyPropertyChanged
     {
         private string _title = null;
-        private string _description = null;
         private Filter _filter = null;
         private BitmapImage _thumbnail = null;
 
@@ -36,12 +35,7 @@ namespace FilterExplorer.ViewModels
                 {
                     _filter = value;
 
-                    var loader = new Windows.ApplicationModel.Resources.ResourceLoader();
-                    var titleResourceId = _filter.Id.Split('.').Last() + "Name";
-                    var descriptionResourceId = _filter.Id.Split('.').Last() + "Description";
-
-                    Title = loader.GetString(titleResourceId);
-                    Description = loader.GetString(descriptionResourceId);
+                    Title = new Windows.ApplicationModel.Resources.ResourceLoader().GetString(_filter.Id.Split('.').Last() + "Name");
                 }
             }
         }
@@ -62,27 +56,6 @@ namespace FilterExplorer.ViewModels
                     if (PropertyChanged != null)
                     {
                         PropertyChanged(this, new PropertyChangedEventArgs("Title"));
-                    }
-                }
-            }
-        }
-
-        public string Description
-        {
-            get
-            {
-                return _description;
-            }
-
-            private set
-            {
-                if (_description != value)
-                {
-                    _description = value;
-
-                    if (PropertyChanged != null)
-                    {
-                        PropertyChanged(this, new PropertyChangedEventArgs("Description"));
                     }
                 }
             }

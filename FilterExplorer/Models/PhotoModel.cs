@@ -11,6 +11,9 @@ using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.UI.Xaml.Media.Imaging;
+using Nokia.Graphics.Imaging;
+using System.Runtime.InteropServices.WindowsRuntime;
+using FilterExplorer.Helpers;
 
 namespace FilterExplorer.Models
 {
@@ -19,10 +22,10 @@ namespace FilterExplorer.Models
         private uint _version = 0;
         private bool _modified = false;
         private Windows.Storage.StorageFile _file = null;
-        private IRandomAccessStream _thumbnailStream = null; // TODO change to WeakReference?
         private IRandomAccessStream _photoStream = null; // TODO change to WeakReference?
-        private IRandomAccessStream _filteredThumbnailStream = null; // TODO change to WeakReference?
+        private IRandomAccessStream _thumbnailStream = null; // TODO change to WeakReference?
         private IRandomAccessStream _filteredPhotoStream = null; // TODO change to WeakReference?
+        private IRandomAccessStream _filteredThumbnailStream = null; // TODO change to WeakReference?
 
         public event EventHandler VersionChanged;
         public event EventHandler ModifiedChanged;
@@ -47,33 +50,11 @@ namespace FilterExplorer.Models
             }
         }
 
-        public bool Modified
-        {
-            get
-            {
-                return _modified;
-            }
-
-            internal set
-            {
-                if (_modified != value)
-                {
-                    _modified = value;
-
-                    RaiseModifiedChanged();
-                }
-            }
-        }
-
-        public bool FromFilesystem { get; private set; }
-
         public ObservableList<Filter> Filters { get; private set; }
 
         public PhotoModel(Windows.Storage.StorageFile file)
         {
             _file = file;
-
-            FromFilesystem = true;
 
             Filters = new ObservableList<Filter>();
             Filters.ItemsChanged += Filters_ItemsChanged;
@@ -83,13 +64,26 @@ namespace FilterExplorer.Models
         {
             _file = other._file;
             _version = other._version;
-            _thumbnailStream = other._thumbnailStream;
-            _photoStream = other._photoStream;
-            _filteredThumbnailStream = other._filteredThumbnailStream;
-            _filteredPhotoStream = other._filteredPhotoStream;
 
-            FromFilesystem = other.FromFilesystem;
-            Modified = other.Modified;
+            if (other._thumbnailStream != null)
+            {
+                _thumbnailStream = other._thumbnailStream.CloneStream();
+            }
+
+            if (other._photoStream != null)
+            {
+                _photoStream = other._photoStream.CloneStream();
+            }
+
+            if (other._filteredThumbnailStream != null)
+            {
+                _filteredThumbnailStream = other._filteredThumbnailStream.CloneStream();
+            }
+
+            if (other._filteredPhotoStream != null)
+            {
+                _filteredPhotoStream = other._filteredPhotoStream.CloneStream();
+            }
 
             Filters = new ObservableList<Filter>(other.Filters);
             Filters.ItemsChanged += Filters_ItemsChanged;
@@ -112,6 +106,28 @@ namespace FilterExplorer.Models
             }
         }
 
+        public async Task<IRandomAccessStream> GetPhotoAsync()
+        {
+            if (_photoStream == null)
+            {
+                using (var stream = await _file.OpenReadAsync())
+                {
+                    var buffer = new byte[stream.Size].AsBuffer();
+                    await stream.ReadAsync(buffer, buffer.Length, InputStreamOptions.None);
+
+                    var resizeConfiguration = new AutoResizeConfiguration(2 * 1024 * 1024, new Size(1920, 1920), new Size(0, 0), AutoResizeMode.Automatic, 0.9, ColorSpace.Yuv420);
+                    buffer = await JpegTools.AutoResizeAsync(buffer, resizeConfiguration);
+
+                    var resizedStream = new InMemoryRandomAccessStream();
+                    await resizedStream.WriteAsync(buffer);
+
+                    _photoStream = resizedStream;
+                }
+            }
+
+            return _photoStream.CloneStream();
+        }
+
         public async Task<IRandomAccessStream> GetThumbnailAsync()
         {
             if (_thumbnailStream == null)
@@ -122,51 +138,64 @@ namespace FilterExplorer.Models
             return _thumbnailStream.CloneStream();
         }
 
-        public async Task<IRandomAccessStream> GetPhotoAsync()
+        public async Task<IRandomAccessStream> GetFilteredPhotoAsync()
         {
-            if (_photoStream == null)
+            if (_filteredPhotoStream == null)
             {
-                _photoStream = await _file.OpenReadAsync();
+                var list = new List<IFilter>();
+
+                foreach (var filter in Filters)
+                {
+                    list.Add(filter.GetFilter());
+                }
+
+                using (var stream = await GetPhotoAsync())
+                {
+                    _filteredPhotoStream = await RenderingHelper.GetFilteredStreamAsync(stream, list);
+                }
             }
 
-            return _photoStream.CloneStream();
+            return _filteredPhotoStream.CloneStream();
         }
 
         public async Task<IRandomAccessStream> GetFilteredThumbnailAsync()
         {
             if (_filteredThumbnailStream == null)
             {
-                _filteredThumbnailStream = await _file.GetThumbnailAsync(Windows.Storage.FileProperties.ThumbnailMode.PicturesView);
+                var list = new List<IFilter>();
+
+                foreach (var filter in Filters)
+                {
+                    list.Add(filter.GetFilter());
+                }
+
+                using (var stream = await GetThumbnailAsync())
+                {
+                    _filteredThumbnailStream = await RenderingHelper.GetFilteredStreamAsync(stream, list);
+                }
             }
 
             return _filteredThumbnailStream.CloneStream();
         }
 
-        public async Task<IRandomAccessStream> GetFilteredPhotoAsync()
-        {
-            if (_filteredPhotoStream == null)
-            {
-                _filteredPhotoStream = await _file.OpenReadAsync();
-            }
-
-            return _filteredPhotoStream.CloneStream();
-        }
-
         private void Filters_ItemsChanged(object sender, EventArgs e)
         {
             Version += 1;
-            Modified = Filters.Count > 0 || !FromFilesystem;
 
-            RaiseFilteredThumbnailChanged();
-            RaiseFilteredPhotoChanged();
-        }
-
-        private void RaiseModifiedChanged()
-        {
-            if (ModifiedChanged != null)
+            if (_filteredPhotoStream != null)
             {
-                ModifiedChanged(this, EventArgs.Empty);
+                _filteredPhotoStream.Dispose();
+                _filteredPhotoStream = null;
             }
+
+            if (_filteredThumbnailStream != null)
+            {
+                _filteredThumbnailStream.Dispose();
+                _filteredThumbnailStream = null;
+            }
+
+            RaiseFilteredPhotoChanged();
+            RaiseFilteredThumbnailChanged();
         }
 
         private void RaiseVersionChanged()
@@ -177,19 +206,19 @@ namespace FilterExplorer.Models
             }
         }
 
-        private void RaiseFilteredThumbnailChanged()
-        {
-            if (FilteredThumbnailChanged != null)
-            {
-                FilteredThumbnailChanged(this, EventArgs.Empty);
-            }
-        }
-
         private void RaiseFilteredPhotoChanged()
         {
             if (FilteredPhotoChanged != null)
             {
                 FilteredPhotoChanged(this, EventArgs.Empty);
+            }
+        }
+
+        private void RaiseFilteredThumbnailChanged()
+        {
+            if (FilteredThumbnailChanged != null)
+            {
+                FilteredThumbnailChanged(this, EventArgs.Empty);
             }
         }
     }
