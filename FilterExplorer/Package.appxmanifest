@@ -29,5 +29,6 @@
   <Capabilities>
     <Capability Name="picturesLibrary" />
     <Capability Name="internetClient" />
+    <Capability Name="removableStorage" />
   </Capabilities>
 </Package>
