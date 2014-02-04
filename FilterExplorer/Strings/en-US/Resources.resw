@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AlphaToGrayscaleFilterName" xml:space="preserve">
+    <value>Alpha to grayscale</value>
+  </data>
   <data name="AntiqueFilterName" xml:space="preserve">
     <value>Antique</value>
   </data>
@@ -132,11 +135,8 @@
   <data name="AutoLevelsFilterName" xml:space="preserve">
     <value>Auto levels</value>
   </data>
-  <data name="BlueColorAdjustFilterName" xml:space="preserve">
-    <value>Adjust blue color</value>
-  </data>
-  <data name="BlueMonoColorFilterName" xml:space="preserve">
-    <value>Mono color blue</value>
+  <data name="BlendFilterName" xml:space="preserve">
+    <value>Blend</value>
   </data>
   <data name="BlurFilterName" xml:space="preserve">
     <value>Blur</value>
@@ -147,11 +147,35 @@
   <data name="CartoonFilterCartoon" xml:space="preserve">
     <value>Cartoon</value>
   </data>
+  <data name="ChromaKeyFilterName" xml:space="preserve">
+    <value>Chroma key</value>
+  </data>
+  <data name="ColorAdjustBlueFilterName" xml:space="preserve">
+    <value>Adjust blue color</value>
+  </data>
+  <data name="ColorAdjustGreenFilterName" xml:space="preserve">
+    <value>Adjust green color</value>
+  </data>
+  <data name="ColorAdjustRedFilterName" xml:space="preserve">
+    <value>Adjust red color</value>
+  </data>
   <data name="ColorBoostFilterName" xml:space="preserve">
     <value>Color boost</value>
   </data>
+  <data name="ColorizationFilterName" xml:space="preserve">
+    <value>Colorization</value>
+  </data>
+  <data name="ColorSwapFilterName" xml:space="preserve">
+    <value>Color swap</value>
+  </data>
   <data name="ContrastFilterName" xml:space="preserve">
     <value>Contrast</value>
+  </data>
+  <data name="CropFilterName" xml:space="preserve">
+    <value>Crop</value>
+  </data>
+  <data name="CurvesFilterName" xml:space="preserve">
+    <value>Curves</value>
   </data>
   <data name="DespeckleFilterName" xml:space="preserve">
     <value>Despeckle</value>
@@ -165,32 +189,35 @@
   <data name="FilterPageTitle.Text" xml:space="preserve">
     <value>select filter</value>
   </data>
+  <data name="FlipHorizontalFilterName" xml:space="preserve">
+    <value>Flip horizontally</value>
+  </data>
+  <data name="FlipVerticalFilterName" xml:space="preserve">
+    <value>Flip vertically</value>
+  </data>
+  <data name="FogFilterName" xml:space="preserve">
+    <value>Fog</value>
+  </data>
   <data name="FoundationFilterName" xml:space="preserve">
     <value>Foundation</value>
   </data>
   <data name="GrayscaleFilterName" xml:space="preserve">
     <value>Grayscale</value>
   </data>
-  <data name="GreenColorAdjustFilterName" xml:space="preserve">
-    <value>Adjust green color</value>
-  </data>
-  <data name="GreenMonoColorFilterName" xml:space="preserve">
-    <value>Mono color green</value>
-  </data>
-  <data name="HorizontalFlipFilterName" xml:space="preserve">
-    <value>Flip horizontally</value>
+  <data name="GrayscaleNegativeFilterName" xml:space="preserve">
+    <value>Grayscale negative</value>
   </data>
   <data name="HueSaturationFilterName" xml:space="preserve">
     <value>HUE saturation</value>
   </data>
-  <data name="LeftRotationFilterName" xml:space="preserve">
-    <value>Rotate left</value>
+  <data name="ImageFusionFilterName" xml:space="preserve">
+    <value>Image fusion</value>
   </data>
   <data name="LevelsFilterName" xml:space="preserve">
     <value>Levels</value>
   </data>
   <data name="LocalBoostAutomaticFilterName" xml:space="preserve">
-    <value>Local boost</value>
+    <value>Local boost automatic</value>
   </data>
   <data name="LomoFilterName" xml:space="preserve">
     <value>Lomo</value>
@@ -204,11 +231,23 @@
   <data name="MirrorFilterName" xml:space="preserve">
     <value>Mirror</value>
   </data>
+  <data name="MonoColorBlueFilterName" xml:space="preserve">
+    <value>Mono color blue</value>
+  </data>
+  <data name="MonoColorGreenFilterName" xml:space="preserve">
+    <value>Mono color green</value>
+  </data>
+  <data name="MonoColorRedFilterName" xml:space="preserve">
+    <value>Mono color red</value>
+  </data>
   <data name="MoonlightFilterName" xml:space="preserve">
     <value>Moonlight</value>
   </data>
   <data name="NegativeFilterName" xml:space="preserve">
     <value>Negative</value>
+  </data>
+  <data name="NoiseFilterName" xml:space="preserve">
+    <value>Noise</value>
   </data>
   <data name="OilyFilterName" xml:space="preserve">
     <value>Oily</value>
@@ -258,13 +297,13 @@
   <data name="PosterizeFilterName" xml:space="preserve">
     <value>Posterize</value>
   </data>
-  <data name="RedColorAdjustFilterName" xml:space="preserve">
-    <value>Adjust red color</value>
+  <data name="ReframingFilterName" xml:space="preserve">
+    <value>Reframing</value>
   </data>
-  <data name="RedMonoColorFilterName" xml:space="preserve">
-    <value>Mono color red</value>
+  <data name="RotationLeftFilterName" xml:space="preserve">
+    <value>Rotate left</value>
   </data>
-  <data name="RightRotationFilterName" xml:space="preserve">
+  <data name="RotationRightFilterName" xml:space="preserve">
     <value>Rotate right</value>
   </data>
   <data name="SepiaFilterName" xml:space="preserve">
@@ -278,6 +317,12 @@
   </data>
   <data name="SolarizeFilterName" xml:space="preserve">
     <value>Solarize</value>
+  </data>
+  <data name="SplitToneFilterName" xml:space="preserve">
+    <value>Split tone</value>
+  </data>
+  <data name="SpotlightFilterName" xml:space="preserve">
+    <value>Spotlight</value>
   </data>
   <data name="StampFilterName" xml:space="preserve">
     <value>Stamp</value>
@@ -294,9 +339,6 @@
   <data name="TemperatureAndTintFilterName" xml:space="preserve">
     <value>Temperature &amp; tint</value>
   </data>
-  <data name="VerticalFlipFilterName" xml:space="preserve">
-    <value>Flip vertically</value>
-  </data>
   <data name="VignettingFilterName" xml:space="preserve">
     <value>Vignetting</value>
   </data>
@@ -305,6 +347,9 @@
   </data>
   <data name="WatercolorFilterName" xml:space="preserve">
     <value>Watercolor</value>
+  </data>
+  <data name="WhiteBalanceFilterName" xml:space="preserve">
+    <value>White balance</value>
   </data>
   <data name="WhiteboardEnhancementFilterName" xml:space="preserve">
     <value>Whiteboard</value>
