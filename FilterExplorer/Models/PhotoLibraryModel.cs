@@ -38,13 +38,18 @@ namespace FilterExplorer.Models
             return await picker.PickSingleFileAsync();
         }
 
-        public static async Task<List<FilteredPhotoModel>> GetPhotosFromFolderAsync(StorageFolder folder)
+        public static async Task<List<FilteredPhotoModel>> GetPhotosFromFolderAsync(StorageFolder folder, uint amount)
         {
             var list = new List<FilteredPhotoModel>();
             var files = await folder.GetFilesAsync();
 
             foreach (var file in files)
             {
+                if (list.Count == amount)
+                {
+                    break;
+                }
+
                 var properties = await file.GetBasicPropertiesAsync();
 
                 if (properties.Size > 0 && file.ContentType == "image/jpeg")

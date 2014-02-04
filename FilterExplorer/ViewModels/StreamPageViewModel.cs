@@ -105,7 +105,7 @@ namespace FilterExplorer.ViewModels
             }
             else
             {
-                UpdateThumbnailsAsync(Windows.Storage.KnownFolders.PicturesLibrary);
+                UpdateThumbnailsAsync(Windows.Storage.KnownFolders.CameraRoll);
             }
         }
 
@@ -115,7 +115,7 @@ namespace FilterExplorer.ViewModels
 
             Thumbnails.Clear();
 
-            var photos = await PhotoLibraryModel.GetPhotosFromFolderAsync(folder);
+            var photos = await PhotoLibraryModel.GetPhotosFromFolderAsync(folder, 128);
 
             foreach (var photo in photos)
             {
