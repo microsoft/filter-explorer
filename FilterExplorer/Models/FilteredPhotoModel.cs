@@ -157,6 +157,8 @@ namespace FilterExplorer.Models
 
         public async Task<IRandomAccessStream> GetFilteredPhotoStreamAsync()
         {
+            System.Diagnostics.Debug.WriteLine("GetFilteredPhotoStreamAsync invoked " + this.GetHashCode());
+
             IRandomAccessStream filteredStream = null;
 
             using (var stream = await GetPhotoAsync())
@@ -192,6 +194,8 @@ namespace FilterExplorer.Models
 
         public async Task<IRandomAccessStream> GetFilteredPreviewStreamAsync()
         {
+            System.Diagnostics.Debug.WriteLine("GetFilteredPreviewStreamAsync invoked " + this.GetHashCode());
+
             IRandomAccessStream filteredStream = null;
 
             using (var stream = await GetPreviewAsync())
@@ -227,6 +231,8 @@ namespace FilterExplorer.Models
 
         public async Task<IRandomAccessStream> GetFilteredThumbnailStreamAsync()
         {
+            System.Diagnostics.Debug.WriteLine("GetFilteredThumbnailStreamAsync invoked " + this.GetHashCode());
+
             IRandomAccessStream filteredStream = null;
 
             using (var stream = await GetThumbnailAsync())
