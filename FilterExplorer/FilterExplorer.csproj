@@ -114,8 +114,8 @@
     <Compile Include="Commands\DelegateCommand.cs" />
     <Compile Include="Filters\Filters.cs" />
     <Compile Include="Filters\FilterFactory.cs" />
-    <Compile Include="Helpers\RenderingHelper.cs" />
     <Compile Include="Models\PhotoLibraryModel.cs" />
+    <Compile Include="Models\FilteredPhotoModel.cs" />
     <Compile Include="Models\PhotoShareModel.cs" />
     <Compile Include="Models\SessionModel.cs" />
     <Compile Include="Utilities\ObservableList.cs" />

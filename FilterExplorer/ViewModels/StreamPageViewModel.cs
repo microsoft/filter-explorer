@@ -75,7 +75,7 @@ namespace FilterExplorer.ViewModels
 
                     if (file != null)
                     {
-                        var photo = new PhotoModel(file);
+                        var photo = new FilteredPhotoModel(file);
 
                         SessionModel.Instance.Photo = photo;
 

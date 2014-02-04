@@ -11,8 +11,11 @@ namespace FilterExplorer.Models
 {
     public static class PhotoShareModel
     {
-        private static PhotoModel _model = null;
+        private static FilteredPhotoModel _model = null;
         private static bool _available = true;
+
+        public static event EventHandler AvailableChanged;
+        public static event EventHandler SharePhotoFinished;
 
         public static bool Available
         {
@@ -35,16 +38,13 @@ namespace FilterExplorer.Models
             }
         }
 
-        public static event EventHandler AvailableChanged;
-        public static event EventHandler SharePhotoFinished;
-
-        public static void SharePhotoAsync(PhotoModel photo)
+        public static void SharePhotoAsync(FilteredPhotoModel photo)
         {
             if (Available)
             {
                 Available = false;
 
-                _model = new PhotoModel(photo);
+                _model = new FilteredPhotoModel(photo);
 
                 DataTransferManager.GetForCurrentView().DataRequested += DataTransferManager_DataRequested;
                 DataTransferManager.ShowShareUI();
@@ -54,6 +54,7 @@ namespace FilterExplorer.Models
                 throw new Exception();
             }
         }
+
         private static async void DataTransferManager_DataRequested(DataTransferManager sender, DataRequestedEventArgs e)
         {
             DataTransferManager.GetForCurrentView().DataRequested -= DataTransferManager_DataRequested;

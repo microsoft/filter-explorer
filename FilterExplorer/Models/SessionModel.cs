@@ -24,7 +24,7 @@ namespace FilterExplorer.Models
             }
         }
 
-        public PhotoModel Photo { get; set; }
+        public FilteredPhotoModel Photo { get; set; }
         public StorageFolder Folder { get; set; }
 
         public async Task StoreAsync()

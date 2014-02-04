@@ -18,7 +18,7 @@ namespace FilterExplorer.ViewModels
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        internal PhotoModel Model { get; private set; }
+        internal FilteredPhotoModel Model { get; private set; }
 
         public BitmapImage Thumbnail
         {
@@ -41,7 +41,7 @@ namespace FilterExplorer.ViewModels
             }
         }
 
-        public PhotoThumbnailViewModel(PhotoModel photo)
+        public PhotoThumbnailViewModel(FilteredPhotoModel photo)
         {
             Model = photo;
             Model.FilteredThumbnailChanged += Model_FilteredThumbnailChanged;

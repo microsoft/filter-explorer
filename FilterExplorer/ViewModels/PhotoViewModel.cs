@@ -18,7 +18,7 @@ namespace FilterExplorer.ViewModels
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        internal PhotoModel Model { get; private set; }
+        internal FilteredPhotoModel Model { get; private set; }
 
         public BitmapImage Photo
         {
@@ -46,12 +46,10 @@ namespace FilterExplorer.ViewModels
             }
         }
 
-        public PhotoViewModel(PhotoModel photo)
+        public PhotoViewModel(FilteredPhotoModel photo)
         {
             Model = photo;
             Model.FilteredPhotoChanged += Model_FilteredPhotoChanged;
-
-            UpdateFilteredPhotoBitmap();
         }
 
         ~PhotoViewModel()
@@ -69,7 +67,7 @@ namespace FilterExplorer.ViewModels
 
         private async void UpdateFilteredPhotoBitmap()
         {
-            using (var stream = await Model.GetFilteredPhotoAsync())
+            using (var stream = await Model.GetFilteredPreviewAsync())
             {
                 var bitmap = new BitmapImage();
                 bitmap.SetSource(stream);

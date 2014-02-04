@@ -20,7 +20,7 @@ namespace FilterExplorer.ViewModels
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        internal PhotoModel Model { get; private set; }
+        internal FilteredPhotoModel Model { get; private set; }
 
         internal Filter Filter
         {
@@ -82,7 +82,7 @@ namespace FilterExplorer.ViewModels
             }
         }
 
-        public FilterThumbnailViewModel(PhotoModel photo, Filter filter)
+        public FilterThumbnailViewModel(FilteredPhotoModel photo, Filter filter)
         {
             Model = photo;
             Model.Filters.ItemsChanged += Model_Filters_ItemsChanged;
@@ -104,7 +104,7 @@ namespace FilterExplorer.ViewModels
 
         private async void UpdateFilteredThumbnailBitmap()
         {
-            var modelCopy = new PhotoModel(Model);
+            var modelCopy = new FilteredPhotoModel(Model);
             modelCopy.Filters.Add(Filter);
 
             using (var stream = await modelCopy.GetFilteredThumbnailAsync())

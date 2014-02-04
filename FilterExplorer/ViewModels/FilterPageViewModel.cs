@@ -44,7 +44,7 @@ namespace FilterExplorer.ViewModels
                 });
         }
 
-        private void InitializeAsync(PhotoModel model)
+        private void InitializeAsync(FilteredPhotoModel model)
         {
             var filters = FilterFactory.CreateAllFilters();
 

@@ -38,9 +38,9 @@ namespace FilterExplorer.Models
             return await picker.PickSingleFileAsync();
         }
 
-        public static async Task<List<PhotoModel>> GetPhotosFromFolderAsync(StorageFolder folder)
+        public static async Task<List<FilteredPhotoModel>> GetPhotosFromFolderAsync(StorageFolder folder)
         {
-            var list = new List<PhotoModel>();
+            var list = new List<FilteredPhotoModel>();
             var files = await folder.GetFilesAsync();
 
             foreach (var file in files)
@@ -49,14 +49,14 @@ namespace FilterExplorer.Models
 
                 if (properties.Size > 0 && file.ContentType == "image/jpeg")
                 {
-                    list.Add(new PhotoModel(file));
+                    list.Add(new FilteredPhotoModel(file));
                 }
             }
 
             return list;
         }
 
-        public static async Task<StorageFile> SavePhotoAsync(PhotoModel photo)
+        public static async Task<StorageFile> SavePhotoAsync(FilteredPhotoModel photo)
         {
             var filenameFormat = new Windows.ApplicationModel.Resources.ResourceLoader().GetString("PhotoSaveFilenameFormat");
             var filename = String.Format(filenameFormat, DateTime.Now.ToString("yyyyMMddHHmmss"));
@@ -76,7 +76,7 @@ namespace FilterExplorer.Models
             return file;
         }
 
-        internal static async Task<StorageFile> SaveTemporaryPhotoAsync(PhotoModel photo)
+        internal static async Task<StorageFile> SaveTemporaryPhotoAsync(FilteredPhotoModel photo)
         {
             var filenameFormat = new Windows.ApplicationModel.Resources.ResourceLoader().GetString("PhotoSaveFilenameFormat");
             var filename = Application.Current.Resources["PhotoSaveTemporaryFilename"] as string;
@@ -86,7 +86,7 @@ namespace FilterExplorer.Models
             return await SavePhotoAsync(photo, file);
         }
 
-        private static async Task<StorageFile> SavePhotoAsync(PhotoModel photo, StorageFile file)
+        private static async Task<StorageFile> SavePhotoAsync(FilteredPhotoModel photo, StorageFile file)
         {
             CachedFileManager.DeferUpdates(file);
 
