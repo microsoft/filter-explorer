@@ -65,7 +65,14 @@ namespace FilterExplorer
 
                 if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
                 {
-                    SessionModel.Instance.RestoreAsync().Wait();
+                    SessionModel.Instance.Restore();
+
+                    var settings = Windows.Storage.ApplicationData.Current.LocalSettings;
+
+                    if (settings.Values.ContainsKey("NavigationState"))
+                    {
+                        rootFrame.SetNavigationState(settings.Values["NavigationState"] as string);
+                    }
                 }
 
                 // Place the frame in the current Window
@@ -103,11 +110,15 @@ namespace FilterExplorer
         /// <param name="e">Details about the suspend request.</param>
         private void OnSuspending(object sender, SuspendingEventArgs e)
         {
-            var deferral = e.SuspendingOperation.GetDeferral();
+            SessionModel.Instance.Store();
 
-            SessionModel.Instance.StoreAsync().Wait();
+            var rootFrame = Window.Current.Content as Frame;
 
-            deferral.Complete();
+            if (rootFrame != null)
+            {
+                var settings = Windows.Storage.ApplicationData.Current.LocalSettings;
+                settings.Values["NavigationState"] = rootFrame.GetNavigationState();
+            }
         }
     }
 }

@@ -27,6 +27,14 @@ namespace FilterExplorer.Models
 
         public event EventHandler VersionChanged;
 
+        internal Windows.Storage.StorageFile File
+        {
+            get
+            {
+                return _file;
+            }
+        }
+
         public uint Version
         {
             get
@@ -55,6 +63,14 @@ namespace FilterExplorer.Models
             _file = file;
 
             Filters = new ObservableList<Filter>();
+            Filters.ItemsChanged += Filters_ItemsChanged;
+        }
+
+        public PhotoModel(Windows.Storage.StorageFile file, ObservableList<Filter> filters)
+        {
+            _file = file;
+
+            Filters = filters;
             Filters.ItemsChanged += Filters_ItemsChanged;
         }
 

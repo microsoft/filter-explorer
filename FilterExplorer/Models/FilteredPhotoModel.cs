@@ -77,6 +77,16 @@ namespace FilterExplorer.Models
             base.VersionChanged += PhotoModel_VersionChanged;
         }
 
+        public FilteredPhotoModel(Windows.Storage.StorageFile file, ObservableList<Filter> filters)
+            : base(file, filters)
+        {
+            _filteredPhotoCache = new PhotoCache();
+            _filteredPreviewCache = new PhotoCache();
+            _filteredThumbnailCache = new PhotoCache();
+
+            base.VersionChanged += PhotoModel_VersionChanged;
+        }
+
         public FilteredPhotoModel(FilteredPhotoModel other)
             : base(other)
         {
