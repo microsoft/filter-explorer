@@ -13,9 +13,9 @@ using Windows.UI.Xaml.Media.Imaging;
 
 namespace FilterExplorer.ViewModels
 {
-    public class PhotoViewModel : INotifyPropertyChanged
+    public class PhotoPreviewViewModel : INotifyPropertyChanged
     {
-        private BitmapImage _photo = null;
+        private BitmapImage _preview = null;
         private Size? _resolution = null;
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -34,11 +34,6 @@ namespace FilterExplorer.ViewModels
         {
             get
             {
-                if (!_resolution.HasValue)
-                {
-                    UpdateResolution();
-                }
-
                 return _resolution;
             }
 
@@ -56,47 +51,47 @@ namespace FilterExplorer.ViewModels
             }
         }
 
-        public BitmapImage Photo
+        public BitmapImage Preview
         {
             get
             {
-                if (_photo == null)
-                {
-                    UpdatePhoto();
-                }
-
-                return _photo;
+                return _preview;
             }
 
             private set
             {
-                if (_photo != value)
+                if (_preview != value)
                 {
-                    _photo = value;
+                    _preview = value;
 
                     if (PropertyChanged != null)
                     {
-                        PropertyChanged(this, new PropertyChangedEventArgs("Photo"));
+                        PropertyChanged(this, new PropertyChangedEventArgs("Preview"));
                     }
                 }
             }
         }
 
-        public PhotoViewModel(FilteredPhotoModel photo)
+        public PhotoPreviewViewModel(FilteredPhotoModel photo)
         {
             Model = photo;
             Model.FilteredPhotoChanged += Model_FilteredPhotoChanged;
+
+            UpdateResolution();
+            UpdatePreview();
         }
 
-        ~PhotoViewModel()
+        ~PhotoPreviewViewModel()
         {
             Model.FilteredPhotoChanged -= Model_FilteredPhotoChanged;
         }
 
         private void Model_FilteredPhotoChanged(object sender, EventArgs e)
         {
-            Photo = null;
-            Resolution = null;
+            if (_preview != null)
+            {
+                UpdatePreview();
+            }
 
             if (PropertyChanged != null)
             {
@@ -104,14 +99,14 @@ namespace FilterExplorer.ViewModels
             }
         }
 
-        private async void UpdatePhoto()
+        private async void UpdatePreview()
         {
             using (var stream = await Model.GetFilteredPreviewAsync())
             {
                 var bitmap = new BitmapImage();
                 bitmap.SetSource(stream);
 
-                Photo = bitmap;
+                Preview = bitmap;
             }
         }
 

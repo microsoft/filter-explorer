@@ -12,7 +12,7 @@ using Windows.UI.Xaml.Media.Imaging;
 
 namespace FilterExplorer.ViewModels
 {
-    public class PhotoThumbnailViewModel : INotifyPropertyChanged
+    public class StreamThumbnailViewModel : INotifyPropertyChanged
     {
         private BitmapImage _thumbnail = null;
 
@@ -41,7 +41,7 @@ namespace FilterExplorer.ViewModels
             }
         }
 
-        public PhotoThumbnailViewModel(FilteredPhotoModel photo)
+        public StreamThumbnailViewModel(FilteredPhotoModel photo)
         {
             Model = photo;
             Model.FilteredThumbnailChanged += Model_FilteredThumbnailChanged;
@@ -49,7 +49,7 @@ namespace FilterExplorer.ViewModels
             UpdateFilteredThumbnailBitmap();
         }
 
-        ~PhotoThumbnailViewModel()
+        ~StreamThumbnailViewModel()
         {
             Model.FilteredThumbnailChanged -= Model_FilteredThumbnailChanged;
         }

@@ -29,7 +29,7 @@ namespace FilterExplorer.ViewModels
         public IDelegateCommand OpenPhotoCommand { get; private set; }
         public IDelegateCommand OpenFolderCommand { get; private set; }
 
-        public ObservableCollection<PhotoThumbnailViewModel> Thumbnails { get; private set; }
+        public ObservableCollection<StreamThumbnailViewModel> Thumbnails { get; private set; }
 
         public string FolderName
         {
@@ -54,13 +54,13 @@ namespace FilterExplorer.ViewModels
 
         public StreamPageViewModel()
         {
-            Thumbnails = new ObservableCollection<PhotoThumbnailViewModel>();
+            Thumbnails = new ObservableCollection<StreamThumbnailViewModel>();
 
             GoBackCommand = CommandFactory.CreateGoBackCommand();
 
             SelectPhotoCommand = new DelegateCommand((parameter) =>
                 {
-                    var viewModel = (PhotoThumbnailViewModel)parameter;
+                    var viewModel = (StreamThumbnailViewModel)parameter;
                     var modelCopy = new FilteredPhotoModel(viewModel.Model);
 
                     SessionModel.Instance.Photo = modelCopy;
@@ -121,7 +121,7 @@ namespace FilterExplorer.ViewModels
             {
                 for (int k = 0; k < 4 * 9 && i < photos.Count;)
                 {
-                    Thumbnails.Add(new PhotoThumbnailViewModel(photos[i]));
+                    Thumbnails.Add(new StreamThumbnailViewModel(photos[i]));
 
                     k++;
                     i++;

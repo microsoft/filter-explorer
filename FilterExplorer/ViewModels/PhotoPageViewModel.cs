@@ -29,31 +29,31 @@ namespace FilterExplorer.ViewModels
         public IDelegateCommand RemoveFilterCommand { get; private set; }
         public IDelegateCommand RemoveAllFiltersCommand { get; private set; }
 
-        private PhotoViewModel _photo = null;
+        private PhotoPreviewViewModel _preview = null;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public PhotoViewModel Photo
+        public PhotoPreviewViewModel Preview
         {
             get
             {
-                return _photo;
+                return _preview;
             }
 
             private set
             {
-                if (_photo != value)
+                if (_preview != value)
                 {
-                    if (_photo != null)
+                    if (_preview != null)
                     {
-                        _photo.Model.Filters.ItemsChanged -= Photo_Model_Filters_ItemsChanged;
+                        _preview.Model.Filters.ItemsChanged -= Preview_Model_Filters_ItemsChanged;
                     }
 
-                    _photo = value;
+                    _preview = value;
 
-                    if (_photo != null)
+                    if (_preview != null)
                     {
-                        _photo.Model.Filters.ItemsChanged += Photo_Model_Filters_ItemsChanged;
+                        _preview.Model.Filters.ItemsChanged += Preview_Model_Filters_ItemsChanged;
                     }
 
                     AddFilterCommand.RaiseCanExecuteChanged();
@@ -62,7 +62,7 @@ namespace FilterExplorer.ViewModels
 
                     if (PropertyChanged != null)
                     {
-                        PropertyChanged(this, new PropertyChangedEventArgs("Photo"));
+                        PropertyChanged(this, new PropertyChangedEventArgs("Preview"));
                     }
                 }
             }
@@ -83,20 +83,20 @@ namespace FilterExplorer.ViewModels
 
                         SessionModel.Instance.Photo = photo;
 
-                        Photo = new PhotoViewModel(SessionModel.Instance.Photo);
+                        Preview = new PhotoPreviewViewModel(SessionModel.Instance.Photo);
                     }
                 });
 
             SavePhotoCommand = new DelegateCommand(
                 async (parameter) =>
                     {
-                        await PhotoLibraryModel.SavePhotoAsync(Photo.Model);
+                        await PhotoLibraryModel.SavePhotoAsync(Preview.Model);
                     });
 
             SharePhotoCommand = new DelegateCommand(
                 (parameter) =>
                     {
-                        PhotoShareModel.SharePhotoAsync(Photo.Model);
+                        PhotoShareModel.SharePhotoAsync(Preview.Model);
                     },
                 () =>
                     {
@@ -113,39 +113,39 @@ namespace FilterExplorer.ViewModels
             RemoveFilterCommand = new DelegateCommand(
                 (parameter) =>
                     {
-                        Photo.Model.Filters.RemoveLast();
+                        Preview.Model.Filters.RemoveLast();
                     },
                 () =>
                     {
-                        return Photo != null ? Photo.Model.Filters.Count > 0 : false;
+                        return Preview != null ? Preview.Model.Filters.Count > 0 : false;
                     });
 
             RemoveAllFiltersCommand = new DelegateCommand(
                 (parameter) =>
                 {
-                    Photo.Model.Filters.Clear();
+                    Preview.Model.Filters.Clear();
                 },
                 () =>
                 {
-                    return Photo != null ? Photo.Model.Filters.Count > 0 : false;
+                    return Preview != null ? Preview.Model.Filters.Count > 0 : false;
                 });
 
-            Photo = new PhotoViewModel(SessionModel.Instance.Photo);
+            Preview = new PhotoPreviewViewModel(SessionModel.Instance.Photo);
 
             PhotoShareModel.AvailableChanged += PhotoShareModel_AvailableChanged;
         }
 
         ~PhotoPageViewModel()
         {
-            if (Photo != null)
+            if (Preview != null)
             {
-                Photo.Model.Filters.ItemsChanged -= Photo_Model_Filters_ItemsChanged;
+                Preview.Model.Filters.ItemsChanged -= Preview_Model_Filters_ItemsChanged;
             }
 
             PhotoShareModel.AvailableChanged -= PhotoShareModel_AvailableChanged;
         }
 
-        private void Photo_Model_Filters_ItemsChanged(object sender, EventArgs e)
+        private void Preview_Model_Filters_ItemsChanged(object sender, EventArgs e)
         {
             RemoveFilterCommand.RaiseCanExecuteChanged();
             RemoveAllFiltersCommand.RaiseCanExecuteChanged();

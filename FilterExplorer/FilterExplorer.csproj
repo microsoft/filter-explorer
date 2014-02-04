@@ -122,8 +122,8 @@
     <Compile Include="Models\SessionModel.cs" />
     <Compile Include="Utilities\ObservableList.cs" />
     <Compile Include="ViewModels\FilterThumbnailViewModel.cs" />
-    <Compile Include="ViewModels\PhotoThumbnailViewModel.cs" />
-    <Compile Include="ViewModels\PhotoViewModel.cs" />
+    <Compile Include="ViewModels\StreamThumbnailViewModel.cs" />
+    <Compile Include="ViewModels\PhotoPreviewViewModel.cs" />
     <Compile Include="Models\PhotoModel.cs" />
     <Compile Include="Views\PhotoPage.xaml.cs">
       <DependentUpon>PhotoPage.xaml</DependentUpon>
