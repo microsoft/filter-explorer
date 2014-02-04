@@ -45,7 +45,6 @@ namespace FilterExplorer.ViewModels
                 {
                     if (_photo != null)
                     {
-                        _photo.Model.ModifiedChanged -= Photo_Model_ModifiedChanged;
                         _photo.Model.Filters.ItemsChanged -= Photo_Model_Filters_ItemsChanged;
                     }
 
@@ -53,7 +52,6 @@ namespace FilterExplorer.ViewModels
 
                     if (_photo != null)
                     {
-                        _photo.Model.ModifiedChanged += Photo_Model_ModifiedChanged;
                         _photo.Model.Filters.ItemsChanged += Photo_Model_Filters_ItemsChanged;
                     }
 
@@ -134,16 +132,10 @@ namespace FilterExplorer.ViewModels
         {
             if (Photo != null)
             {
-                Photo.Model.ModifiedChanged -= Photo_Model_ModifiedChanged;
                 Photo.Model.Filters.ItemsChanged -= Photo_Model_Filters_ItemsChanged;
             }
 
             PhotoShareModel.AvailableChanged -= PhotoShareModel_AvailableChanged;
-        }
-
-        private void Photo_Model_ModifiedChanged(object sender, EventArgs e)
-        {
-            SavePhotoCommand.RaiseCanExecuteChanged();
         }
 
         private void Photo_Model_Filters_ItemsChanged(object sender, EventArgs e)
