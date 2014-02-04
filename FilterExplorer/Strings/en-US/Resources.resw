@@ -354,4 +354,7 @@
   <data name="WhiteboardEnhancementFilterName" xml:space="preserve">
     <value>Whiteboard</value>
   </data>
+  <data name="PhotoPageRemoveAllFiltersButton.Label" xml:space="preserve">
+    <value>Clear filters</value>
+  </data>
 </root>

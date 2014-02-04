@@ -16,6 +16,7 @@
         <CommandBar IsOpen="True" Background="#88000000">
             <AppBarButton x:Uid="PhotoPageAddFilterButton" Icon="Add" Command="{Binding AddFilterCommand}"/>
             <AppBarButton x:Uid="PhotoPageRemoveFilterButton" Icon="Undo" Command="{Binding RemoveFilterCommand}"/>
+            <AppBarButton x:Uid="PhotoPageRemoveAllFiltersButton" Icon="Clear" Command="{Binding RemoveAllFiltersCommand}"/>
 
             <CommandBar.SecondaryCommands>
                 <AppBarButton x:Uid="PhotoPageGoBackButton" Icon="Back" Command="{Binding GoBackCommand}"/>

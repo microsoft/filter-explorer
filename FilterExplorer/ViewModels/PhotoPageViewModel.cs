@@ -27,6 +27,7 @@ namespace FilterExplorer.ViewModels
         public IDelegateCommand SharePhotoCommand { get; private set; }
         public IDelegateCommand AddFilterCommand { get; private set; }
         public IDelegateCommand RemoveFilterCommand { get; private set; }
+        public IDelegateCommand RemoveAllFiltersCommand { get; private set; }
 
         private PhotoViewModel _photo = null;
 
@@ -55,9 +56,9 @@ namespace FilterExplorer.ViewModels
                         _photo.Model.Filters.ItemsChanged += Photo_Model_Filters_ItemsChanged;
                     }
 
-                    SavePhotoCommand.RaiseCanExecuteChanged();
                     AddFilterCommand.RaiseCanExecuteChanged();
                     RemoveFilterCommand.RaiseCanExecuteChanged();
+                    RemoveAllFiltersCommand.RaiseCanExecuteChanged();
 
                     if (PropertyChanged != null)
                     {
@@ -90,10 +91,6 @@ namespace FilterExplorer.ViewModels
                 async (parameter) =>
                     {
                         await PhotoLibraryModel.SavePhotoAsync(Photo.Model);
-                    },
-                () =>
-                    {
-                        return Photo != null;
                     });
 
             SharePhotoCommand = new DelegateCommand(
@@ -123,6 +120,16 @@ namespace FilterExplorer.ViewModels
                         return Photo != null ? Photo.Model.Filters.Count > 0 : false;
                     });
 
+            RemoveAllFiltersCommand = new DelegateCommand(
+                (parameter) =>
+                {
+                    Photo.Model.Filters.Clear();
+                },
+                () =>
+                {
+                    return Photo != null ? Photo.Model.Filters.Count > 0 : false;
+                });
+
             Photo = new PhotoViewModel(SessionModel.Instance.Photo);
 
             PhotoShareModel.AvailableChanged += PhotoShareModel_AvailableChanged;
@@ -141,6 +148,7 @@ namespace FilterExplorer.ViewModels
         private void Photo_Model_Filters_ItemsChanged(object sender, EventArgs e)
         {
             RemoveFilterCommand.RaiseCanExecuteChanged();
+            RemoveAllFiltersCommand.RaiseCanExecuteChanged();
         }
 
         private void PhotoShareModel_AvailableChanged(object sender, EventArgs e)
