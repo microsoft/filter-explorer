@@ -117,17 +117,9 @@ namespace FilterExplorer.ViewModels
 
             var photos = await PhotoLibraryModel.GetPhotosFromFolderAsync(folder);
 
-            for (int i = 0; i < photos.Count; i++)
+            foreach (var photo in photos)
             {
-                for (int k = 0; k < 4 * 9 && i < photos.Count;)
-                {
-                    Thumbnails.Add(new StreamThumbnailViewModel(photos[i]));
-
-                    k++;
-                    i++;
-                }
-
-                await Task.Delay(TimeSpan.FromMilliseconds(1000));
+                Thumbnails.Add(new StreamThumbnailViewModel(photo));
             }
         }
     }
