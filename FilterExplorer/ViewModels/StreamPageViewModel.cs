@@ -61,8 +61,9 @@ namespace FilterExplorer.ViewModels
             SelectPhotoCommand = new DelegateCommand((parameter) =>
                 {
                     var viewModel = (PhotoThumbnailViewModel)parameter;
+                    var modelCopy = new FilteredPhotoModel(viewModel.Model);
 
-                    SessionModel.Instance.Photo = viewModel.Model;
+                    SessionModel.Instance.Photo = modelCopy;
 
                     var frame = (Frame)Window.Current.Content;
                     frame.Navigate(typeof(PhotoPage));
