@@ -20,6 +20,7 @@ namespace FilterExplorer.Models
     {
         private uint _version = 0;
         private Windows.Storage.StorageFile _file = null;
+        private Windows.Storage.FileProperties.ImageProperties _properties = null;
         private IRandomAccessStream _photoStream = null;
         private IRandomAccessStream _previewStream = null;
         private IRandomAccessStream _thumbnailStream = null;
@@ -85,6 +86,23 @@ namespace FilterExplorer.Models
         ~PhotoModel()
         {
             Filters.ItemsChanged -= Filters_ItemsChanged;
+        }
+
+        public async Task<Size?> GetPhotoResolutionAsync()
+        {
+            Size? size = null; ;
+
+            if (_properties == null)
+            {
+                _properties = await _file.Properties.GetImagePropertiesAsync();
+            }
+
+            if (_properties != null)
+            {
+                size = new Size(_properties.Width, _properties.Height);
+            }
+
+            return size;
         }
 
         public async Task<IRandomAccessStream> GetPhotoAsync()

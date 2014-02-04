@@ -44,7 +44,7 @@
     </Grid>
 
     <Page.BottomAppBar>
-        <CommandBar IsOpen="True" Background="#88000000">
+        <CommandBar>
             <CommandBar.SecondaryCommands>
                 <AppBarButton x:Uid="StreamPageOpenPhotoButton" Icon="OpenFile" Command="{Binding OpenPhotoCommand}"/>
                 <AppBarButton x:Uid="StreamPageOpenFolderButton" Icon="Folder" Command="{Binding OpenFolderCommand}"/>

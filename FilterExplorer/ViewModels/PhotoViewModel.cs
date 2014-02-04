@@ -1,5 +1,6 @@
 ﻿using FilterExplorer.Filters;
 using FilterExplorer.Models;
+using FilterExplorer.Utilities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,10 +16,45 @@ namespace FilterExplorer.ViewModels
     public class PhotoViewModel : INotifyPropertyChanged
     {
         private BitmapImage _photo = null;
+        private Size? _resolution = null;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
         internal FilteredPhotoModel Model { get; private set; }
+
+        public ObservableList<Filter> Filters
+        {
+            get
+            {
+                return Model.Filters;
+            }
+        }
+
+        public Size? Resolution
+        {
+            get
+            {
+                if (!_resolution.HasValue)
+                {
+                    UpdateResolution();
+                }
+
+                return _resolution;
+            }
+
+            set
+            {
+                if (_resolution != value)
+                {
+                    _resolution = value;
+
+                    if (PropertyChanged != null)
+                    {
+                        PropertyChanged(this, new PropertyChangedEventArgs("Resolution"));
+                    }
+                }
+            }
+        }
 
         public BitmapImage Photo
         {
@@ -26,7 +62,7 @@ namespace FilterExplorer.ViewModels
             {
                 if (_photo == null)
                 {
-                    UpdateFilteredPhotoBitmap();
+                    UpdatePhoto();
                 }
 
                 return _photo;
@@ -59,13 +95,16 @@ namespace FilterExplorer.ViewModels
 
         private void Model_FilteredPhotoChanged(object sender, EventArgs e)
         {
-            if (_photo != null)
+            Photo = null;
+            Resolution = null;
+
+            if (PropertyChanged != null)
             {
-                UpdateFilteredPhotoBitmap();
+                PropertyChanged(this, new PropertyChangedEventArgs("Filters"));
             }
         }
 
-        private async void UpdateFilteredPhotoBitmap()
+        private async void UpdatePhoto()
         {
             using (var stream = await Model.GetFilteredPreviewAsync())
             {
@@ -74,6 +113,11 @@ namespace FilterExplorer.ViewModels
 
                 Photo = bitmap;
             }
+        }
+
+        private async void UpdateResolution()
+        {
+            Resolution = await Model.GetPhotoResolutionAsync();
         }
     }
 }

@@ -4,16 +4,47 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:FilterExplorer.Views"
+    xmlns:converters="using:FilterExplorer.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
+    <Page.Resources>
+        <converters:FilterListStringConverter x:Key="FilterListStringConverter"/>
+        <converters:ResolutionStringConverter x:Key="ResolutionStringConverter"/>
+    </Page.Resources>
+
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Image Source="{Binding Photo.Photo}"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="617*"/>
+            <ColumnDefinition Width="750*"/>
+        </Grid.ColumnDefinitions>
+        <Image Source="{Binding Photo.Photo}" Grid.ColumnSpan="2"/>
     </Grid>
-    
+
+    <Page.TopAppBar>
+        <AppBar>
+            <Grid Margin="30,15">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock x:Uid="PhotoPageFiltersTitle" Style="{StaticResource TitleTextBlockStyle}"/>
+                <TextBlock x:Uid="PhotoPageResolutionTitle" Grid.Column="1" Style="{StaticResource TitleTextBlockStyle}"/>
+
+                <TextBlock Grid.Row="1" Text="{Binding Photo.Filters, Converter={StaticResource FilterListStringConverter}, ConverterParameter=' &#x21E2; '}" Style="{StaticResource BodyTextBlockStyle}"/>
+                <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Photo.Resolution, Converter={StaticResource ResolutionStringConverter}}" Style="{StaticResource BodyTextBlockStyle}"/>
+            </Grid>
+        </AppBar>
+    </Page.TopAppBar>
+
     <Page.BottomAppBar>
-        <CommandBar IsOpen="True" Background="#88000000">
+        <CommandBar>
             <AppBarButton x:Uid="PhotoPageAddFilterButton" Icon="Add" Command="{Binding AddFilterCommand}"/>
             <AppBarButton x:Uid="PhotoPageRemoveFilterButton" Icon="Undo" Command="{Binding RemoveFilterCommand}"/>
             <AppBarButton x:Uid="PhotoPageRemoveAllFiltersButton" Icon="Clear" Command="{Binding RemoveAllFiltersCommand}"/>

@@ -357,4 +357,16 @@
   <data name="PhotoPageRemoveAllFiltersButton.Label" xml:space="preserve">
     <value>Clear filters</value>
   </data>
+  <data name="PhotoPageFiltersTitle.Text" xml:space="preserve">
+    <value>Filters</value>
+  </data>
+  <data name="PhotoPageResolutionTitle.Text" xml:space="preserve">
+    <value>Resolution</value>
+  </data>
+  <data name="PhotoPageZeroFiltersText" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="PhotoPageUnknownResolutionText" xml:space="preserve">
+    <value>Unknown</value>
+  </data>
 </root>

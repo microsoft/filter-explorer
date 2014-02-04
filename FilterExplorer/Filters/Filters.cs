@@ -16,6 +16,19 @@ namespace FilterExplorer.Filters
                 return GetType().ToString();
             }
         }
+
+        public string Name
+        {
+            get
+            {
+                return new Windows.ApplicationModel.Resources.ResourceLoader().GetString(Id.Split('.').Last() + "Name");
+            }
+        }
+
+        public override string ToString()
+        {
+            return Name;
+        }
         
         public abstract Nokia.Graphics.Imaging.IFilter GetFilter();
     }

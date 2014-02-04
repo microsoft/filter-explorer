@@ -35,7 +35,7 @@ namespace FilterExplorer.ViewModels
                 {
                     _filter = value;
 
-                    Title = new Windows.ApplicationModel.Resources.ResourceLoader().GetString(_filter.Id.Split('.').Last() + "Name");
+                    Title = _filter != null ? _filter.Name : string.Empty;
                 }
             }
         }
