@@ -94,32 +94,48 @@ namespace FilterExplorer.ViewModels
                     {
                         SessionModel.Instance.Folder = folder;
 
-                        UpdateThumbnailsAsync(SessionModel.Instance.Folder);
+                        UpdateThumbnailsAsync();
                     }
                 });
 
 
+            UpdateThumbnailsAsync();
+        }
+
+        private async void UpdateThumbnailsAsync()
+        {
+            Thumbnails.Clear();
+
             if (SessionModel.Instance.Folder != null)
             {
-                UpdateThumbnailsAsync(SessionModel.Instance.Folder);
+                FolderName = SessionModel.Instance.Folder.Name;
+
+                var photos = await PhotoLibraryModel.GetPhotosFromFolderAsync(SessionModel.Instance.Folder, 128);
+
+                foreach (var photo in photos)
+                {
+                    Thumbnails.Add(new StreamThumbnailViewModel(photo));
+                }
             }
             else
             {
-                UpdateThumbnailsAsync(Windows.Storage.KnownFolders.CameraRoll);
-            }
-        }
+                var photos = await PhotoLibraryModel.GetPhotosFromFolderAsync(Windows.Storage.KnownFolders.CameraRoll, 128);
 
-        private async void UpdateThumbnailsAsync(StorageFolder folder)
-        {
-            FolderName = folder.Name;
+                if (photos.Count > 0)
+                {
+                    FolderName = Windows.Storage.KnownFolders.CameraRoll.Name;
+                }
+                else
+                {
+                    photos = await PhotoLibraryModel.GetPhotosFromFolderAsync(Windows.Storage.KnownFolders.PicturesLibrary, 128);
 
-            Thumbnails.Clear();
+                    FolderName = Windows.Storage.KnownFolders.PicturesLibrary.Name;
+                }
 
-            var photos = await PhotoLibraryModel.GetPhotosFromFolderAsync(folder, 128);
-
-            foreach (var photo in photos)
-            {
-                Thumbnails.Add(new StreamThumbnailViewModel(photo));
+                foreach (var photo in photos)
+                {
+                    Thumbnails.Add(new StreamThumbnailViewModel(photo));
+                }
             }
         }
     }
