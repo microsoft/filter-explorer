@@ -167,7 +167,9 @@ namespace FilterExplorer.Models
 
         public async Task<IRandomAccessStream> GetFilteredPhotoStreamAsync()
         {
+#if DEBUG
             System.Diagnostics.Debug.WriteLine("GetFilteredPhotoStreamAsync invoked " + this.GetHashCode());
+#endif
 
             IRandomAccessStream filteredStream = null;
 
@@ -204,7 +206,9 @@ namespace FilterExplorer.Models
 
         public async Task<IRandomAccessStream> GetFilteredPreviewStreamAsync()
         {
+#if DEBUG
             System.Diagnostics.Debug.WriteLine("GetFilteredPreviewStreamAsync invoked " + this.GetHashCode());
+#endif
 
             IRandomAccessStream filteredStream = null;
 
@@ -241,7 +245,9 @@ namespace FilterExplorer.Models
 
         public async Task<IRandomAccessStream> GetFilteredThumbnailStreamAsync()
         {
+#if DEBUG
             System.Diagnostics.Debug.WriteLine("GetFilteredThumbnailStreamAsync invoked " + this.GetHashCode());
+#endif
 
             IRandomAccessStream filteredStream = null;
 
