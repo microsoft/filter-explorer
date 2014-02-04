@@ -144,7 +144,7 @@
   <data name="BrightnessFilterName" xml:space="preserve">
     <value>Brightness</value>
   </data>
-  <data name="CartoonFilterCartoon" xml:space="preserve">
+  <data name="CartoonFilterName" xml:space="preserve">
     <value>Cartoon</value>
   </data>
   <data name="ChromaKeyFilterName" xml:space="preserve">
