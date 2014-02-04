@@ -24,7 +24,7 @@
 
     <Page.TopAppBar>
         <AppBar>
-            <Grid Margin="30,15">
+            <Grid Margin="30,6,30,15">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition/>
@@ -37,7 +37,7 @@
                 <TextBlock x:Uid="PhotoPageFiltersTitle" Style="{StaticResource TitleTextBlockStyle}"/>
                 <TextBlock x:Uid="PhotoPageResolutionTitle" Grid.Column="1" Style="{StaticResource TitleTextBlockStyle}"/>
 
-                <TextBlock Grid.Row="1" Text="{Binding Preview.Filters, Converter={StaticResource FilterListStringConverter}, ConverterParameter=' &#x21E2; '}" Style="{StaticResource BodyTextBlockStyle}"/>
+                <TextBlock Grid.Row="1" Margin="0,0,30,0" Text="{Binding Preview.Filters, Converter={StaticResource FilterListStringConverter}, ConverterParameter=' &#x21E2; '}" Style="{StaticResource BodyTextBlockStyle}"/>
                 <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Preview.Resolution, Converter={StaticResource ResolutionStringConverter}}" Style="{StaticResource BodyTextBlockStyle}"/>
             </Grid>
         </AppBar>
