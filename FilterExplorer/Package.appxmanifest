@@ -30,5 +30,6 @@
     <Capability Name="picturesLibrary" />
     <Capability Name="internetClient" />
     <Capability Name="removableStorage" />
+    <DeviceCapability Name="webcam" />
   </Capabilities>
 </Package>

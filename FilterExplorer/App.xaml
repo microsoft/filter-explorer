@@ -5,6 +5,7 @@
     xmlns:local="using:FilterExplorer">
 
     <Application.Resources>
+        <x:String x:Key="PhotoCaptureTemporaryFilename">CaptureTemp.jpg</x:String>
         <x:String x:Key="PhotoSaveTemporaryFilename">ShareTemp.jpg</x:String>
     </Application.Resources>
 </Application>

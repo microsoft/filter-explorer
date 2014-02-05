@@ -51,6 +51,7 @@
 
             <CommandBar.SecondaryCommands>
                 <AppBarButton x:Uid="PhotoPageGoBackButton" Icon="Back" Command="{Binding GoBackCommand}"/>
+                <AppBarButton x:Uid="PhotoPageCapturePhotoButton" Icon="Camera" Command="{Binding CapturePhotoCommand}"/>
                 <AppBarButton x:Uid="PhotoPageOpenPhotoButton" Icon="OpenFile" Command="{Binding OpenPhotoCommand}"/>
                 <AppBarButton x:Uid="PhotoPageSavePhotoButton" Icon="Save" Command="{Binding SavePhotoCommand}"/>
                 <AppBarButton x:Uid="PhotoPageSharePhotoButton" Icon="ReShare" Command="{Binding SharePhotoCommand}"/>

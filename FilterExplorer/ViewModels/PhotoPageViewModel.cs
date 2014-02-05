@@ -22,6 +22,7 @@ namespace FilterExplorer.ViewModels
     public class PhotoPageViewModel : INotifyPropertyChanged
     {
         public IDelegateCommand GoBackCommand { get; private set; }
+        public IDelegateCommand CapturePhotoCommand { get; private set; }
         public IDelegateCommand OpenPhotoCommand { get; private set; }
         public IDelegateCommand SavePhotoCommand { get; private set; }
         public IDelegateCommand SharePhotoCommand { get; private set; }
@@ -71,6 +72,22 @@ namespace FilterExplorer.ViewModels
         public PhotoPageViewModel()
         {
             GoBackCommand = CommandFactory.CreateGoBackCommand();
+
+            CapturePhotoCommand = new DelegateCommand(
+                async (parameter) =>
+                {
+                    var file = await PhotoLibraryModel.CapturePhotoFileAsync();
+
+                    if (file != null)
+                    {
+                        var photo = new FilteredPhotoModel(file);
+
+                        SessionModel.Instance.Photo = photo;
+
+                        var frame = (Frame)Window.Current.Content;
+                        frame.Navigate(typeof(PhotoPage));
+                    }
+                });
 
             OpenPhotoCommand = new DelegateCommand(
                 async (parameter) =>

@@ -38,6 +38,29 @@ namespace FilterExplorer.Models
             return await picker.PickSingleFileAsync();
         }
 
+        public static async Task<StorageFile> CapturePhotoFileAsync()
+        {
+            var captureUi = new Windows.Media.Capture.CameraCaptureUI();
+            captureUi.PhotoSettings.Format = Windows.Media.Capture.CameraCaptureUIPhotoFormat.Jpeg;
+
+            var file = await captureUi.CaptureFileAsync(Windows.Media.Capture.CameraCaptureUIMode.Photo);
+
+            if (file != null)
+            {
+                var filename = Application.Current.Resources["PhotoCaptureTemporaryFilename"] as string;
+                var folder = ApplicationData.Current.TemporaryFolder;
+                var temporaryFile = await folder.CreateFileAsync(filename, Windows.Storage.CreationCollisionOption.ReplaceExisting);
+
+                CachedFileManager.DeferUpdates(temporaryFile);
+                await file.CopyAndReplaceAsync(temporaryFile);
+                await CachedFileManager.CompleteUpdatesAsync(temporaryFile);
+
+                file = temporaryFile;
+            }
+
+            return file;
+        }
+
         public static async Task<List<FilteredPhotoModel>> GetPhotosFromFolderAsync(StorageFolder folder, uint amount)
         {
             var list = new List<FilteredPhotoModel>();
@@ -83,7 +106,6 @@ namespace FilterExplorer.Models
 
         internal static async Task<StorageFile> SaveTemporaryPhotoAsync(FilteredPhotoModel photo)
         {
-            var filenameFormat = new Windows.ApplicationModel.Resources.ResourceLoader().GetString("PhotoSaveFilenameFormat");
             var filename = Application.Current.Resources["PhotoSaveTemporaryFilename"] as string;
             var folder = ApplicationData.Current.TemporaryFolder;
             var file = await folder.CreateFileAsync(filename, Windows.Storage.CreationCollisionOption.ReplaceExisting);

@@ -46,6 +46,7 @@
     <Page.BottomAppBar>
         <CommandBar>
             <CommandBar.SecondaryCommands>
+                <AppBarButton x:Uid="StreamPageCapturePhotoButton" Icon="Camera" Command="{Binding CapturePhotoCommand}"/>
                 <AppBarButton x:Uid="StreamPageOpenPhotoButton" Icon="OpenFile" Command="{Binding OpenPhotoCommand}"/>
                 <AppBarButton x:Uid="StreamPageOpenFolderButton" Icon="Folder" Command="{Binding OpenFolderCommand}"/>
             </CommandBar.SecondaryCommands>

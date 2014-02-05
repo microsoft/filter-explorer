@@ -369,4 +369,10 @@
   <data name="PhotoPageUnknownResolutionText" xml:space="preserve">
     <value>Unknown</value>
   </data>
+  <data name="PhotoPageCapturePhotoButton.Label" xml:space="preserve">
+    <value>Capture</value>
+  </data>
+  <data name="StreamPageCapturePhotoButton.Label" xml:space="preserve">
+    <value>Capture</value>
+  </data>
 </root>
