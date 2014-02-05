@@ -157,7 +157,31 @@ namespace FilterExplorer.Models
         {
             if (_thumbnailStream == null)
             {
-                _thumbnailStream = await _file.GetThumbnailAsync(Windows.Storage.FileProperties.ThumbnailMode.PicturesView);
+                var stream = await _file.GetThumbnailAsync(Windows.Storage.FileProperties.ThumbnailMode.PicturesView);
+
+                if (stream.ContentType == "image/bmp")
+                {
+                    // Imaging SDK does not handle BMP well at the moment, convert BMP to JPEG
+
+                    using (var photo = await GetPhotoAsync())
+                    {
+                        var buffer = new byte[photo.Size].AsBuffer();
+                        await photo.ReadAsync(buffer, buffer.Length, InputStreamOptions.None);
+
+                        var resizeConfiguration = new AutoResizeConfiguration(512 * 1024, new Size(300, 300), new Size(0, 0), AutoResizeMode.Automatic, 0.8, ColorSpace.Yuv420);
+                        buffer = await JpegTools.AutoResizeAsync(buffer, resizeConfiguration);
+
+                        var resizedStream = new InMemoryRandomAccessStream();
+                        await resizedStream.WriteAsync(buffer);
+
+                        _thumbnailStream = resizedStream;
+                    }
+                }
+                else
+                {
+                    _thumbnailStream = stream;
+                }
+
             }
 
             return _thumbnailStream.CloneStream();
