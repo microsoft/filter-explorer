@@ -12,6 +12,7 @@
     <Page.Resources>
         <converters:FilterListStringConverter x:Key="FilterListStringConverter"/>
         <converters:ResolutionStringConverter x:Key="ResolutionStringConverter"/>
+        <converters:BoolVisibilityConverter x:Key="BoolVisibilityConverter"/>
     </Page.Resources>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -19,6 +20,10 @@
             <ColumnDefinition Width="617*"/>
             <ColumnDefinition Width="750*"/>
         </Grid.ColumnDefinitions>
+
+        <ProgressBar VerticalAlignment="Top" Margin="0,5,0,5" IsEnabled="{Binding Processing}" IsIndeterminate="{Binding Processing}"
+                     Visibility="{Binding Processing, Converter={StaticResource BoolVisibilityConverter}}"/>
+        
         <Image Source="{Binding Preview.Preview}" Grid.ColumnSpan="2"/>
     </Grid>
 

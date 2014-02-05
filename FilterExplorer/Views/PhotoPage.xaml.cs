@@ -18,11 +18,25 @@ namespace FilterExplorer.Views
 {
     public sealed partial class PhotoPage : Page
     {
+        private PhotoPageViewModel _viewModel = new PhotoPageViewModel();
+
         public PhotoPage()
         {
-            DataContext = new PhotoPageViewModel();
-
             this.InitializeComponent();
+
+            DataContext = _viewModel;
+        }
+
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            if (!_viewModel.IsInitialized)
+            {
+                await _viewModel.InitializeAsync();
+
+                Window.Current.Activate();
+            }
         }
     }
 }

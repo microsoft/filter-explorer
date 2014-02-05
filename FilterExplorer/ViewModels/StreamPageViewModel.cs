@@ -18,11 +18,9 @@ using Windows.UI.Xaml.Media.Imaging;
 
 namespace FilterExplorer.ViewModels
 {
-    public class StreamPageViewModel : INotifyPropertyChanged
+    public class StreamPageViewModel : PageViewModelBase
     {
         private string _folderName = null;
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         public IDelegateCommand GoBackCommand { get; private set; }
         public IDelegateCommand SelectPhotoCommand { get; private set; }
@@ -45,10 +43,7 @@ namespace FilterExplorer.ViewModels
                 {
                     _folderName = value;
 
-                    if (PropertyChanged != null)
-                    {
-                        PropertyChanged(this, new PropertyChangedEventArgs("FolderName"));
-                    }
+                    Notify("FolderName");
                 }
             }
         }
@@ -95,7 +90,7 @@ namespace FilterExplorer.ViewModels
                     {
                         SessionModel.Instance.Folder = folder;
 
-                        UpdateThumbnailsAsync();
+                        IsInitialized = false;
                     }
                 });
 
@@ -114,46 +109,54 @@ namespace FilterExplorer.ViewModels
                         frame.Navigate(typeof(PhotoPage));
                     }
                 });
-
-
-            UpdateThumbnailsAsync();
         }
 
-        private async void UpdateThumbnailsAsync()
+        public override async Task<bool> InitializeAsync()
         {
-            Thumbnails.Clear();
-
-            if (SessionModel.Instance.Folder != null)
+            if (!IsInitialized)
             {
-                FolderName = SessionModel.Instance.Folder.Name;
+                Thumbnails.Clear();
 
-                var photos = await PhotoLibraryModel.GetPhotosFromFolderAsync(SessionModel.Instance.Folder, 128);
+                Processing = true;
 
-                foreach (var photo in photos)
+                if (SessionModel.Instance.Folder != null)
                 {
-                    Thumbnails.Add(new StreamThumbnailViewModel(photo));
-                }
-            }
-            else
-            {
-                var photos = await PhotoLibraryModel.GetPhotosFromFolderAsync(Windows.Storage.KnownFolders.CameraRoll, 128);
+                    FolderName = SessionModel.Instance.Folder.Name;
 
-                if (photos.Count > 0)
-                {
-                    FolderName = Windows.Storage.KnownFolders.CameraRoll.Name;
+                    var photos = await PhotoLibraryModel.GetPhotosFromFolderAsync(SessionModel.Instance.Folder, 128);
+
+                    foreach (var photo in photos)
+                    {
+                        Thumbnails.Add(new StreamThumbnailViewModel(photo));
+                    }
                 }
                 else
                 {
-                    photos = await PhotoLibraryModel.GetPhotosFromFolderAsync(Windows.Storage.KnownFolders.PicturesLibrary, 128);
+                    var photos = await PhotoLibraryModel.GetPhotosFromFolderAsync(Windows.Storage.KnownFolders.CameraRoll, 128);
 
-                    FolderName = Windows.Storage.KnownFolders.PicturesLibrary.Name;
+                    if (photos.Count > 0)
+                    {
+                        FolderName = Windows.Storage.KnownFolders.CameraRoll.Name;
+                    }
+                    else
+                    {
+                        photos = await PhotoLibraryModel.GetPhotosFromFolderAsync(Windows.Storage.KnownFolders.PicturesLibrary, 128);
+
+                        FolderName = Windows.Storage.KnownFolders.PicturesLibrary.Name;
+                    }
+
+                    foreach (var photo in photos)
+                    {
+                        Thumbnails.Add(new StreamThumbnailViewModel(photo));
+                    }
                 }
 
-                foreach (var photo in photos)
-                {
-                    Thumbnails.Add(new StreamThumbnailViewModel(photo));
-                }
+                Processing = false;
+
+                IsInitialized = true;
             }
+
+            return IsInitialized;
         }
     }
 }

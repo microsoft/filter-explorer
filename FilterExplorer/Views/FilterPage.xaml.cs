@@ -19,11 +19,25 @@ namespace FilterExplorer.Views
 {
     public sealed partial class FilterPage : Page
     {
+        private FilterPageViewModel _viewModel = new FilterPageViewModel();
+
         public FilterPage()
         {
-            DataContext = new FilterPageViewModel();
-
             this.InitializeComponent();
+
+            DataContext = _viewModel;
+        }
+
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            if (!_viewModel.IsInitialized)
+            {
+                await _viewModel.InitializeAsync();
+
+                Window.Current.Activate();
+            }
         }
 
         private void GridView_ItemClick(object sender, ItemClickEventArgs e)

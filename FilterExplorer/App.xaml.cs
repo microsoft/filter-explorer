@@ -88,7 +88,7 @@ namespace FilterExplorer
             }
 
             // Ensure the current window is active
-            Window.Current.Activate();
+            //Window.Current.Activate();
         }
 
         /// <summary>

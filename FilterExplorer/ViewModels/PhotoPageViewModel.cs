@@ -19,7 +19,7 @@ using Windows.UI.Xaml.Media.Imaging;
 
 namespace FilterExplorer.ViewModels
 {
-    public class PhotoPageViewModel : INotifyPropertyChanged
+    public class PhotoPageViewModel : PageViewModelBase
     {
         public IDelegateCommand GoBackCommand { get; private set; }
         public IDelegateCommand CapturePhotoCommand { get; private set; }
@@ -31,8 +31,6 @@ namespace FilterExplorer.ViewModels
         public IDelegateCommand RemoveAllFiltersCommand { get; private set; }
 
         private PhotoPreviewViewModel _preview = null;
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         public PhotoPreviewViewModel Preview
         {
@@ -61,10 +59,7 @@ namespace FilterExplorer.ViewModels
                     RemoveFilterCommand.RaiseCanExecuteChanged();
                     RemoveAllFiltersCommand.RaiseCanExecuteChanged();
 
-                    if (PropertyChanged != null)
-                    {
-                        PropertyChanged(this, new PropertyChangedEventArgs("Preview"));
-                    }
+                    Notify("Preview");
                 }
             }
         }
@@ -147,8 +142,6 @@ namespace FilterExplorer.ViewModels
                     return Preview != null ? Preview.Model.Filters.Count > 0 : false;
                 });
 
-            Preview = new PhotoPreviewViewModel(SessionModel.Instance.Photo);
-
             PhotoShareModel.AvailableChanged += PhotoShareModel_AvailableChanged;
         }
 
@@ -160,6 +153,25 @@ namespace FilterExplorer.ViewModels
             }
 
             PhotoShareModel.AvailableChanged -= PhotoShareModel_AvailableChanged;
+        }
+
+        public override Task<bool> InitializeAsync()
+        {
+            if (!IsInitialized)
+            {
+                Processing = true;
+
+                if (SessionModel.Instance.Photo != null)
+                {
+                    Preview = new PhotoPreviewViewModel(SessionModel.Instance.Photo);
+
+                    IsInitialized = true;
+                }
+
+                Processing = false;
+            }
+
+            return Task.FromResult(IsInitialized);
         }
 
         private void Preview_Model_Filters_ItemsChanged(object sender, EventArgs e)

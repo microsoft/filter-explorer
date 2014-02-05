@@ -18,7 +18,7 @@ using Windows.UI.Xaml.Media.Imaging;
 
 namespace FilterExplorer.ViewModels
 {
-    public class FilterPageViewModel
+    public class FilterPageViewModel : PageViewModelBase
     {
         public IDelegateCommand GoBackCommand { get; private set; }
         public IDelegateCommand ApplyFilterCommand { get; private set; }
@@ -29,31 +29,40 @@ namespace FilterExplorer.ViewModels
         {
             Thumbnails = new ObservableCollection<FilterThumbnailViewModel>();
 
-            InitializeAsync(SessionModel.Instance.Photo);
-
             GoBackCommand = CommandFactory.CreateGoBackCommand();
 
             ApplyFilterCommand = new DelegateCommand((parameter) =>
-                {
-                    var viewModel = (FilterThumbnailViewModel)parameter;
+            {
+                var viewModel = (FilterThumbnailViewModel)parameter;
 
-                    SessionModel.Instance.Photo.Filters.Add(viewModel.Filter);
+                SessionModel.Instance.Photo.Filters.Add(viewModel.Filter);
 
-                    var frame = (Frame)Window.Current.Content;
-                    frame.GoBack();
-                });
+                var frame = (Frame)Window.Current.Content;
+                frame.GoBack();
+            });
         }
 
-        private void InitializeAsync(FilteredPhotoModel model)
+        public override Task<bool> InitializeAsync()
         {
-            var filters = FilterFactory.CreateAllFilters();
-
-            foreach (var filter in filters)
+            if (!IsInitialized && SessionModel.Instance.Photo != null)
             {
-                var modelCopy = new FilteredPhotoModel(model);
+                Processing = true;
 
-                Thumbnails.Add(new FilterThumbnailViewModel(modelCopy, filter));
+                var filters = FilterFactory.CreateAllFilters();
+
+                foreach (var filter in filters)
+                {
+                    var modelCopy = new FilteredPhotoModel(SessionModel.Instance.Photo);
+
+                    Thumbnails.Add(new FilterThumbnailViewModel(modelCopy, filter));
+                }
+
+                Processing = false;
+
+                IsInitialized = true;
             }
+
+            return Task.FromResult(IsInitialized);
         }
     }
 }

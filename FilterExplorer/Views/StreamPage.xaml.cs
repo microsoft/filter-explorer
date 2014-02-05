@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -19,11 +20,25 @@ namespace FilterExplorer.Views
 {
     public sealed partial class StreamPage : Page
     {
+        private StreamPageViewModel _viewModel = new StreamPageViewModel();
+
         public StreamPage()
         {
-            DataContext = new StreamPageViewModel();
-
             this.InitializeComponent();
+
+            DataContext = _viewModel;
+        }
+
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            if (!_viewModel.IsInitialized)
+            {
+                await _viewModel.InitializeAsync();
+
+                Window.Current.Activate();
+            }
         }
 
         private void GridView_ItemClick(object sender, ItemClickEventArgs e)
