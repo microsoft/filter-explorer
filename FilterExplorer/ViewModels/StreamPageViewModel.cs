@@ -29,6 +29,7 @@ namespace FilterExplorer.ViewModels
         public IDelegateCommand OpenPhotoCommand { get; private set; }
         public IDelegateCommand OpenFolderCommand { get; private set; }
         public IDelegateCommand CapturePhotoCommand { get; private set; }
+        public IDelegateCommand RefreshPhotosCommand { get; private set; }
 
         public ObservableCollection<StreamThumbnailViewModel> Thumbnails { get; private set; }
 
@@ -92,7 +93,7 @@ namespace FilterExplorer.ViewModels
                     {
                         SessionModel.Instance.Folder = folder;
 
-                        IsInitialized = false;
+                        await Refresh();
                     }
                 });
 
@@ -111,55 +112,23 @@ namespace FilterExplorer.ViewModels
                         frame.Navigate(typeof(PhotoPage));
                     }
                 });
+
+            RefreshPhotosCommand = new DelegateCommand(
+                async (parameter) =>
+                    {
+                        await Refresh();
+                    },
+                () =>
+                    {
+                        return !Processing;
+                    });
         }
 
         public override async Task<bool> InitializeAsync()
         {
             if (!IsInitialized)
             {
-                Thumbnails.Clear();
-
-                Processing = true;
-
-                var filters = FilterFactory.CreateStreamFilters();
-
-                if (SessionModel.Instance.Folder != null)
-                {
-                    FolderName = SessionModel.Instance.Folder.Name;
-
-                    var photos = await PhotoLibraryModel.GetPhotosFromFolderAsync(SessionModel.Instance.Folder, 128);
-
-                    foreach (var photo in photos)
-                    {
-                        photo.Filters.Add(TakeRandomFilter(filters));
-
-                        Thumbnails.Add(new StreamThumbnailViewModel(photo));
-                    }
-                }
-                else
-                {
-                    var photos = await PhotoLibraryModel.GetPhotosFromFolderAsync(Windows.Storage.KnownFolders.CameraRoll, 128);
-
-                    if (photos.Count > 0)
-                    {
-                        FolderName = Windows.Storage.KnownFolders.CameraRoll.Name;
-                    }
-                    else
-                    {
-                        photos = await PhotoLibraryModel.GetPhotosFromFolderAsync(Windows.Storage.KnownFolders.PicturesLibrary, 128);
-
-                        FolderName = Windows.Storage.KnownFolders.PicturesLibrary.Name;
-                    }
-
-                    foreach (var photo in photos)
-                    {
-                        photo.Filters.Add(TakeRandomFilter(filters));
-
-                        Thumbnails.Add(new StreamThumbnailViewModel(photo));
-                    }
-                }
-
-                Processing = false;
+                await Refresh();
 
                 IsInitialized = true;
             }
@@ -167,9 +136,60 @@ namespace FilterExplorer.ViewModels
             return IsInitialized;
         }
 
+        private async Task Refresh()
+        {
+            Processing = true;
+
+            RefreshPhotosCommand.RaiseCanExecuteChanged();
+
+            Thumbnails.Clear();
+
+            var filters = FilterFactory.CreateStreamFilters();
+
+            if (SessionModel.Instance.Folder != null)
+            {
+                FolderName = SessionModel.Instance.Folder.Name;
+
+                var photos = await PhotoLibraryModel.GetPhotosFromFolderAsync(SessionModel.Instance.Folder, 128);
+
+                foreach (var photo in photos)
+                {
+                    photo.Filters.Add(TakeRandomFilter(filters));
+
+                    Thumbnails.Add(new StreamThumbnailViewModel(photo));
+                }
+            }
+            else
+            {
+                var photos = await PhotoLibraryModel.GetPhotosFromFolderAsync(Windows.Storage.KnownFolders.CameraRoll, 128);
+
+                if (photos.Count > 0)
+                {
+                    FolderName = Windows.Storage.KnownFolders.CameraRoll.Name;
+                }
+                else
+                {
+                    photos = await PhotoLibraryModel.GetPhotosFromFolderAsync(Windows.Storage.KnownFolders.PicturesLibrary, 128);
+
+                    FolderName = Windows.Storage.KnownFolders.PicturesLibrary.Name;
+                }
+
+                foreach (var photo in photos)
+                {
+                    photo.Filters.Add(TakeRandomFilter(filters));
+
+                    Thumbnails.Add(new StreamThumbnailViewModel(photo));
+                }
+            }
+
+            Processing = false;
+
+            RefreshPhotosCommand.RaiseCanExecuteChanged();
+        }
+
         private Filter TakeRandomFilter(ObservableList<Filter> filters)
         {
-            Random random = new Random((int)(DateTime.Now.Ticks % DateTime.Now.Millisecond));
+            Random random = new Random((int)(DateTime.Now.Ticks % (DateTime.Now.Millisecond + 1)));
             var index = random.Next(0, filters.Count - 1);
             var filter = filters[index];
 

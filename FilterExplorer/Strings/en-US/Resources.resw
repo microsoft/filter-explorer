@@ -375,4 +375,7 @@
   <data name="StreamPageCapturePhotoButton.Label" xml:space="preserve">
     <value>Capture</value>
   </data>
+  <data name="StreamPageRefreshPhotosButton.Label" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
 </root>
