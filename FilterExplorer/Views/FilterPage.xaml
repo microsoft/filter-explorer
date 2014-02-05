@@ -28,7 +28,7 @@
                   IsItemClickEnabled="True" ItemClick="GridView_ItemClick">
             <GridView.ItemTemplate>
                 <DataTemplate>
-                    <Grid HorizontalAlignment="Left" Width="190" Height="120">
+                    <Grid HorizontalAlignment="Left" Width="185" Height="115">
                         <Border Background="{ThemeResource ListViewItemPlaceholderBackgroundThemeBrush}">
                             <Image Source="{Binding Thumbnail}" Stretch="UniformToFill"/>
                         </Border>
