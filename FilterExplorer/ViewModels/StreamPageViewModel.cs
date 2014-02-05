@@ -1,5 +1,7 @@
 ﻿using FilterExplorer.Commands;
+using FilterExplorer.Filters;
 using FilterExplorer.Models;
+using FilterExplorer.Utilities;
 using FilterExplorer.Views;
 using System;
 using System.Collections.Generic;
@@ -119,6 +121,8 @@ namespace FilterExplorer.ViewModels
 
                 Processing = true;
 
+                var filters = FilterFactory.CreateStreamFilters();
+
                 if (SessionModel.Instance.Folder != null)
                 {
                     FolderName = SessionModel.Instance.Folder.Name;
@@ -127,6 +131,8 @@ namespace FilterExplorer.ViewModels
 
                     foreach (var photo in photos)
                     {
+                        photo.Filters.Add(TakeRandomFilter(filters));
+
                         Thumbnails.Add(new StreamThumbnailViewModel(photo));
                     }
                 }
@@ -147,6 +153,8 @@ namespace FilterExplorer.ViewModels
 
                     foreach (var photo in photos)
                     {
+                        photo.Filters.Add(TakeRandomFilter(filters));
+
                         Thumbnails.Add(new StreamThumbnailViewModel(photo));
                     }
                 }
@@ -157,6 +165,15 @@ namespace FilterExplorer.ViewModels
             }
 
             return IsInitialized;
+        }
+
+        private Filter TakeRandomFilter(ObservableList<Filter> filters)
+        {
+            Random random = new Random((int)(DateTime.Now.Ticks % DateTime.Now.Millisecond));
+            var index = random.Next(0, filters.Count - 1);
+            var filter = filters[index];
+
+            return filter;
         }
     }
 }

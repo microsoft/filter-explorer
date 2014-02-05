@@ -10,6 +10,15 @@ namespace FilterExplorer.Filters
 {
     public static class FilterFactory
     {
+        private static List<Type> _ignoredInStream = new List<Type>()
+        {
+            typeof(EmbossFilter),
+            typeof(RotationLeftFilter),
+            typeof(RotationRightFilter),
+            typeof(FlipHorizontalFilter),
+            typeof(FlipVerticalFilter)
+        };
+
         public static Filter CreateFilter(string id)
         {
             return (Filter)Activator.CreateInstance(Type.GetType(id));
@@ -38,6 +47,25 @@ namespace FilterExplorer.Filters
             foreach (var type in types)
             {
                 filters.Add((Filter)Activator.CreateInstance(type));
+            }
+
+            return filters;
+        }
+
+        public static ObservableList<Filter> CreateStreamFilters()
+        {
+            var filters = new ObservableList<Filter>();
+            var types = typeof(Filter).GetTypeInfo().Assembly.ExportedTypes
+                                      .Where(type => type.GetTypeInfo().IsClass &&
+                                             type.GetTypeInfo().IsAbstract == false &&
+                                             type.GetTypeInfo().IsSubclassOf(typeof(Filter)));
+
+            foreach (var type in types)
+            {
+                if (!_ignoredInStream.Contains(type))
+                {
+                    filters.Add((Filter)Activator.CreateInstance(type));
+                }
             }
 
             return filters;
