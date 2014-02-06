@@ -1,18 +1,22 @@
-﻿using FilterExplorer.Filters;
+﻿/*
+ * Copyright (c) 2014 Nokia Corporation. All rights reserved.
+ *
+ * Nokia and Nokia Connecting People are registered trademarks of Nokia Corporation.
+ * Other product and company names mentioned herein may be trademarks
+ * or trade names of their respective owners.
+ *
+ * See the license text file for license information.
+ */
+
+using FilterExplorer.Filters;
 using FilterExplorer.Utilities;
+using Nokia.Graphics.Imaging;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.Streams;
-using Windows.UI.Xaml.Media.Imaging;
-using Nokia.Graphics.Imaging;
-using System.Runtime.InteropServices.WindowsRuntime;
 
 namespace FilterExplorer.Models
 {
