@@ -23,6 +23,7 @@ namespace FilterExplorer.ViewModels
     public class StreamPageViewModel : PageViewModelBase
     {
         private string _folderName = null;
+        private Random _random = new Random(DateTime.Now.Millisecond + 1);
 
         public IDelegateCommand GoBackCommand { get; private set; }
         public IDelegateCommand SelectPhotoCommand { get; private set; }
@@ -180,8 +181,7 @@ namespace FilterExplorer.ViewModels
 
         private Filter TakeRandomFilter(ObservableList<Filter> filters)
         {
-            Random random = new Random((int)(DateTime.Now.Ticks % (DateTime.Now.Millisecond + 1)));
-            var index = random.Next(0, filters.Count - 1);
+            var index = _random.Next(0, filters.Count - 1);
             var filter = filters[index];
 
             return filter;
