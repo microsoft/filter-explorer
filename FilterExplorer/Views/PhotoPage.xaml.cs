@@ -38,5 +38,18 @@ namespace FilterExplorer.Views
                 Window.Current.Activate();
             }
         }
+
+        private void Grid_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            if (!AppBar.IsOpen)
+            {
+                AppBar.IsOpen = true;
+            }
+
+            if (!CommandBar.IsOpen)
+            {
+                CommandBar.IsOpen = true;
+            }
+        }
     }
 }
