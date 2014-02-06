@@ -49,7 +49,7 @@
                     <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Preview.Resolution, Converter={StaticResource ResolutionStringConverter}}" Style="{StaticResource BodyTextBlockStyle}"/>
                 </Grid>
 
-                <ProgressBar VerticalAlignment="Top" Margin="0,2,0,0" IsEnabled="{Binding Preview.Processing}" IsIndeterminate="{Binding Preview.Processing}"
+                <ProgressBar VerticalAlignment="Top" IsEnabled="{Binding Preview.Processing}" IsIndeterminate="{Binding Preview.Processing}"
                      Visibility="{Binding Preview.Processing, Converter={StaticResource BoolVisibilityConverter}}"/>
             </Grid>
         </AppBar>
