@@ -89,10 +89,12 @@ https://github.com/nokia-developer/filter-explorer-rt/blob/master/License.txt
 Downloads
 ---------
 
-No releases yet.
+| Project | Release | Download |
+| ------- | --------| -------- |
+| Filter Explorer RT | v0.1 | [filter-explorer-rt-0.1.zip](https://github.com/nokia-developer/filter-explorer-rt/archive/v0.1.zip) |
 
 
 Version history
 ---------------
 
-No releases yet.
+* 0.1: Initial release
