@@ -125,6 +125,7 @@
     <Compile Include="Models\PhotoShareModel.cs" />
     <Compile Include="Models\SessionModel.cs" />
     <Compile Include="Utilities\ObservableList.cs" />
+    <Compile Include="Utilities\RandomAccessStreamCache.cs" />
     <Compile Include="ViewModels\FilterThumbnailViewModel.cs" />
     <Compile Include="ViewModels\PageViewModelBase.cs" />
     <Compile Include="ViewModels\StreamThumbnailViewModel.cs" />

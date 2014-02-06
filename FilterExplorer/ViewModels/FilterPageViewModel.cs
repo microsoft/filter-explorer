@@ -52,9 +52,7 @@ namespace FilterExplorer.ViewModels
 
                 foreach (var filter in filters)
                 {
-                    var modelCopy = new FilteredPhotoModel(SessionModel.Instance.Photo);
-
-                    Thumbnails.Add(new FilterThumbnailViewModel(modelCopy, filter));
+                    Thumbnails.Add(new FilterThumbnailViewModel(SessionModel.Instance.Photo, filter));
                 }
 
                 Processing = false;

@@ -16,96 +16,103 @@ using System.Runtime.InteropServices.WindowsRuntime;
 
 namespace FilterExplorer.Models
 {
-    public class FilteredPhotoModel : PhotoModel
+    public class FilteredPhotoModel
     {
-        private class PhotoCache
-        {
-            public uint Version { get; set; }
-            public IRandomAccessStream Stream { get; set; }
-            public Task<IRandomAccessStream> Task { get; set; }
-
-            public PhotoCache()
-            {
-            }
-
-            public PhotoCache(PhotoCache other)
-            {
-                Version = other.Version;
-
-                if (other.Stream != null)
-                {
-                    Stream = other.Stream.CloneStream();
-                }
-            }
-
-            public void Invalidate()
-            {
-                if (Stream != null)
-                {
-                    Stream.Dispose();
-                    Stream = null;
-                }
-
-                if (Task != null)
-                {
-                    Task.AsAsyncOperation().Cancel();
-                    Task = null;
-                }
-            }
-
-            ~PhotoCache()
-            {
-                Invalidate();
-            }
-        }
-
-        private PhotoCache _filteredPhotoCache = null;
-        private PhotoCache _filteredPreviewCache = null;
-        private PhotoCache _filteredThumbnailCache = null;
+        private PhotoModel _photo = null;
+        private uint _version = 0;
+        private RandomAccessStreamCache<IRandomAccessStream> _filteredPhotoCache = null;
+        private RandomAccessStreamCache<IRandomAccessStream> _filteredPreviewCache = null;
+        private RandomAccessStreamCache<IRandomAccessStream> _filteredThumbnailCache = null;
 
         public event EventHandler FilteredPhotoChanged;
         public event EventHandler FilteredPreviewChanged;
         public event EventHandler FilteredThumbnailChanged;
 
-        public FilteredPhotoModel(Windows.Storage.StorageFile file)
-            : base(file)
-        {
-            _filteredPhotoCache = new PhotoCache();
-            _filteredPreviewCache = new PhotoCache();
-            _filteredThumbnailCache = new PhotoCache();
+        public event EventHandler VersionChanged;
 
-            base.VersionChanged += PhotoModel_VersionChanged;
+        public uint Version
+        {
+            get
+            {
+                return _version;
+            }
+
+            private set
+            {
+                if (_version != value)
+                {
+                    _version = value;
+
+                    if (VersionChanged != null)
+                    {
+                        VersionChanged(this, EventArgs.Empty);
+                    }
+                }
+            }
+        }
+
+        public StorageFile File
+        {
+            get
+            {
+                return _photo.File;
+            }
+        }
+
+        public ObservableList<Filter> Filters { get; private set; }
+
+        public FilteredPhotoModel(Windows.Storage.StorageFile file)
+        {
+            _photo = new PhotoModel(file);
+            _filteredPhotoCache = new RandomAccessStreamCache<IRandomAccessStream>();
+            _filteredPreviewCache = new RandomAccessStreamCache<IRandomAccessStream>();
+            _filteredThumbnailCache = new RandomAccessStreamCache<IRandomAccessStream>();
+
+            Filters = new ObservableList<Filter>();
+            Filters.ItemsChanged += Filters_ItemsChanged;
         }
 
         public FilteredPhotoModel(Windows.Storage.StorageFile file, ObservableList<Filter> filters)
-            : base(file, filters)
         {
-            _filteredPhotoCache = new PhotoCache();
-            _filteredPreviewCache = new PhotoCache();
-            _filteredThumbnailCache = new PhotoCache();
+            _photo = new PhotoModel(file, filters);
+            _filteredPhotoCache = new RandomAccessStreamCache<IRandomAccessStream>();
+            _filteredPreviewCache = new RandomAccessStreamCache<IRandomAccessStream>();
+            _filteredThumbnailCache = new RandomAccessStreamCache<IRandomAccessStream>();
 
-            base.VersionChanged += PhotoModel_VersionChanged;
+            Filters = filters;
+            Filters.ItemsChanged += Filters_ItemsChanged;
         }
 
         public FilteredPhotoModel(FilteredPhotoModel other)
-            : base(other)
         {
-            _filteredPhotoCache = new PhotoCache(other._filteredPhotoCache);
-            _filteredPreviewCache = new PhotoCache(other._filteredPreviewCache);
-            _filteredThumbnailCache = new PhotoCache(other._filteredThumbnailCache);
+            _photo = other._photo;
+            _filteredPhotoCache = new RandomAccessStreamCache<IRandomAccessStream>(other._filteredPhotoCache);
+            _filteredPreviewCache = new RandomAccessStreamCache<IRandomAccessStream>(other._filteredPreviewCache);
+            _filteredThumbnailCache = new RandomAccessStreamCache<IRandomAccessStream>(other._filteredThumbnailCache);
 
-            base.VersionChanged += PhotoModel_VersionChanged;
+            Filters = new ObservableList<Filter>(other.Filters);
+            Filters.ItemsChanged += Filters_ItemsChanged;
         }
 
-        public FilteredPhotoModel(PhotoModel other)
-            : base(other)
+        public FilteredPhotoModel(PhotoModel photo)
         {
-            base.VersionChanged += PhotoModel_VersionChanged;
+            _photo = photo;
+            _filteredPhotoCache = new RandomAccessStreamCache<IRandomAccessStream>();
+            _filteredPreviewCache = new RandomAccessStreamCache<IRandomAccessStream>();
+            _filteredThumbnailCache = new RandomAccessStreamCache<IRandomAccessStream>();
+
+            Filters = new ObservableList<Filter>();
+            Filters.ItemsChanged += Filters_ItemsChanged;
         }
 
         ~FilteredPhotoModel()
         {
-            VersionChanged -= PhotoModel_VersionChanged;
+            Filters.ItemsChanged -= Filters_ItemsChanged;
+        }
+
+        public async Task<Size?> GetPhotoResolutionAsync()
+        {
+            return await _photo.GetPhotoResolutionAsync();
         }
 
         public async Task<IRandomAccessStream> GetFilteredPhotoAsync()
@@ -173,7 +180,7 @@ namespace FilterExplorer.Models
 
             IRandomAccessStream filteredStream = null;
 
-            using (var stream = await GetPhotoAsync())
+            using (var stream = await _photo.GetPhotoAsync())
             {
                 if (Filters.Count > 0)
                 {
@@ -212,7 +219,7 @@ namespace FilterExplorer.Models
 
             IRandomAccessStream filteredStream = null;
 
-            using (var stream = await GetPreviewAsync())
+            using (var stream = await _photo.GetPreviewAsync())
             {
                 if (Filters.Count > 0)
                 {
@@ -251,7 +258,7 @@ namespace FilterExplorer.Models
 
             IRandomAccessStream filteredStream = null;
 
-            using (var stream = await GetThumbnailAsync())
+            using (var stream = await _photo.GetThumbnailAsync())
             {
                 if (Filters.Count > 0)
                 {
@@ -282,8 +289,10 @@ namespace FilterExplorer.Models
             return filteredStream;
         }
 
-        private void PhotoModel_VersionChanged(object sender, EventArgs e)
+        private void Filters_ItemsChanged(object sender, EventArgs e)
         {
+            Version += 1;
+
             RaiseFilteredPhotoChanged();
             RaiseFilteredPreviewChanged();
             RaiseFilteredThumbnailChanged();

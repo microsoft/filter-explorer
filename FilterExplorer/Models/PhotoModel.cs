@@ -18,14 +18,11 @@ namespace FilterExplorer.Models
 {
     public class PhotoModel
     {
-        private uint _version = 0;
         private Windows.Storage.StorageFile _file = null;
         private Windows.Storage.FileProperties.ImageProperties _properties = null;
-        private IRandomAccessStream _photoStream = null;
-        private IRandomAccessStream _previewStream = null;
-        private IRandomAccessStream _thumbnailStream = null;
-
-        public event EventHandler VersionChanged;
+        private RandomAccessStreamCache<IRandomAccessStreamWithContentType> _photoCache = null;
+        private RandomAccessStreamCache<IRandomAccessStream> _previewCache = null;
+        private RandomAccessStreamCache<IRandomAccessStream> _thumbnailCache = null;
 
         internal Windows.Storage.StorageFile File
         {
@@ -35,73 +32,32 @@ namespace FilterExplorer.Models
             }
         }
 
-        public uint Version
-        {
-            get
-            {
-                return _version;
-            }
-
-            private set
-            {
-                if (_version != value)
-                {
-                    _version = value;
-
-                    if (VersionChanged != null)
-                    {
-                        VersionChanged(this, EventArgs.Empty);
-                    }
-                }
-            }
-        }
-
-        public ObservableList<Filter> Filters { get; private set; }
-
         public PhotoModel(Windows.Storage.StorageFile file)
         {
             _file = file;
-
-            Filters = new ObservableList<Filter>();
-            Filters.ItemsChanged += Filters_ItemsChanged;
+            _photoCache = new RandomAccessStreamCache<IRandomAccessStreamWithContentType>();
+            _previewCache = new RandomAccessStreamCache<IRandomAccessStream>();
+            _thumbnailCache = new RandomAccessStreamCache<IRandomAccessStream>();
         }
 
         public PhotoModel(Windows.Storage.StorageFile file, ObservableList<Filter> filters)
         {
             _file = file;
-
-            Filters = filters;
-            Filters.ItemsChanged += Filters_ItemsChanged;
+            _photoCache = new RandomAccessStreamCache<IRandomAccessStreamWithContentType>();
+            _previewCache = new RandomAccessStreamCache<IRandomAccessStream>();
+            _thumbnailCache = new RandomAccessStreamCache<IRandomAccessStream>();
         }
 
         public PhotoModel(PhotoModel other)
         {
             _file = other._file;
-            _version = other._version;
-
-            if (other._photoStream != null)
-            {
-                _photoStream = other._photoStream.CloneStream();
-            }
-
-            if (other._previewStream != null)
-            {
-                _previewStream = other._previewStream.CloneStream();
-            }
-
-            if (other._thumbnailStream != null)
-            {
-                _thumbnailStream = other._thumbnailStream.CloneStream();
-            }
-
-
-            Filters = new ObservableList<Filter>(other.Filters);
-            Filters.ItemsChanged += Filters_ItemsChanged;
+            _photoCache = new RandomAccessStreamCache<IRandomAccessStreamWithContentType>(other._photoCache);
+            _previewCache = new RandomAccessStreamCache<IRandomAccessStream>(other._previewCache);
+            _thumbnailCache = new RandomAccessStreamCache<IRandomAccessStream>(other._thumbnailCache);
         }
 
         ~PhotoModel()
         {
-            Filters.ItemsChanged -= Filters_ItemsChanged;
         }
 
         public async Task<Size?> GetPhotoResolutionAsync()
@@ -123,17 +79,63 @@ namespace FilterExplorer.Models
 
         public async Task<IRandomAccessStream> GetPhotoAsync()
         {
-            if (_photoStream == null)
+            if (_photoCache.Task != null)
             {
-                _photoStream = await _file.OpenReadAsync();
+                await Task.WhenAll(_photoCache.Task);
             }
 
-            return _photoStream.CloneStream();
+            if (_photoCache.Stream == null)
+            {
+                _photoCache.Invalidate();
+                _photoCache.Task = _file.OpenReadAsync().AsTask();
+                _photoCache.Stream = await _photoCache.Task;
+                _photoCache.Task = null;
+            }
+
+            return _photoCache.Stream.CloneStream();
         }
 
         public async Task<IRandomAccessStream> GetPreviewAsync()
         {
-            if (_previewStream == null)
+            if (_previewCache.Task != null)
+            {
+                await Task.WhenAll(_previewCache.Task);
+            }
+
+            if (_previewCache.Stream == null)
+            {
+                _previewCache.Invalidate();
+                _previewCache.Task = GetPreviewStreamAsync();
+                _previewCache.Stream = await _previewCache.Task;
+                _previewCache.Task = null;
+            }
+
+            return _previewCache.Stream.CloneStream();
+        }
+
+        public async Task<IRandomAccessStream> GetThumbnailAsync()
+        {
+            if (_thumbnailCache.Task != null)
+            {
+                await Task.WhenAll(_thumbnailCache.Task);
+            }
+
+            if (_thumbnailCache.Stream == null)
+            {
+                _thumbnailCache.Invalidate();
+                _thumbnailCache.Task = GetThumbnailStreamAsync();
+                _thumbnailCache.Stream = await _thumbnailCache.Task;
+                _thumbnailCache.Task = null;
+            }
+
+            return _thumbnailCache.Stream.CloneStream();
+        }
+
+        private async Task<IRandomAccessStream> GetPreviewStreamAsync()
+        {
+            var size = await GetPhotoResolutionAsync();
+
+            if (size.HasValue && (size.Value.Width > 1920 || size.Value.Height > 1920))
             {
                 using (var stream = await GetPhotoAsync())
                 {
@@ -146,50 +148,41 @@ namespace FilterExplorer.Models
                     var resizedStream = new InMemoryRandomAccessStream();
                     await resizedStream.WriteAsync(buffer);
 
-                    _previewStream = resizedStream;
+                    return resizedStream;
                 }
             }
-
-            return _previewStream.CloneStream();
-        }
-
-        public async Task<IRandomAccessStream> GetThumbnailAsync()
-        {
-            if (_thumbnailStream == null)
+            else
             {
-                var stream = await _file.GetThumbnailAsync(Windows.Storage.FileProperties.ThumbnailMode.PicturesView);
-
-                if (stream.ContentType == "image/bmp")
-                {
-                    // Imaging SDK does not handle BMP well at the moment, convert BMP to JPEG
-
-                    using (var photo = await GetPhotoAsync())
-                    {
-                        var buffer = new byte[photo.Size].AsBuffer();
-                        await photo.ReadAsync(buffer, buffer.Length, InputStreamOptions.None);
-
-                        var resizeConfiguration = new AutoResizeConfiguration(512 * 1024, new Size(300, 300), new Size(0, 0), AutoResizeMode.Automatic, 0.8, ColorSpace.Yuv420);
-                        buffer = await JpegTools.AutoResizeAsync(buffer, resizeConfiguration);
-
-                        var resizedStream = new InMemoryRandomAccessStream();
-                        await resizedStream.WriteAsync(buffer);
-
-                        _thumbnailStream = resizedStream;
-                    }
-                }
-                else
-                {
-                    _thumbnailStream = stream;
-                }
-
+                return await GetPhotoAsync();
             }
-
-            return _thumbnailStream.CloneStream();
         }
 
-        private void Filters_ItemsChanged(object sender, EventArgs e)
+        private async Task<IRandomAccessStream> GetThumbnailStreamAsync()
         {
-            Version += 1;
+            var stream = await _file.GetThumbnailAsync(Windows.Storage.FileProperties.ThumbnailMode.PicturesView);
+
+            if (stream.ContentType == "image/jpeg")
+            {
+                return stream;
+            }
+            else
+            {
+                // Imaging SDK does not handle BMP well at the moment, convert BMP to JPEG
+
+                using (var photo = await GetPhotoAsync())
+                {
+                    var buffer = new byte[photo.Size].AsBuffer();
+                    await photo.ReadAsync(buffer, buffer.Length, InputStreamOptions.None);
+
+                    var resizeConfiguration = new AutoResizeConfiguration(512 * 1024, new Size(300, 300), new Size(0, 0), AutoResizeMode.Automatic, 0.8, ColorSpace.Yuv420);
+                    buffer = await JpegTools.AutoResizeAsync(buffer, resizeConfiguration);
+
+                    var resizedStream = new InMemoryRandomAccessStream();
+                    await resizedStream.WriteAsync(buffer);
+
+                    return resizedStream;
+                }
+            }
         }
     }
 }
