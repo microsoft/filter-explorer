@@ -20,7 +20,7 @@ namespace FilterExplorer.Models
     {
         private Windows.Storage.StorageFile _file = null;
         private Windows.Storage.FileProperties.ImageProperties _properties = null;
-        private TaskResultCache<IRandomAccessStreamWithContentType> _photoCache = new TaskResultCache<IRandomAccessStreamWithContentType>();
+        private TaskResultCache<IRandomAccessStream> _photoCache = new TaskResultCache<IRandomAccessStream>();
         private TaskResultCache<IRandomAccessStream> _previewCache = new TaskResultCache<IRandomAccessStream>();
         private TaskResultCache<IRandomAccessStream> _thumbnailCache = new TaskResultCache<IRandomAccessStream>();
 
@@ -72,10 +72,9 @@ namespace FilterExplorer.Models
             {
                 await _photoCache.WaitAsync();
             }
-
-            if (_photoCache.Result == null)
+            else if (_photoCache.Result == null)
             {
-                await _photoCache.Execute(_file.OpenReadAsync().AsTask());
+                await _photoCache.Execute(GetPhotoStreamAsync());
             }
 
             return _photoCache.Result.CloneStream();
@@ -87,8 +86,7 @@ namespace FilterExplorer.Models
             {
                 await _previewCache.WaitAsync();
             }
-
-            if (_previewCache.Result == null)
+            else if (_previewCache.Result == null)
             {
                 await _previewCache.Execute(GetPreviewStreamAsync());
             }
@@ -102,8 +100,7 @@ namespace FilterExplorer.Models
             {
                 await _thumbnailCache.WaitAsync();
             }
-
-            if (_thumbnailCache.Result == null)
+            else if (_thumbnailCache.Result == null)
             {
                 await _thumbnailCache.Execute(GetThumbnailStreamAsync());
             }
@@ -111,8 +108,21 @@ namespace FilterExplorer.Models
             return _thumbnailCache.Result.CloneStream();
         }
 
+        private async Task<IRandomAccessStream> GetPhotoStreamAsync()
+        {
+#if DEBUG
+            System.Diagnostics.Debug.WriteLine("GetPhotoStreamAsync invoked " + this.GetHashCode());
+#endif
+
+            return await _file.OpenReadAsync();
+        }
+
         private async Task<IRandomAccessStream> GetPreviewStreamAsync()
         {
+#if DEBUG
+            System.Diagnostics.Debug.WriteLine("GetPreviewStreamAsync invoked " + this.GetHashCode());
+#endif
+
             var size = await GetPhotoResolutionAsync();
 
             if (size.HasValue && (size.Value.Width > 1920 || size.Value.Height > 1920))
@@ -139,6 +149,10 @@ namespace FilterExplorer.Models
 
         private async Task<IRandomAccessStream> GetThumbnailStreamAsync()
         {
+#if DEBUG
+            System.Diagnostics.Debug.WriteLine("GetThumbnailStreamAsync invoked " + this.GetHashCode());
+#endif
+
             var stream = await _file.GetThumbnailAsync(Windows.Storage.FileProperties.ThumbnailMode.PicturesView);
 
             if (stream.ContentType == "image/jpeg")

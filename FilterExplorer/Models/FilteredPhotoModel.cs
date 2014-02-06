@@ -109,8 +109,7 @@ namespace FilterExplorer.Models
             {
                 await _photoCache.WaitAsync();
             }
-
-            if (_photoCache.Result == null || _photoCache.Version != Version)
+            else if (_photoCache.Result == null || _photoCache.Version != Version)
             {
                 await _photoCache.Execute(GetFilteredPhotoStreamAsync(), Version);
             }
@@ -124,8 +123,7 @@ namespace FilterExplorer.Models
             {
                 await _previewCache.WaitAsync();
             }
-
-            if (_previewCache.Result == null || _previewCache.Version != Version)
+            else if (_previewCache.Result == null || _previewCache.Version != Version)
             {
                 await _previewCache.Execute(GetFilteredPreviewStreamAsync(), Version);
             }
@@ -139,8 +137,7 @@ namespace FilterExplorer.Models
             {
                 await _thumbnailCache.WaitAsync();
             }
-
-            if (_thumbnailCache.Result == null || _thumbnailCache.Version != Version)
+            else if (_thumbnailCache.Result == null || _thumbnailCache.Version != Version)
             {
                 await _thumbnailCache.Execute(GetFilteredThumbnailStreamAsync(), Version);
             }
