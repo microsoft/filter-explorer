@@ -43,7 +43,7 @@ namespace FilterExplorer.ViewModels
 
         public StreamThumbnailViewModel(FilteredPhotoModel photo)
         {
-            Model = photo;
+            Model = new FilteredPhotoModel(photo);
             Model.FilteredThumbnailChanged += Model_FilteredThumbnailChanged;
 
             UpdateFilteredThumbnailBitmap();

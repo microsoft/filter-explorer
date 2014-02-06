@@ -20,9 +20,9 @@ namespace FilterExplorer.Models
     {
         private Windows.Storage.StorageFile _file = null;
         private Windows.Storage.FileProperties.ImageProperties _properties = null;
-        private RandomAccessStreamCache<IRandomAccessStreamWithContentType> _photoCache = null;
-        private RandomAccessStreamCache<IRandomAccessStream> _previewCache = null;
-        private RandomAccessStreamCache<IRandomAccessStream> _thumbnailCache = null;
+        private TaskResultCache<IRandomAccessStreamWithContentType> _photoCache = new TaskResultCache<IRandomAccessStreamWithContentType>();
+        private TaskResultCache<IRandomAccessStream> _previewCache = new TaskResultCache<IRandomAccessStream>();
+        private TaskResultCache<IRandomAccessStream> _thumbnailCache = new TaskResultCache<IRandomAccessStream>();
 
         internal Windows.Storage.StorageFile File
         {
@@ -35,29 +35,18 @@ namespace FilterExplorer.Models
         public PhotoModel(Windows.Storage.StorageFile file)
         {
             _file = file;
-            _photoCache = new RandomAccessStreamCache<IRandomAccessStreamWithContentType>();
-            _previewCache = new RandomAccessStreamCache<IRandomAccessStream>();
-            _thumbnailCache = new RandomAccessStreamCache<IRandomAccessStream>();
-        }
-
-        public PhotoModel(Windows.Storage.StorageFile file, ObservableList<Filter> filters)
-        {
-            _file = file;
-            _photoCache = new RandomAccessStreamCache<IRandomAccessStreamWithContentType>();
-            _previewCache = new RandomAccessStreamCache<IRandomAccessStream>();
-            _thumbnailCache = new RandomAccessStreamCache<IRandomAccessStream>();
         }
 
         public PhotoModel(PhotoModel other)
         {
             _file = other._file;
-            _photoCache = new RandomAccessStreamCache<IRandomAccessStreamWithContentType>(other._photoCache);
-            _previewCache = new RandomAccessStreamCache<IRandomAccessStream>(other._previewCache);
-            _thumbnailCache = new RandomAccessStreamCache<IRandomAccessStream>(other._thumbnailCache);
         }
 
         ~PhotoModel()
         {
+            _photoCache.Invalidate();
+            _previewCache.Invalidate();
+            _thumbnailCache.Invalidate();
         }
 
         public async Task<Size?> GetPhotoResolutionAsync()
@@ -79,56 +68,47 @@ namespace FilterExplorer.Models
 
         public async Task<IRandomAccessStream> GetPhotoAsync()
         {
-            if (_photoCache.Task != null)
+            if (_photoCache.Pending)
             {
-                await Task.WhenAll(_photoCache.Task);
+                await _photoCache.WaitAsync();
             }
 
-            if (_photoCache.Stream == null)
+            if (_photoCache.Result == null)
             {
-                _photoCache.Invalidate();
-                _photoCache.Task = _file.OpenReadAsync().AsTask();
-                _photoCache.Stream = await _photoCache.Task;
-                _photoCache.Task = null;
+                await _photoCache.Execute(_file.OpenReadAsync().AsTask());
             }
 
-            return _photoCache.Stream.CloneStream();
+            return _photoCache.Result.CloneStream();
         }
 
         public async Task<IRandomAccessStream> GetPreviewAsync()
         {
-            if (_previewCache.Task != null)
+            if (_previewCache.Pending)
             {
-                await Task.WhenAll(_previewCache.Task);
+                await _previewCache.WaitAsync();
             }
 
-            if (_previewCache.Stream == null)
+            if (_previewCache.Result == null)
             {
-                _previewCache.Invalidate();
-                _previewCache.Task = GetPreviewStreamAsync();
-                _previewCache.Stream = await _previewCache.Task;
-                _previewCache.Task = null;
+                await _previewCache.Execute(GetPreviewStreamAsync());
             }
 
-            return _previewCache.Stream.CloneStream();
+            return _previewCache.Result.CloneStream();
         }
 
         public async Task<IRandomAccessStream> GetThumbnailAsync()
         {
-            if (_thumbnailCache.Task != null)
+            if (_thumbnailCache.Pending)
             {
-                await Task.WhenAll(_thumbnailCache.Task);
+                await _thumbnailCache.WaitAsync();
             }
 
-            if (_thumbnailCache.Stream == null)
+            if (_thumbnailCache.Result == null)
             {
-                _thumbnailCache.Invalidate();
-                _thumbnailCache.Task = GetThumbnailStreamAsync();
-                _thumbnailCache.Stream = await _thumbnailCache.Task;
-                _thumbnailCache.Task = null;
+                await _thumbnailCache.Execute(GetThumbnailStreamAsync());
             }
 
-            return _thumbnailCache.Stream.CloneStream();
+            return _thumbnailCache.Result.CloneStream();
         }
 
         private async Task<IRandomAccessStream> GetPreviewStreamAsync()

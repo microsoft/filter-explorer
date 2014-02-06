@@ -30,9 +30,9 @@ namespace FilterExplorer.ViewModels
         public IDelegateCommand RemoveFilterCommand { get; private set; }
         public IDelegateCommand RemoveAllFiltersCommand { get; private set; }
 
-        private PhotoPreviewViewModel _preview = null;
+        private PreviewViewModel _preview = null;
 
-        public PhotoPreviewViewModel Preview
+        public PreviewViewModel Preview
         {
             get
             {
@@ -91,11 +91,11 @@ namespace FilterExplorer.ViewModels
 
                     if (file != null)
                     {
-                        var photo = new FilteredPhotoModel(file);
+                        var model = new FilteredPhotoModel(file);
 
-                        SessionModel.Instance.Photo = photo;
+                        SessionModel.Instance.Photo = model;
 
-                        Preview = new PhotoPreviewViewModel(SessionModel.Instance.Photo);
+                        Preview = new PreviewViewModel(SessionModel.Instance.Photo);
                     }
                 });
 
@@ -163,7 +163,7 @@ namespace FilterExplorer.ViewModels
 
                 if (SessionModel.Instance.Photo != null)
                 {
-                    Preview = new PhotoPreviewViewModel(SessionModel.Instance.Photo);
+                    Preview = new PreviewViewModel(SessionModel.Instance.Photo);
 
                     IsInitialized = true;
                 }

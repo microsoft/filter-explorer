@@ -23,17 +23,17 @@ namespace FilterExplorer.ViewModels
         public IDelegateCommand GoBackCommand { get; private set; }
         public IDelegateCommand ApplyFilterCommand { get; private set; }
 
-        public ObservableCollection<FilterThumbnailViewModel> Thumbnails { get; private set; }
+        public ObservableCollection<ThumbnailViewModel> Thumbnails { get; private set; }
 
         public FilterPageViewModel()
         {
-            Thumbnails = new ObservableCollection<FilterThumbnailViewModel>();
+            Thumbnails = new ObservableCollection<ThumbnailViewModel>();
 
             GoBackCommand = CommandFactory.CreateGoBackCommand();
 
             ApplyFilterCommand = new DelegateCommand((parameter) =>
             {
-                var viewModel = (FilterThumbnailViewModel)parameter;
+                var viewModel = (ThumbnailViewModel)parameter;
 
                 SessionModel.Instance.Photo.Filters.Add(viewModel.Filter);
 
@@ -52,7 +52,7 @@ namespace FilterExplorer.ViewModels
 
                 foreach (var filter in filters)
                 {
-                    Thumbnails.Add(new FilterThumbnailViewModel(SessionModel.Instance.Photo, filter));
+                    Thumbnails.Add(new ThumbnailViewModel(SessionModel.Instance.Photo, filter));
                 }
 
                 Processing = false;

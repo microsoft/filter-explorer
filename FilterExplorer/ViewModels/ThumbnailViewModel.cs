@@ -12,7 +12,7 @@ using Windows.UI.Xaml.Media.Imaging;
 
 namespace FilterExplorer.ViewModels
 {
-    public class FilterThumbnailViewModel : INotifyPropertyChanged
+    public class ThumbnailViewModel : INotifyPropertyChanged
     {
         private string _title = null;
         private Filter _filter = null;
@@ -65,6 +65,11 @@ namespace FilterExplorer.ViewModels
         {
             get
             {
+                if (_thumbnail == null)
+                {
+                    UpdateThumbnailAsync();
+                }
+
                 return _thumbnail;
             }
 
@@ -82,32 +87,17 @@ namespace FilterExplorer.ViewModels
             }
         }
 
-        public FilterThumbnailViewModel(FilteredPhotoModel photo, Filter filter)
+        public ThumbnailViewModel(FilteredPhotoModel model, Filter filter)
         {
-            Model = photo;
-            Model.Filters.ItemsChanged += Model_Filters_ItemsChanged;
+            Model = new FilteredPhotoModel(model);
+            Model.Filters.Add(filter);
 
             Filter = filter;
-
-            UpdateFilteredThumbnailBitmap();
         }
 
-        ~FilterThumbnailViewModel()
+        private async void UpdateThumbnailAsync()
         {
-            Model.Filters.ItemsChanged -= Model_Filters_ItemsChanged;
-        }
-
-        private void Model_Filters_ItemsChanged(object sender, EventArgs e)
-        {
-            UpdateFilteredThumbnailBitmap();
-        }
-
-        private async void UpdateFilteredThumbnailBitmap()
-        {
-            var modelCopy = new FilteredPhotoModel(Model);
-            modelCopy.Filters.Add(Filter);
-
-            using (var stream = await modelCopy.GetFilteredThumbnailAsync())
+            using (var stream = await Model.GetFilteredThumbnailAsync())
             {
                 var bitmap = new BitmapImage();
                 bitmap.SetSource(stream);

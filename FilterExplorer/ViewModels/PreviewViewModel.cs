@@ -13,7 +13,7 @@ using Windows.UI.Xaml.Media.Imaging;
 
 namespace FilterExplorer.ViewModels
 {
-    public class PhotoPreviewViewModel : INotifyPropertyChanged
+    public class PreviewViewModel : INotifyPropertyChanged
     {
         private BitmapImage _preview = null;
         private Size? _resolution = null;
@@ -72,16 +72,16 @@ namespace FilterExplorer.ViewModels
             }
         }
 
-        public PhotoPreviewViewModel(FilteredPhotoModel photo)
+        public PreviewViewModel(FilteredPhotoModel model)
         {
-            Model = photo;
+            Model = model;
             Model.FilteredPhotoChanged += Model_FilteredPhotoChanged;
 
             UpdateResolution();
             UpdatePreview();
         }
 
-        ~PhotoPreviewViewModel()
+        ~PreviewViewModel()
         {
             Model.FilteredPhotoChanged -= Model_FilteredPhotoChanged;
         }

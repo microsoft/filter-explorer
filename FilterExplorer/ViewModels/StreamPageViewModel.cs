@@ -31,7 +31,7 @@ namespace FilterExplorer.ViewModels
         public IDelegateCommand CapturePhotoCommand { get; private set; }
         public IDelegateCommand RefreshPhotosCommand { get; private set; }
 
-        public ObservableCollection<StreamThumbnailViewModel> Thumbnails { get; private set; }
+        public ObservableCollection<ThumbnailViewModel> Thumbnails { get; private set; }
 
         public string FolderName
         {
@@ -53,16 +53,15 @@ namespace FilterExplorer.ViewModels
 
         public StreamPageViewModel()
         {
-            Thumbnails = new ObservableCollection<StreamThumbnailViewModel>();
+            Thumbnails = new ObservableCollection<ThumbnailViewModel>();
 
             GoBackCommand = CommandFactory.CreateGoBackCommand();
 
             SelectPhotoCommand = new DelegateCommand((parameter) =>
                 {
-                    var viewModel = (StreamThumbnailViewModel)parameter;
-                    var modelCopy = new FilteredPhotoModel(viewModel.Model);
+                    var viewModel = (ThumbnailViewModel)parameter;
 
-                    SessionModel.Instance.Photo = modelCopy;
+                    SessionModel.Instance.Photo = new FilteredPhotoModel(viewModel.Model);
 
                     var frame = (Frame)Window.Current.Content;
                     frame.Navigate(typeof(PhotoPage));
@@ -75,9 +74,7 @@ namespace FilterExplorer.ViewModels
 
                     if (file != null)
                     {
-                        var photo = new FilteredPhotoModel(file);
-
-                        SessionModel.Instance.Photo = photo;
+                        SessionModel.Instance.Photo = new FilteredPhotoModel(file);
 
                         var frame = (Frame)Window.Current.Content;
                         frame.Navigate(typeof(PhotoPage));
@@ -104,9 +101,7 @@ namespace FilterExplorer.ViewModels
 
                     if (file != null)
                     {
-                        var photo = new FilteredPhotoModel(file);
-
-                        SessionModel.Instance.Photo = photo;
+                        SessionModel.Instance.Photo = new FilteredPhotoModel(file);
 
                         var frame = (Frame)Window.Current.Content;
                         frame.Navigate(typeof(PhotoPage));
@@ -150,35 +145,31 @@ namespace FilterExplorer.ViewModels
             {
                 FolderName = SessionModel.Instance.Folder.Name;
 
-                var photos = await PhotoLibraryModel.GetPhotosFromFolderAsync(SessionModel.Instance.Folder, 128);
+                var models = await PhotoLibraryModel.GetPhotosFromFolderAsync(SessionModel.Instance.Folder, 128);
 
-                foreach (var photo in photos)
+                foreach (var model in models)
                 {
-                    photo.Filters.Add(TakeRandomFilter(filters));
-
-                    Thumbnails.Add(new StreamThumbnailViewModel(photo));
+                    Thumbnails.Add(new ThumbnailViewModel(model, TakeRandomFilter(filters)));
                 }
             }
             else
             {
-                var photos = await PhotoLibraryModel.GetPhotosFromFolderAsync(Windows.Storage.KnownFolders.CameraRoll, 128);
+                var models = await PhotoLibraryModel.GetPhotosFromFolderAsync(Windows.Storage.KnownFolders.CameraRoll, 128);
 
-                if (photos.Count > 0)
+                if (models.Count > 0)
                 {
                     FolderName = Windows.Storage.KnownFolders.CameraRoll.Name;
                 }
                 else
                 {
-                    photos = await PhotoLibraryModel.GetPhotosFromFolderAsync(Windows.Storage.KnownFolders.PicturesLibrary, 128);
+                    models = await PhotoLibraryModel.GetPhotosFromFolderAsync(Windows.Storage.KnownFolders.PicturesLibrary, 128);
 
                     FolderName = Windows.Storage.KnownFolders.PicturesLibrary.Name;
                 }
 
-                foreach (var photo in photos)
+                foreach (var model in models)
                 {
-                    photo.Filters.Add(TakeRandomFilter(filters));
-
-                    Thumbnails.Add(new StreamThumbnailViewModel(photo));
+                    Thumbnails.Add(new ThumbnailViewModel(model, TakeRandomFilter(filters)));
                 }
             }
 
