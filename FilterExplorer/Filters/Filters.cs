@@ -45,7 +45,7 @@ namespace FilterExplorer.Filters
     //public class AlphaToGrayscaleFilter : Filter { public override Nokia.Graphics.Imaging.IFilter GetFilter() { return new Nokia.Graphics.Imaging.AlphaToGrayscaleFilter(); } }
     public class AntiqueFilter : Filter { public override Nokia.Graphics.Imaging.IFilter GetFilter() { return new Nokia.Graphics.Imaging.AntiqueFilter(); } }
     public class AutoEnhanceFilter : Filter { public override Nokia.Graphics.Imaging.IFilter GetFilter() { return new Nokia.Graphics.Imaging.AutoEnhanceFilter(true, true); } }
-    public class AutoLevelsFilter : Filter { public override Nokia.Graphics.Imaging.IFilter GetFilter() { return new Nokia.Graphics.Imaging.AutoLevelsFilter(); } }
+    //public class AutoLevelsFilter : Filter { public override Nokia.Graphics.Imaging.IFilter GetFilter() { return new Nokia.Graphics.Imaging.AutoLevelsFilter(); } }
     //public class BlendFilter : Filter { public override Nokia.Graphics.Imaging.IFilter GetFilter() { return new Nokia.Graphics.Imaging.BlendFilter(); } }
     public class BlurFilter : Filter { public override Nokia.Graphics.Imaging.IFilter GetFilter() { return new Nokia.Graphics.Imaging.BlurFilter(5); } }
     public class BrightnessFilter : Filter { public override Nokia.Graphics.Imaging.IFilter GetFilter() { return new Nokia.Graphics.Imaging.BrightnessFilter(0.35f); } }
