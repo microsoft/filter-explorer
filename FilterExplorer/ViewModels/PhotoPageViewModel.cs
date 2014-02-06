@@ -25,10 +25,11 @@ namespace FilterExplorer.ViewModels
         public IDelegateCommand OpenPhotoCommand { get; private set; }
         public IDelegateCommand SavePhotoCommand { get; private set; }
         public IDelegateCommand SharePhotoCommand { get; private set; }
+        public IDelegateCommand ShowAboutCommand { get; private set; }
         public IDelegateCommand AddFilterCommand { get; private set; }
         public IDelegateCommand RemoveFilterCommand { get; private set; }
         public IDelegateCommand RemoveAllFiltersCommand { get; private set; }
-
+        
         private PreviewViewModel _preview = null;
 
         public PreviewViewModel Preview
@@ -113,6 +114,12 @@ namespace FilterExplorer.ViewModels
                     {
                         return PhotoShareModel.Available;
                     });
+
+            ShowAboutCommand = new DelegateCommand((parameter) =>
+                {
+                    var frame = (Frame)Window.Current.Content;
+                    frame.Navigate(typeof(AboutPage));
+                });
 
             AddFilterCommand = new DelegateCommand(
                 (parameter) =>

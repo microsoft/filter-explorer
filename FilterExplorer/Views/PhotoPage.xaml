@@ -67,6 +67,7 @@
                 <AppBarButton x:Uid="PhotoPageOpenPhotoButton" Icon="OpenFile" Command="{Binding OpenPhotoCommand}"/>
                 <AppBarButton x:Uid="PhotoPageSavePhotoButton" Icon="Save" Command="{Binding SavePhotoCommand}"/>
                 <AppBarButton x:Uid="PhotoPageSharePhotoButton" Icon="ReShare" Command="{Binding SharePhotoCommand}"/>
+                <AppBarButton x:Uid="PhotoPageShowAboutButton" Icon="Help" Command="{Binding ShowAboutCommand}"/>
             </CommandBar.SecondaryCommands>
         </CommandBar>
     </Page.BottomAppBar>

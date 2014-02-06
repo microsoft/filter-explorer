@@ -115,6 +115,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters\VersionStringConverter.cs" />
     <Compile Include="Converters\BoolVisibilityConverter.cs" />
     <Compile Include="Converters\ResolutionStringConverter.cs" />
     <Compile Include="Converters\FilterListStringConverter.cs" />
@@ -128,10 +129,14 @@
     <Compile Include="Models\SessionModel.cs" />
     <Compile Include="Utilities\ObservableList.cs" />
     <Compile Include="Utilities\TaskResultCache.cs" />
+    <Compile Include="ViewModels\AboutPageViewModel.cs" />
     <Compile Include="ViewModels\ThumbnailViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="ViewModels\PreviewViewModel.cs" />
     <Compile Include="Models\PhotoModel.cs" />
+    <Compile Include="Views\AboutPage.xaml.cs">
+      <DependentUpon>AboutPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\PhotoPage.xaml.cs">
       <DependentUpon>PhotoPage.xaml</DependentUpon>
     </Compile>
@@ -165,6 +170,10 @@
     <Content Include="Assets\Square70x70Logo.scale-180.png" />
     <Content Include="Assets\StoreLogo.scale-180.png" />
     <Content Include="Assets\Wide310x150Logo.scale-180.png" />
+    <Page Include="Views\AboutPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\FilterPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

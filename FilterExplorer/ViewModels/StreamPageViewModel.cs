@@ -32,6 +32,7 @@ namespace FilterExplorer.ViewModels
         public IDelegateCommand OpenFolderCommand { get; private set; }
         public IDelegateCommand CapturePhotoCommand { get; private set; }
         public IDelegateCommand RefreshPhotosCommand { get; private set; }
+        public IDelegateCommand ShowAboutCommand { get; private set; }
 
         public ObservableCollection<ThumbnailViewModel> Thumbnails { get; private set; }
 
@@ -108,6 +109,12 @@ namespace FilterExplorer.ViewModels
                         var frame = (Frame)Window.Current.Content;
                         frame.Navigate(typeof(PhotoPage));
                     }
+                });
+
+            ShowAboutCommand = new DelegateCommand((parameter) =>
+                {
+                    var frame = (Frame)Window.Current.Content;
+                    frame.Navigate(typeof(AboutPage));
                 });
 
             RefreshPhotosCommand = new DelegateCommand(
