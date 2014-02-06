@@ -150,14 +150,14 @@
   <data name="ChromaKeyFilterName" xml:space="preserve">
     <value>Chroma key</value>
   </data>
-  <data name="ColorAdjustBlueFilterName" xml:space="preserve">
-    <value>Adjust blue color</value>
+  <data name="AdjustColorBlueFilterName" xml:space="preserve">
+    <value>Adjust color blue</value>
   </data>
-  <data name="ColorAdjustGreenFilterName" xml:space="preserve">
-    <value>Adjust green color</value>
+  <data name="AdjustColorGreenFilterName" xml:space="preserve">
+    <value>Adjust color green</value>
   </data>
-  <data name="ColorAdjustRedFilterName" xml:space="preserve">
-    <value>Adjust red color</value>
+  <data name="AdjustColorRedFilterName" xml:space="preserve">
+    <value>Adjust color red</value>
   </data>
   <data name="ColorBoostFilterName" xml:space="preserve">
     <value>Color boost</value>
@@ -165,8 +165,8 @@
   <data name="ColorizationFilterName" xml:space="preserve">
     <value>Colorization</value>
   </data>
-  <data name="ColorSwapFilterName" xml:space="preserve">
-    <value>Color swap</value>
+  <data name="SwapRedGreenFilterName" xml:space="preserve">
+    <value>Swap red to green</value>
   </data>
   <data name="ContrastFilterName" xml:space="preserve">
     <value>Contrast</value>
@@ -212,9 +212,6 @@
   </data>
   <data name="ImageFusionFilterName" xml:space="preserve">
     <value>Image fusion</value>
-  </data>
-  <data name="LevelsFilterName" xml:space="preserve">
-    <value>Levels</value>
   </data>
   <data name="LocalBoostAutomaticFilterName" xml:space="preserve">
     <value>Local boost automatic</value>
@@ -377,5 +374,23 @@
   </data>
   <data name="StreamPageRefreshPhotosButton.Label" xml:space="preserve">
     <value>Refresh</value>
+  </data>
+  <data name="LevelsFilterName" xml:space="preserve">
+    <value>Levels</value>
+  </data>
+  <data name="SwapBlueGreenFilterName" xml:space="preserve">
+    <value>Swap blue to green</value>
+  </data>
+  <data name="SwapBlueRedFilterName" xml:space="preserve">
+    <value>Swap blue to red</value>
+  </data>
+  <data name="SwapGreenBlueFilterName" xml:space="preserve">
+    <value>Swap green to blue</value>
+  </data>
+  <data name="SwapGreenRedFilterName" xml:space="preserve">
+    <value>Swap green to red</value>
+  </data>
+  <data name="SwapRedBlueFilterName" xml:space="preserve">
+    <value>Swap red to blue</value>
   </data>
 </root>
