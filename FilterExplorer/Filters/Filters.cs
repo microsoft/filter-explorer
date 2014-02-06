@@ -52,7 +52,9 @@ namespace FilterExplorer.Filters
     public class CartoonFilter : Filter { public override Nokia.Graphics.Imaging.IFilter GetFilter() { return new Nokia.Graphics.Imaging.CartoonFilter(true); } }
     //public class ChromaKeyFilter : Filter { public override Nokia.Graphics.Imaging.IFilter GetFilter() { return new Nokia.Graphics.Imaging.ChromaKeyFilter(); } }
     public class ColorBoostFilter : Filter { public override Nokia.Graphics.Imaging.IFilter GetFilter() { return new Nokia.Graphics.Imaging.ColorBoostFilter(1.0f); } }
-    public class ColorizationFilter : Filter { public override Nokia.Graphics.Imaging.IFilter GetFilter() { return new Nokia.Graphics.Imaging.ColorizationFilter(); } }
+    public class ColorizationBlueFilter : Filter { public override Nokia.Graphics.Imaging.IFilter GetFilter() { return new Nokia.Graphics.Imaging.ColorizationFilter(Windows.UI.Color.FromArgb(0xff, 0x00, 0x00, 0xff), 0.25, 0.25); } }
+    public class ColorizationGreenFilter : Filter { public override Nokia.Graphics.Imaging.IFilter GetFilter() { return new Nokia.Graphics.Imaging.ColorizationFilter(Windows.UI.Color.FromArgb(0xff, 0x00, 0xff, 0x00), 0.25, 0.25); } }
+    public class ColorizationRedFilter : Filter { public override Nokia.Graphics.Imaging.IFilter GetFilter() { return new Nokia.Graphics.Imaging.ColorizationFilter(Windows.UI.Color.FromArgb(0xff, 0xff, 0x00, 0x00), 0.25, 0.25); } }
     public class ContrastFilter : Filter { public override Nokia.Graphics.Imaging.IFilter GetFilter() { return new Nokia.Graphics.Imaging.ContrastFilter(0.8f); } }
     //public class CropFilter : Filter { public override Nokia.Graphics.Imaging.IFilter GetFilter() { return new Nokia.Graphics.Imaging.CropFilter(); } }
     //public class CurvesFilter : Filter { public override Nokia.Graphics.Imaging.IFilter GetFilter() { return new Nokia.Graphics.Imaging.CurvesFilter(); } }
@@ -67,7 +69,7 @@ namespace FilterExplorer.Filters
     public class GrayscaleNegativeFilter : Filter { public override Nokia.Graphics.Imaging.IFilter GetFilter() { return new Nokia.Graphics.Imaging.GrayscaleNegativeFilter(); } }
     public class HueSaturationFilter : Filter { public override Nokia.Graphics.Imaging.IFilter GetFilter() { return new Nokia.Graphics.Imaging.HueSaturationFilter(0.9, 0.9); } }
     //public class ImageFusionFilter : Filter { public override Nokia.Graphics.Imaging.IFilter GetFilter() { return new Nokia.Graphics.Imaging.ImageFusionFilter(); } }
-    public class LevelsFilter : Filter { public override Nokia.Graphics.Imaging.IFilter GetFilter() { return new Nokia.Graphics.Imaging.LevelsFilter(0.3f, 0.5f, 0.1f); } }
+    //public class LevelsFilter : Filter { public override Nokia.Graphics.Imaging.IFilter GetFilter() { return new Nokia.Graphics.Imaging.LevelsFilter(0.3f, 0.5f, 0.1f); } }
     //public class LocalBoostFilter : Filter { public override Nokia.Graphics.Imaging.IFilter GetFilter() { return new Nokia.Graphics.Imaging.LocalBoostFilter(); } }
     public class LocalBoostAutomaticFilter : Filter { public override Nokia.Graphics.Imaging.IFilter GetFilter() { return new Nokia.Graphics.Imaging.LocalBoostAutomaticFilter(); } }
     public class LomoFilter : Filter { public override Nokia.Graphics.Imaging.IFilter GetFilter() { return new Nokia.Graphics.Imaging.LomoFilter(0.5f, 0.75f, LomoVignetting.Medium, LomoStyle.Neutral); } }

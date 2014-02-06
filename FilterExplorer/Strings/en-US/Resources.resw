@@ -162,9 +162,6 @@
   <data name="ColorBoostFilterName" xml:space="preserve">
     <value>Color boost</value>
   </data>
-  <data name="ColorizationFilterName" xml:space="preserve">
-    <value>Colorization</value>
-  </data>
   <data name="SwapRedGreenFilterName" xml:space="preserve">
     <value>Swap red to green</value>
   </data>
@@ -392,5 +389,14 @@
   </data>
   <data name="SwapRedBlueFilterName" xml:space="preserve">
     <value>Swap red to blue</value>
+  </data>
+  <data name="ColorizationBlueFilterName" xml:space="preserve">
+    <value>Colorization blue</value>
+  </data>
+  <data name="ColorizationGreenFilterName" xml:space="preserve">
+    <value>Colorization green</value>
+  </data>
+  <data name="ColorizationRedFilterName" xml:space="preserve">
+    <value>Colorization red</value>
   </data>
 </root>
