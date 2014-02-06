@@ -12,13 +12,11 @@ using Windows.UI.Xaml.Media.Imaging;
 
 namespace FilterExplorer.ViewModels
 {
-    public class ThumbnailViewModel : INotifyPropertyChanged
+    public class ThumbnailViewModel : ViewModelBase
     {
         private string _title = null;
         private Filter _filter = null;
         private BitmapImage _thumbnail = null;
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         internal FilteredPhotoModel Model { get; private set; }
 
@@ -53,10 +51,7 @@ namespace FilterExplorer.ViewModels
                 {
                     _title = value;
 
-                    if (PropertyChanged != null)
-                    {
-                        PropertyChanged(this, new PropertyChangedEventArgs("Title"));
-                    }
+                    Notify("Title");
                 }
             }
         }
@@ -79,10 +74,7 @@ namespace FilterExplorer.ViewModels
                 {
                     _thumbnail = value;
 
-                    if (PropertyChanged != null)
-                    {
-                        PropertyChanged(this, new PropertyChangedEventArgs("Thumbnail"));
-                    }
+                    Notify("Thumbnail");
                 }
             }
         }
@@ -97,6 +89,8 @@ namespace FilterExplorer.ViewModels
 
         private async void UpdateThumbnailAsync()
         {
+            Processing = true;
+
             using (var stream = await Model.GetFilteredThumbnailAsync())
             {
                 var bitmap = new BitmapImage();
@@ -104,6 +98,8 @@ namespace FilterExplorer.ViewModels
 
                 Thumbnail = bitmap;
             }
+
+            Processing = false;
         }
     }
 }

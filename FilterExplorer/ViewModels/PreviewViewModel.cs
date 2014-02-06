@@ -13,12 +13,10 @@ using Windows.UI.Xaml.Media.Imaging;
 
 namespace FilterExplorer.ViewModels
 {
-    public class PreviewViewModel : INotifyPropertyChanged
+    public class PreviewViewModel : ViewModelBase
     {
         private BitmapImage _preview = null;
         private Size? _resolution = null;
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         internal FilteredPhotoModel Model { get; private set; }
 
@@ -43,10 +41,7 @@ namespace FilterExplorer.ViewModels
                 {
                     _resolution = value;
 
-                    if (PropertyChanged != null)
-                    {
-                        PropertyChanged(this, new PropertyChangedEventArgs("Resolution"));
-                    }
+                    Notify("Resolution");
                 }
             }
         }
@@ -64,10 +59,7 @@ namespace FilterExplorer.ViewModels
                 {
                     _preview = value;
 
-                    if (PropertyChanged != null)
-                    {
-                        PropertyChanged(this, new PropertyChangedEventArgs("Preview"));
-                    }
+                    Notify("Preview");
                 }
             }
         }
@@ -93,14 +85,13 @@ namespace FilterExplorer.ViewModels
                 UpdatePreview();
             }
 
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs("Filters"));
-            }
+            Notify("Filters");
         }
 
         private async void UpdatePreview()
         {
+            Processing = true;
+
             using (var stream = await Model.GetFilteredPreviewAsync())
             {
                 var bitmap = new BitmapImage();
@@ -108,6 +99,8 @@ namespace FilterExplorer.ViewModels
 
                 Preview = bitmap;
             }
+
+            Processing = false;
         }
 
         private async void UpdateResolution()

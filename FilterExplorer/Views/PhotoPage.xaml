@@ -16,34 +16,31 @@
     </Page.Resources>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Tapped="Grid_Tapped">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="617*"/>
-            <ColumnDefinition Width="750*"/>
-        </Grid.ColumnDefinitions>
-
-        <ProgressBar VerticalAlignment="Top" Margin="0,5,0,5" IsEnabled="{Binding Processing}" IsIndeterminate="{Binding Processing}"
-                     Visibility="{Binding Processing, Converter={StaticResource BoolVisibilityConverter}}"/>
-        
         <Image Source="{Binding Preview.Preview}" Grid.ColumnSpan="2"/>
     </Grid>
 
     <Page.TopAppBar>
         <AppBar x:Name="AppBar" IsOpen="True">
-            <Grid Margin="30,6,30,15">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
+            <Grid>
+                <Grid Margin="30,6,30,15">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
 
-                <TextBlock x:Uid="PhotoPageFiltersTitle" Style="{StaticResource TitleTextBlockStyle}"/>
-                <TextBlock x:Uid="PhotoPageResolutionTitle" Grid.Column="1" Style="{StaticResource TitleTextBlockStyle}"/>
+                    <TextBlock x:Uid="PhotoPageFiltersTitle" Style="{StaticResource TitleTextBlockStyle}"/>
+                    <TextBlock x:Uid="PhotoPageResolutionTitle" Grid.Column="1" Style="{StaticResource TitleTextBlockStyle}"/>
 
-                <TextBlock Grid.Row="1" Margin="0,0,30,0" Text="{Binding Preview.Filters, Converter={StaticResource FilterListStringConverter}, ConverterParameter=' &#x21E2; '}" Style="{StaticResource BodyTextBlockStyle}"/>
-                <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Preview.Resolution, Converter={StaticResource ResolutionStringConverter}}" Style="{StaticResource BodyTextBlockStyle}"/>
+                    <TextBlock Grid.Row="1" Margin="0,0,30,0" Text="{Binding Preview.Filters, Converter={StaticResource FilterListStringConverter}, ConverterParameter=' &#x21E2; '}" Style="{StaticResource BodyTextBlockStyle}"/>
+                    <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Preview.Resolution, Converter={StaticResource ResolutionStringConverter}}" Style="{StaticResource BodyTextBlockStyle}"/>
+                </Grid>
+
+                <ProgressBar VerticalAlignment="Top" Margin="0,2,0,0" IsEnabled="{Binding Preview.Processing}" IsIndeterminate="{Binding Preview.Processing}"
+                     Visibility="{Binding Preview.Processing, Converter={StaticResource BoolVisibilityConverter}}"/>
             </Grid>
         </AppBar>
     </Page.TopAppBar>

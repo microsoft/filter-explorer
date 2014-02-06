@@ -21,9 +21,6 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <ProgressBar VerticalAlignment="Top" Margin="0,5,0,5" IsEnabled="{Binding Processing}" IsIndeterminate="{Binding Processing}"
-                     Visibility="{Binding Processing, Converter={StaticResource BoolVisibilityConverter}}"/>
-
         <GridView Grid.RowSpan="2" Padding="116,136,116,46" SelectionMode="None" ItemsSource="{Binding Thumbnails}"
                   IsItemClickEnabled="True" ItemClick="GridView_ItemClick">
             <GridView.ItemTemplate>
@@ -32,10 +29,6 @@
                         <Border Background="{ThemeResource ListViewItemPlaceholderBackgroundThemeBrush}">
                             <Image Source="{Binding Thumbnail}" Stretch="UniformToFill"/>
                         </Border>
-                        <!--<StackPanel VerticalAlignment="Bottom" Background="{ThemeResource ListViewItemOverlayBackgroundThemeBrush}">
-                            <TextBlock Text="{Binding Title}" Foreground="{ThemeResource ListViewItemOverlayForegroundThemeBrush}" Style="{StaticResource BaseTextBlockStyle}" Height="60" Margin="15,0,15,0" FontWeight="SemiBold"/>
-                            <TextBlock Text="{Binding Subtitle}" Foreground="{ThemeResource ListViewItemOverlaySecondaryForegroundThemeBrush}" Style="{StaticResource BaseTextBlockStyle}" TextWrapping="NoWrap" Margin="15,0,15,10" FontSize="12"/>
-                        </StackPanel>-->
                     </Grid>
                 </DataTemplate>
             </GridView.ItemTemplate>
@@ -49,6 +42,9 @@
             <TextBlock x:Uid="StreamPageTitle" Style="{StaticResource HeaderTextBlockStyle}" Grid.Column="1" 
                        IsHitTestVisible="false" TextWrapping="NoWrap" VerticalAlignment="Bottom" Margin="0,0,30,40"/>
         </Grid>
+
+        <ProgressBar VerticalAlignment="Top" Margin="0,2,0,0" IsEnabled="{Binding Processing}" IsIndeterminate="{Binding Processing}"
+                     Visibility="{Binding Processing, Converter={StaticResource BoolVisibilityConverter}}"/>
     </Grid>
 
     <Page.BottomAppBar>

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace FilterExplorer.ViewModels
 {
-    public abstract class PageViewModelBase : INotifyPropertyChanged
+    public abstract class ViewModelBase : INotifyPropertyChanged
     {
         private bool _isInitialized = false;
         private bool _processing = false;
@@ -58,6 +58,9 @@ namespace FilterExplorer.ViewModels
             }
         }
 
-        public abstract Task<bool> InitializeAsync();
+        public virtual Task<bool> InitializeAsync()
+        {
+            return Task.FromResult(false);
+        }
     }
 }

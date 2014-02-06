@@ -20,7 +20,7 @@ using Windows.UI.Xaml.Media.Imaging;
 
 namespace FilterExplorer.ViewModels
 {
-    public class StreamPageViewModel : PageViewModelBase
+    public class StreamPageViewModel : ViewModelBase
     {
         private string _folderName = null;
         private Random _random = new Random(DateTime.Now.Millisecond + 1);

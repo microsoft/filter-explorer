@@ -129,7 +129,7 @@
     <Compile Include="Utilities\ObservableList.cs" />
     <Compile Include="Utilities\TaskResultCache.cs" />
     <Compile Include="ViewModels\ThumbnailViewModel.cs" />
-    <Compile Include="ViewModels\PageViewModelBase.cs" />
+    <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="ViewModels\PreviewViewModel.cs" />
     <Compile Include="Models\PhotoModel.cs" />
     <Compile Include="Views\PhotoPage.xaml.cs">

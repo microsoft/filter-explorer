@@ -19,7 +19,7 @@ using Windows.UI.Xaml.Media.Imaging;
 
 namespace FilterExplorer.ViewModels
 {
-    public class PhotoPageViewModel : PageViewModelBase
+    public class PhotoPageViewModel : ViewModelBase
     {
         public IDelegateCommand GoBackCommand { get; private set; }
         public IDelegateCommand CapturePhotoCommand { get; private set; }

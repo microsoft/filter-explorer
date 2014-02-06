@@ -18,7 +18,7 @@ using Windows.UI.Xaml.Media.Imaging;
 
 namespace FilterExplorer.ViewModels
 {
-    public class FilterPageViewModel : PageViewModelBase
+    public class FilterPageViewModel : ViewModelBase
     {
         public IDelegateCommand GoBackCommand { get; private set; }
         public IDelegateCommand ApplyFilterCommand { get; private set; }
