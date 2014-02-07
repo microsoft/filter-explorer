@@ -30,7 +30,7 @@ namespace FilterExplorer.ViewModels
 
             var packageVersion = Windows.ApplicationModel.Package.Current.Id.Version;
 
-            Version = new Version(packageVersion.Major, packageVersion.Major, packageVersion.Build, packageVersion.Revision);
+            Version = new Version(packageVersion.Major, packageVersion.Minor, packageVersion.Build, packageVersion.Revision);
         }
 
         public override Task<bool> InitializeAsync()
