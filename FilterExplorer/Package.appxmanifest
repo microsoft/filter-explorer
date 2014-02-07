@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest" xmlns:m2="http://schemas.microsoft.com/appx/2013/manifest">
-  <Identity Name="a882fe31-993a-436f-9b8f-4c694d54aae5" Publisher="CN=Filter Explorer" Version="0.1.0.0" />
+  <Identity Name="a882fe31-993a-436f-9b8f-4c694d54aae5" Publisher="CN=Filter Explorer" Version="0.2.0.0" />
   <Properties>
     <DisplayName>Filter Explorer</DisplayName>
     <PublisherDisplayName>Nokia Developer</PublisherDisplayName>

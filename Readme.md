@@ -1,7 +1,9 @@
 Filter Explorer RT
 ==================
 
-Filter Explorer is a Nokia example application which demonstrates some of the image editing capabilities and performance of the Nokia Imaging SDK by allowing the user to apply a number of filter layers to existing photos.
+Filter Explorer is a Nokia example application which demonstrates some of the image editing
+capabilities and performance of the Nokia Imaging SDK by allowing the user to apply
+a number of filter layers to existing photos.
 
 This example application is hosted in GitHub:
 https://github.com/nokia-developer/filter-explorer-rt/
@@ -23,9 +25,9 @@ Instructions
 
 Make sure you have the following installed:
 
-* Windows 8.1
-* Visual Studio Express 2013 for Windows
-* Nuget 2.7 or later
+ * Windows 8.1
+ * Visual Studio Express 2013 for Windows
+ * Nuget 2.7 or later
 
 To build and run the sample in simulator:
 
@@ -91,10 +93,10 @@ Downloads
 
 | Project | Release | Download |
 | ------- | --------| -------- |
-| Filter Explorer RT | v0.1 | [filter-explorer-rt-0.1.zip](https://github.com/nokia-developer/filter-explorer-rt/archive/v0.1.zip) |
+| Filter Explorer RT | v0.2 | [filter-explorer-rt-0.2.zip](https://github.com/nokia-developer/filter-explorer-rt/archive/v0.2.zip) |
 
 
 Version history
 ---------------
 
-* 0.1: Initial release
+No public releases yet.
