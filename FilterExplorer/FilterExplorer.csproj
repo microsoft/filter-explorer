@@ -198,7 +198,7 @@
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
-  <Import Project="..\packages\NokiaImagingSDK.1.1.139-beta\build\win81\NokiaImagingSDK.targets" Condition="Exists('..\packages\NokiaImagingSDK.1.1.139-beta\build\win81\NokiaImagingSDK.targets')" />
+  <Import Project="..\packages\NokiaImagingSDK.1.1.103-beta\build\windows81\NokiaImagingSDK.targets" Condition="Exists('..\packages\NokiaImagingSDK.1.1.103-beta\build\windows81\NokiaImagingSDK.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
