@@ -1,5 +1,5 @@
-Filter Explorer RT
-==================
+Filter Explorer for Windows
+===========================
 
 Filter Explorer is a Nokia example application which demonstrates some of the image editing
 capabilities and performance of the Nokia Imaging SDK by allowing the user to apply
@@ -101,7 +101,7 @@ Downloads
 
 | Project | Release | Download |
 | ------- | --------| -------- |
-| Filter Explorer RT | v0.2 | [filter-explorer-rt-0.2.zip](https://github.com/nokia-developer/filter-explorer-rt/archive/v0.2.zip) |
+| Filter Explorer for Windows | v0.2 | [filter-explorer-rt-0.2.zip](https://github.com/nokia-developer/filter-explorer-rt/archive/v0.2.zip) |
 
 
 Version history
