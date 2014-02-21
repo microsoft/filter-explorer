@@ -116,6 +116,9 @@ https://github.com/nokia-developer/filter-explorer/blob/master/License.txt
 7. Version history
 -------------------------------------------------------------------------------
 
+* 1.3.0.0: Fourth public release of Filter Explorer
+  - Updated to the latest Nokia Imaging SDK version 1.1.177
+
 * 1.2.0.0: Third public release of Filter Explorer
   - Updated to use the latest Nokia Imaging SDK
   - Using Nuget Package Restore for external libraries
