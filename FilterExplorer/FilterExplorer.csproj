@@ -164,7 +164,6 @@
       <SubType>Designer</SubType>
     </AppxManifest>
     <None Include="FilterExplorer_TemporaryKey.pfx" />
-    <None Include="Help\Nokia Imaging SDK.chm" />
     <None Include="packages.config" />
     <PRIResource Include="Strings\en-US\Resources.resw" />
   </ItemGroup>

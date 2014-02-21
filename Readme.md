@@ -101,10 +101,10 @@ Downloads
 
 | Project | Release | Download |
 | ------- | --------| -------- |
-| Filter Explorer for Windows | v0.2 | [filter-explorer-rt-0.2.zip](https://github.com/nokia-developer/filter-explorer-rt/archive/v0.2.zip) |
+| Filter Explorer for Windows | v1.0 | [filter-explorer-rt-1.0.zip](https://github.com/nokia-developer/filter-explorer-rt/archive/v1.0.zip) |
 
 
 Version history
 ---------------
 
-No public releases yet.
+ * v1.0: First public release of Filter Explorer for Windows
