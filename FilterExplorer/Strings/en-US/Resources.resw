@@ -255,12 +255,6 @@
   <data name="PhotoPageGoBackButton.Label" xml:space="preserve">
     <value>Back</value>
   </data>
-  <data name="PhotoPageOpenFolderButton.Label" xml:space="preserve">
-    <value>Open folder</value>
-  </data>
-  <data name="PhotoPageOpenPhotoButton.Label" xml:space="preserve">
-    <value>Open photo</value>
-  </data>
   <data name="PhotoPageRemoveFilterButton.Label" xml:space="preserve">
     <value>Undo filter</value>
   </data>
@@ -363,9 +357,6 @@
   <data name="PhotoPageUnknownResolutionText" xml:space="preserve">
     <value>Unknown</value>
   </data>
-  <data name="PhotoPageCapturePhotoButton.Label" xml:space="preserve">
-    <value>Capture</value>
-  </data>
   <data name="StreamPageCapturePhotoButton.Label" xml:space="preserve">
     <value>Capture</value>
   </data>
@@ -413,9 +404,6 @@
   </data>
   <data name="AboutPageVersionText" xml:space="preserve">
     <value>Filter Explorer version {0}</value>
-  </data>
-  <data name="PhotoPageShowAboutButton.Label" xml:space="preserve">
-    <value>About</value>
   </data>
   <data name="StreamPageShowAboutButton.Label" xml:space="preserve">
     <value>About</value>
