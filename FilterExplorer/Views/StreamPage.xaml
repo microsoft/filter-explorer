@@ -59,12 +59,12 @@
 
     <Page.BottomAppBar>
         <CommandBar IsOpen="True" IsSticky="True">
+            <AppBarButton x:Uid="StreamPageOpenFolderButton" Icon="Folder" Command="{Binding OpenFolderCommand}"/>
             <AppBarButton x:Uid="StreamPageRefreshPhotosButton" Icon="Refresh" Command="{Binding RefreshPhotosCommand}"/>
             
             <CommandBar.SecondaryCommands>
                 <AppBarButton x:Uid="StreamPageCapturePhotoButton" Icon="Camera" Command="{Binding CapturePhotoCommand}"/>
                 <AppBarButton x:Uid="StreamPageOpenPhotoButton" Icon="OpenFile" Command="{Binding OpenPhotoCommand}"/>
-                <AppBarButton x:Uid="StreamPageOpenFolderButton" Icon="Folder" Command="{Binding OpenFolderCommand}"/>
                 <AppBarButton x:Uid="StreamPageShowAboutButton" Icon="Help" Command="{Binding ShowAboutCommand}"/>
             </CommandBar.SecondaryCommands>
         </CommandBar>

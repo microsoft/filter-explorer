@@ -322,7 +322,7 @@
     <value>Stamp</value>
   </data>
   <data name="StreamPageOpenFolderButton.Label" xml:space="preserve">
-    <value>Open folder</value>
+    <value>Change folder</value>
   </data>
   <data name="StreamPageOpenPhotoButton.Label" xml:space="preserve">
     <value>Open photo</value>
