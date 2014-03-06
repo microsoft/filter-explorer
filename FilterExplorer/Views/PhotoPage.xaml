@@ -32,21 +32,33 @@
     <Page.TopAppBar>
         <AppBar x:Name="AppBar" IsOpen="True">
             <Grid>
-                <Grid Margin="30,6,30,15">
+                <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
-                        <RowDefinition/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
                         <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
 
-                    <TextBlock x:Uid="PhotoPageFiltersTitle" Style="{StaticResource TitleTextBlockStyle}"/>
-                    <TextBlock x:Uid="PhotoPageResolutionTitle" Grid.Column="1" Style="{StaticResource TitleTextBlockStyle}"/>
+                    <Button Margin="30,15" Command="{Binding GoBackCommand}" Style="{StaticResource NavigationBackButtonNormalStyle}"/>
 
-                    <TextBlock Grid.Row="1" Margin="0,0,30,0" Text="{Binding Preview.Filters, Converter={StaticResource FilterListStringConverter}, ConverterParameter=' &#x21E2; '}" Style="{StaticResource BodyTextBlockStyle}"/>
-                    <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Preview.Resolution, Converter={StaticResource ResolutionStringConverter}}" Style="{StaticResource BodyTextBlockStyle}"/>
+                    <Grid Grid.Column="1" Margin="30,10,30,5">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <TextBlock x:Uid="PhotoPageFiltersTitle" Style="{StaticResource TitleTextBlockStyle}"/>
+                        <TextBlock x:Uid="PhotoPageResolutionTitle" Grid.Column="1" Style="{StaticResource TitleTextBlockStyle}"/>
+
+                        <TextBlock Grid.Row="1" Margin="0,0,30,0" Text="{Binding Preview.Filters, Converter={StaticResource FilterListStringConverter}, ConverterParameter=' &#x21E2; '}" Style="{StaticResource BodyTextBlockStyle}"/>
+                        <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Preview.Resolution, Converter={StaticResource ResolutionStringConverter}}" Style="{StaticResource BodyTextBlockStyle}"/>
+                    </Grid>
                 </Grid>
 
                 <ProgressBar VerticalAlignment="Top" IsEnabled="{Binding Preview.Processing}" IsIndeterminate="{Binding Preview.Processing}"
@@ -62,7 +74,6 @@
             <AppBarButton x:Uid="PhotoPageRemoveAllFiltersButton" Icon="Clear" Command="{Binding RemoveAllFiltersCommand}"/>
 
             <CommandBar.SecondaryCommands>
-                <AppBarButton x:Uid="PhotoPageGoBackButton" Icon="Back" Command="{Binding GoBackCommand}"/>
                 <AppBarButton x:Uid="PhotoPageSavePhotoButton" Icon="Save" Command="{Binding SavePhotoCommand}"/>
                 <AppBarButton x:Uid="PhotoPageSharePhotoButton" Icon="ReShare" Command="{Binding SharePhotoCommand}"/>
             </CommandBar.SecondaryCommands>
