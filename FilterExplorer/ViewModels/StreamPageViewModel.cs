@@ -152,7 +152,7 @@ namespace FilterExplorer.ViewModels
 
             if (SessionModel.Instance.Folder != null)
             {
-                FolderName = SessionModel.Instance.Folder.Name;
+                FolderName = SessionModel.Instance.Folder.Path;
 
                 var models = await PhotoLibraryModel.GetPhotosFromFolderAsync(SessionModel.Instance.Folder, 128);
 
@@ -167,13 +167,13 @@ namespace FilterExplorer.ViewModels
 
                 if (models.Count > 0)
                 {
-                    FolderName = Windows.Storage.KnownFolders.CameraRoll.Name;
+                    FolderName = Windows.Storage.KnownFolders.CameraRoll.Path;
                 }
                 else
                 {
                     models = await PhotoLibraryModel.GetPhotosFromFolderAsync(Windows.Storage.KnownFolders.PicturesLibrary, 128);
 
-                    FolderName = Windows.Storage.KnownFolders.PicturesLibrary.Name;
+                    FolderName = Windows.Storage.KnownFolders.PicturesLibrary.Path;
                 }
 
                 foreach (var model in models)

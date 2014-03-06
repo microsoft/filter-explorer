@@ -408,4 +408,8 @@
   <data name="StreamPageShowAboutButton.Label" xml:space="preserve">
     <value>About</value>
   </data>
+  <data name="StreamPagePathPrefix.Text" xml:space="preserve">
+    <value>Showing photos from</value>
+    <comment>Directory path containing photos is appended on the right side of this string.</comment>
+  </data>
 </root>

@@ -23,6 +23,7 @@
     
     <Page.Resources>
         <converters:BoolVisibilityConverter x:Key="BoolVisibilityConverter"/>
+        <converters:NullVisibilityConverter x:Key="NullVisibilityConverter"/>
     </Page.Resources>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Margin="0,0,0,50">
@@ -45,12 +46,23 @@
         </GridView>
 
         <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="100"/>
+                <RowDefinition Height="40"/>
+            </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="120"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions> 
             <TextBlock x:Uid="StreamPageTitle" Style="{StaticResource HeaderTextBlockStyle}" Grid.Column="1" 
-                       IsHitTestVisible="false" TextWrapping="NoWrap" VerticalAlignment="Bottom" Margin="0,0,30,40"/>
+                       IsHitTestVisible="false" TextWrapping="NoWrap" VerticalAlignment="Bottom" Margin="0,0,30,0"/>
+            <TextBlock Grid.Row="1" Style="{StaticResource SubtitleTextBlockStyle}" Grid.Column="1" 
+                       IsHitTestVisible="false" TextWrapping="NoWrap" VerticalAlignment="Center" Opacity="0.5"
+                       Visibility="{Binding FolderName, Converter={StaticResource NullVisibilityConverter}}">
+                
+                <Run x:Uid="StreamPagePathPrefix"/>
+                <Run Text="{Binding FolderName}"/>
+            </TextBlock>
         </Grid>
 
         <ProgressBar VerticalAlignment="Top" Margin="0,2,0,0" IsEnabled="{Binding Processing}" IsIndeterminate="{Binding Processing}"
