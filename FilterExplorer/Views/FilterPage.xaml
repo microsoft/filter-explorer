@@ -56,7 +56,7 @@
                 <ColumnDefinition Width="120"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions> 
-            <Button x:Name="backButton" Margin="39,59,39,0" Command="{Binding GoBackCommand}" Style="{StaticResource NavigationBackButtonNormalStyle}"/>
+            <Button Margin="39,59,39,0" Command="{Binding GoBackCommand}" Style="{StaticResource NavigationBackButtonNormalStyle}"/>
             <TextBlock x:Uid="FilterPageTitle" Style="{StaticResource HeaderTextBlockStyle}" Grid.Column="1" 
                        IsHitTestVisible="false" TextWrapping="NoWrap" VerticalAlignment="Bottom" Margin="0,0,30,40"/>
         </Grid>
