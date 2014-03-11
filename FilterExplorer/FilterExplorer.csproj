@@ -123,6 +123,10 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\RotatingThumbnailView.xaml.cs">
+      <DependentUpon>RotatingThumbnailView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ThumbnailMosaicView.cs" />
     <Compile Include="Converters\NullVisibilityConverter.cs" />
     <Compile Include="Converters\VersionStringConverter.cs" />
     <Compile Include="Converters\BoolVisibilityConverter.cs" />
@@ -136,6 +140,7 @@
     <Compile Include="Models\FilteredPhotoModel.cs" />
     <Compile Include="Models\PhotoShareModel.cs" />
     <Compile Include="Models\SessionModel.cs" />
+    <Compile Include="Utilities\HighlightStrategy.cs" />
     <Compile Include="Utilities\ObservableList.cs" />
     <Compile Include="Utilities\TaskResultCache.cs" />
     <Compile Include="ViewModels\AboutPageViewModel.cs" />
@@ -169,6 +174,10 @@
     <PRIResource Include="Strings\en-US\Resources.resw" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Controls\RotatingThumbnailView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\AboutPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

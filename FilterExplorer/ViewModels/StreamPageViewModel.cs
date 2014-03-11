@@ -14,6 +14,7 @@ using FilterExplorer.Models;
 using FilterExplorer.Utilities;
 using FilterExplorer.Views;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
@@ -25,6 +26,7 @@ namespace FilterExplorer.ViewModels
     {
         private string _folderName = null;
         private Random _random = new Random(DateTime.Now.Millisecond + 1);
+        private HighlightStrategy _highlightStrategy = null;
 
         public IDelegateCommand GoBackCommand { get; private set; }
         public IDelegateCommand SelectPhotoCommand { get; private set; }
@@ -32,7 +34,9 @@ namespace FilterExplorer.ViewModels
         public IDelegateCommand OpenFolderCommand { get; private set; }
         public IDelegateCommand CapturePhotoCommand { get; private set; }
         public IDelegateCommand RefreshPhotosCommand { get; private set; }
+        public IDelegateCommand RefreshSomePhotosCommand { get; private set; }
         public IDelegateCommand ShowAboutCommand { get; private set; }
+        public IDelegateCommand ChangeHighlightStrategyCommand { get; private set; }
 
         public ObservableCollection<ThumbnailViewModel> Thumbnails { get; private set; }
 
@@ -54,8 +58,28 @@ namespace FilterExplorer.ViewModels
             }
         }
 
-        public StreamPageViewModel()
+        public HighlightStrategy HighlightStrategy
         {
+            get
+            {
+                return _highlightStrategy;
+            }
+
+            private set
+            {
+                if (_highlightStrategy != value)
+                {
+                    _highlightStrategy = value;
+
+                    Notify("HighlightStrategy");
+                }
+            }
+        }
+
+        public StreamPageViewModel(HighlightStrategy highlightStrategy)
+        {
+            HighlightStrategy = highlightStrategy;
+
             Thumbnails = new ObservableCollection<ThumbnailViewModel>();
 
             GoBackCommand = CommandFactory.CreateGoBackCommand();
@@ -126,6 +150,28 @@ namespace FilterExplorer.ViewModels
                     {
                         return !Processing;
                     });
+
+            RefreshSomePhotosCommand = new DelegateCommand(
+                (parameter) =>
+                {
+                    RefreshSome();
+                },
+                () =>
+                {
+                    return !Processing;
+                });
+
+            ChangeHighlightStrategyCommand = new DelegateCommand(
+                async (parameter) =>
+                {
+                    HighlightStrategy = parameter as HighlightStrategy;
+
+                    await Refresh();
+                },
+                () =>
+                {
+                    return !Processing;
+                });
         }
 
         public override async Task<bool> InitializeAsync()
@@ -143,6 +189,7 @@ namespace FilterExplorer.ViewModels
         private async Task Refresh()
         {
             Processing = true;
+            FolderName = null;
 
             RefreshPhotosCommand.RaiseCanExecuteChanged();
 
@@ -152,13 +199,16 @@ namespace FilterExplorer.ViewModels
 
             if (SessionModel.Instance.Folder != null)
             {
-                FolderName = SessionModel.Instance.Folder.Path;
+                FolderName = SessionModel.Instance.Folder.DisplayName;
 
                 var models = await PhotoLibraryModel.GetPhotosFromFolderAsync(SessionModel.Instance.Folder, 128);
 
-                foreach (var model in models)
+                for (var i = 0; i < models.Count; i++)
                 {
-                    Thumbnails.Add(new ThumbnailViewModel(model, TakeRandomFilter(filters)));
+                    var k = i % (_highlightStrategy.BatchSize - 1);
+                    var highlight = _highlightStrategy.HighlightedIndexes.Contains(k);
+
+                    Thumbnails.Add(new ThumbnailViewModel(models[i], TakeRandomFilter(filters), highlight));
                 }
             }
             else
@@ -167,24 +217,43 @@ namespace FilterExplorer.ViewModels
 
                 if (models.Count > 0)
                 {
-                    FolderName = Windows.Storage.KnownFolders.CameraRoll.Path;
+                    FolderName = Windows.Storage.KnownFolders.CameraRoll.DisplayName;
                 }
                 else
                 {
                     models = await PhotoLibraryModel.GetPhotosFromFolderAsync(Windows.Storage.KnownFolders.PicturesLibrary, 128);
 
-                    FolderName = Windows.Storage.KnownFolders.PicturesLibrary.Path;
+                    FolderName = Windows.Storage.KnownFolders.PicturesLibrary.DisplayName;
                 }
 
-                foreach (var model in models)
+                for (var i = 0; i < models.Count; i++)
                 {
-                    Thumbnails.Add(new ThumbnailViewModel(model, TakeRandomFilter(filters)));
+                    var k = i % (_highlightStrategy.BatchSize - 1);
+                    var highlight = _highlightStrategy.HighlightedIndexes.Contains(k);
+
+                    Thumbnails.Add(new ThumbnailViewModel(models[i], TakeRandomFilter(filters), highlight));
                 }
             }
 
             Processing = false;
 
             RefreshPhotosCommand.RaiseCanExecuteChanged();
+        }
+
+        private void RefreshSome()
+        {
+            RefreshSomePhotosCommand.RaiseCanExecuteChanged();
+
+            var filters = FilterFactory.CreateStreamFilters();
+
+            for (var i = 0; i < Thumbnails.Count; i += _highlightStrategy.BatchSize)
+            {
+                var index = _random.Next(i, Math.Min(i + _highlightStrategy.BatchSize, Thumbnails.Count - 1));
+
+                Thumbnails[index].Filter = TakeRandomFilter(filters);
+            }
+
+            RefreshSomePhotosCommand.RaiseCanExecuteChanged();
         }
 
         private Filter TakeRandomFilter(ObservableList<Filter> filters)

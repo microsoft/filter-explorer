@@ -10,6 +10,7 @@
 
 using FilterExplorer.Filters;
 using FilterExplorer.Models;
+using Windows.Storage.Streams;
 using Windows.UI.Xaml.Media.Imaging;
 
 namespace FilterExplorer.ViewModels
@@ -19,6 +20,7 @@ namespace FilterExplorer.ViewModels
         private string _title = null;
         private Filter _filter = null;
         private BitmapImage _thumbnail = null;
+        private bool _highlight = false;
 
         internal FilteredPhotoModel Model { get; private set; }
 
@@ -29,13 +31,18 @@ namespace FilterExplorer.ViewModels
                 return _filter;
             }
 
-            private set
+            set
             {
                 if (_filter != value)
                 {
                     _filter = value;
 
                     Title = _filter != null ? _filter.Name : string.Empty;
+
+                    Model.Filters.Clear();
+                    Model.Filters.Add(_filter);
+
+                    UpdateThumbnailAsync();
                 }
             }
         }
@@ -74,19 +81,44 @@ namespace FilterExplorer.ViewModels
             {
                 if (_thumbnail != value)
                 {
-                    _thumbnail = value;
+                    if (_thumbnail != null)
+                    {
+                        _thumbnail.ImageOpened -= BitmapImage_ImageOpened;
+                        _thumbnail.ImageFailed -= BitmapImage_ImageFailed;
+                    }
 
-                    Notify("Thumbnail");
+                    _thumbnail = value;
+                    _thumbnail.ImageOpened += BitmapImage_ImageOpened;
+                    _thumbnail.ImageFailed += BitmapImage_ImageFailed;
                 }
             }
         }
 
-        public ThumbnailViewModel(FilteredPhotoModel model, Filter filter)
+        public bool Highlight
+        {
+            get
+            {
+                return _highlight;
+            }
+
+            private set
+            {
+                if (_highlight != value)
+                {
+                    _highlight = value;
+
+                    Notify("Highlight");
+                }
+            }
+        }
+
+        public ThumbnailViewModel(FilteredPhotoModel model, Filter filter, bool highlight = false)
         {
             Model = new FilteredPhotoModel(model);
             Model.Filters.Add(filter);
 
             Filter = filter;
+            Highlight = highlight;
         }
 
         private async void UpdateThumbnailAsync()
@@ -100,8 +132,20 @@ namespace FilterExplorer.ViewModels
 
                 Thumbnail = bitmap;
             }
+        }
 
+        private void BitmapImage_ImageFailed(object sender, Windows.UI.Xaml.ExceptionRoutedEventArgs e)
+        {
             Processing = false;
+
+            Notify("Thumbnail");
+        }
+
+        private void BitmapImage_ImageOpened(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            Processing = false;
+
+            Notify("Thumbnail");
         }
     }
 }

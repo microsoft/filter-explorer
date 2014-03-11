@@ -15,6 +15,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:FilterExplorer"
     xmlns:converters="using:FilterExplorer.Converters"
+    xmlns:controls="using:FilterExplorer.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
@@ -32,18 +33,20 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <GridView Grid.RowSpan="2" Padding="116,136,116,46" SelectionMode="None" ItemsSource="{Binding Thumbnails}"
-                  IsItemClickEnabled="True" ItemClick="GridView_ItemClick">
-            <GridView.ItemTemplate>
+        <controls:ThumbnailMosaicView Grid.RowSpan="2" Padding="116,146,116,46"
+                                        SelectionMode="None" ItemsSource="{Binding Thumbnails}"
+                                        IsItemClickEnabled="True" ItemClick="GridView_ItemClick">
+            <controls:ThumbnailMosaicView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <VariableSizedWrapGrid ItemWidth="180" ItemHeight="120"/>
+                </ItemsPanelTemplate>
+            </controls:ThumbnailMosaicView.ItemsPanel>
+            <controls:ThumbnailMosaicView.ItemTemplate>
                 <DataTemplate>
-                    <Grid HorizontalAlignment="Left" Width="185" Height="115">
-                        <Border Background="{ThemeResource ListViewItemPlaceholderBackgroundThemeBrush}">
-                            <Image Source="{Binding Thumbnail}" Stretch="UniformToFill"/>
-                        </Border>
-                    </Grid>
+                    <controls:RotatingThumbnailView ImageSourcePropertyName="Thumbnail"/>
                 </DataTemplate>
-            </GridView.ItemTemplate>
-        </GridView>
+            </controls:ThumbnailMosaicView.ItemTemplate>
+        </controls:ThumbnailMosaicView>
 
         <Grid>
             <Grid.RowDefinitions>
@@ -59,7 +62,6 @@
             <TextBlock Grid.Row="1" Style="{StaticResource SubtitleTextBlockStyle}" Grid.Column="1" 
                        IsHitTestVisible="false" TextWrapping="NoWrap" VerticalAlignment="Center" Opacity="0.5"
                        Visibility="{Binding FolderName, Converter={StaticResource NullVisibilityConverter}}">
-                
                 <Run x:Uid="StreamPagePathPrefix"/>
                 <Run Text="{Binding FolderName}"/>
             </TextBlock>
@@ -70,7 +72,7 @@
     </Grid>
 
     <Page.BottomAppBar>
-        <CommandBar IsOpen="True" IsSticky="True">
+        <CommandBar IsOpen="True" IsSticky="True" >
             <AppBarButton x:Uid="StreamPageOpenFolderButton" Icon="Folder" Command="{Binding OpenFolderCommand}"/>
             <AppBarButton x:Uid="StreamPageRefreshPhotosButton" Icon="Refresh" Command="{Binding RefreshPhotosCommand}"/>
             
