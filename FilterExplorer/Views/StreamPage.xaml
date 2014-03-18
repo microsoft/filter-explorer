@@ -78,7 +78,7 @@
             
             <CommandBar.SecondaryCommands>
                 <AppBarButton x:Uid="StreamPageCapturePhotoButton" Icon="Camera" Command="{Binding CapturePhotoCommand}"/>
-                <AppBarButton x:Uid="StreamPageOpenPhotoButton" Icon="OpenFile" Command="{Binding OpenPhotoCommand}"/>
+                <AppBarButton x:Uid="StreamPageOpenPhotoButton" Icon="BrowsePhotos" Command="{Binding OpenPhotoCommand}"/>
                 <AppBarButton x:Uid="StreamPageShowAboutButton" Icon="Help" Command="{Binding ShowAboutCommand}"/>
             </CommandBar.SecondaryCommands>
         </CommandBar>

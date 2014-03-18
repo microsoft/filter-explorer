@@ -61,6 +61,8 @@ namespace FilterExplorer.Controls
             Storyboard.SetTargetProperty(_animationY, "RotationY");
 
             Projection = _projection;
+
+            ThumbnailImage.Source = null;
         }
 
         private void Animate()
@@ -121,7 +123,7 @@ namespace FilterExplorer.Controls
                     var property = _viewModel.GetType().GetTypeInfo().GetDeclaredProperty(ImageSourcePropertyName);
                     var source = property.GetValue(_viewModel) as ImageSource;
 
-                    UpdateImageSource(source);
+                    ThumbnailImage.Source = source;
 
                     _storyBoard.Begin();
                 }
@@ -137,7 +139,7 @@ namespace FilterExplorer.Controls
 
                     _storyBoard.Completed -= StoryBoard_Completed;
 
-                    UpdateImageSource(null);
+                    ThumbnailImage.Source = null;
                 }
             }
             else
@@ -160,7 +162,7 @@ namespace FilterExplorer.Controls
             {
                 _viewModel.PropertyChanged -= ThumbnailViewModel_PropertyChanged;
 
-                UpdateImageSource(null);
+                ThumbnailImage.Source = null;
             }
 
             _viewModel = args.NewValue as INotifyPropertyChanged;
@@ -170,7 +172,10 @@ namespace FilterExplorer.Controls
                 var property = _viewModel.GetType().GetTypeInfo().GetDeclaredProperty(ImageSourcePropertyName);
                 var source = property.GetValue(_viewModel) as ImageSource;
 
-                UpdateImageSource(source);
+                if (source != null)
+                {
+                    ThumbnailImage.Source = source;
+                }
 
                 _viewModel.PropertyChanged += ThumbnailViewModel_PropertyChanged;
             }
@@ -183,23 +188,21 @@ namespace FilterExplorer.Controls
                 var property = _viewModel.GetType().GetTypeInfo().GetDeclaredProperty(ImageSourcePropertyName);
                 var source = property.GetValue(_viewModel) as ImageSource;
 
-                UpdateImageSource(source);
-            }
-        }
-
-        private void UpdateImageSource(ImageSource source)
-        {
-            if (ThumbnailImage.Source == null)
-            {
-                ThumbnailImage.Source = source;
-            }
-            else if (source != null)
-            {
-                Animate();
-            }
-            else
-            {
-                ThumbnailImage.Source = null;
+                if (ThumbnailImage.Source == null)
+                {
+                    ThumbnailImage.Source = source;
+                }
+                else if (source != null)
+                {
+                    if (source != ThumbnailImage.Source)
+                    {
+                        Animate();
+                    }
+                }
+                else
+                {
+                    ThumbnailImage.Source = null;
+                }
             }
         }
     }

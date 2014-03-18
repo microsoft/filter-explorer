@@ -98,7 +98,8 @@ namespace FilterExplorer.ViewModels
 
             using (var stream = await Model.GetFilteredPreviewAsync())
             {
-                var bitmap = new BitmapImage();
+                var maximumSide = (int)Windows.UI.Xaml.Application.Current.Resources["PreviewSide"];
+                var bitmap = new BitmapImage() { DecodePixelWidth = maximumSide };
                 bitmap.SetSource(stream);
 
                 Preview = bitmap;

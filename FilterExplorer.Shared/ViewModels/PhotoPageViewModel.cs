@@ -12,7 +12,12 @@ using FilterExplorer.Commands;
 using FilterExplorer.Models;
 using FilterExplorer.Views;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Activation;
+using Windows.Storage;
+using Windows.Storage.Pickers;
+using Windows.Storage.Streams;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -21,8 +26,6 @@ namespace FilterExplorer.ViewModels
     public class PhotoPageViewModel : ViewModelBase
     {
         public IDelegateCommand GoBackCommand { get; private set; }
-        public IDelegateCommand CapturePhotoCommand { get; private set; }
-        public IDelegateCommand OpenPhotoCommand { get; private set; }
         public IDelegateCommand SavePhotoCommand { get; private set; }
         public IDelegateCommand SharePhotoCommand { get; private set; }
         public IDelegateCommand ShowAboutCommand { get; private set; }
@@ -68,42 +71,19 @@ namespace FilterExplorer.ViewModels
         {
             GoBackCommand = CommandFactory.CreateGoBackCommand();
 
-            CapturePhotoCommand = new DelegateCommand(
-                async (parameter) =>
+#if WINDOWS_PHONE_APP
+            SavePhotoCommand = new DelegateCommand(
+                (parameter) =>
                 {
-                    var file = await PhotoLibraryModel.CapturePhotoFileAsync();
-
-                    if (file != null)
-                    {
-                        var photo = new FilteredPhotoModel(file);
-
-                        SessionModel.Instance.Photo = photo;
-
-                        var frame = (Frame)Window.Current.Content;
-                        frame.Navigate(typeof(PhotoPage));
-                    }
+                    StartSavePhotoFile();
                 });
-
-            OpenPhotoCommand = new DelegateCommand(
-                async (parameter) =>
-                {
-                    var file = await PhotoLibraryModel.PickPhotoFileAsync();
-
-                    if (file != null)
-                    {
-                        var model = new FilteredPhotoModel(file);
-
-                        SessionModel.Instance.Photo = model;
-
-                        Preview = new PreviewViewModel(SessionModel.Instance.Photo);
-                    }
-                });
-
+#else
             SavePhotoCommand = new DelegateCommand(
                 async (parameter) =>
                     {
                         await PhotoLibraryModel.SavePhotoAsync(Preview.Model);
                     });
+#endif
 
             SharePhotoCommand = new DelegateCommand(
                 (parameter) =>
@@ -190,5 +170,43 @@ namespace FilterExplorer.ViewModels
         {
             SharePhotoCommand.RaiseCanExecuteChanged();
         }
+
+#if WINDOWS_PHONE_APP
+        private void StartSavePhotoFile()
+        {
+            var filenameFormat = new Windows.ApplicationModel.Resources.ResourceLoader().GetString("PhotoSaveFilenameFormat");
+            var filename = String.Format(filenameFormat, DateTime.Now.ToString("yyyyMMddHHmmss"));
+
+            var picker = new FileSavePicker();
+            picker.SuggestedFileName = filename;
+            picker.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
+            picker.FileTypeChoices.Add(".jpg", new List<string>() { ".jpg" });
+            picker.ContinuationData["Operation"] = "SavePhotoFile";
+            picker.PickSaveFileAndContinue();
+
+            App.ContinuationEventArgsChanged += App_ContinuationEventArgsChanged;
+        }
+
+        private async void App_ContinuationEventArgsChanged(object sender, IContinuationActivatedEventArgs e)
+        {
+            App.ContinuationEventArgsChanged -= App_ContinuationEventArgsChanged;
+
+            var args = e as FileSavePickerContinuationEventArgs;
+
+            if (args != null && (args.ContinuationData["Operation"] as string) == "SavePhotoFile")
+            {
+                if (args.File != null)
+                {
+                    await PhotoLibraryModel.SavePhotoAsync(Preview.Model, args.File);
+
+                    System.Diagnostics.Debug.WriteLine("Photo saved to " + args.File.Path);
+                }
+                else
+                {
+                    System.Diagnostics.Debug.WriteLine("Photo not saved");
+                }
+            }
+        }
+#endif
     }
 }

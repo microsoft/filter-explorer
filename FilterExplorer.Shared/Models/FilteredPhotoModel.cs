@@ -115,7 +115,16 @@ namespace FilterExplorer.Models
             }
             else if (_photoCache.Result == null || _photoCache.Version != Version)
             {
-                await _photoCache.Execute(GetFilteredPhotoStreamAsync(), Version);
+                _photoCache.Invalidate();
+
+                try
+                {
+                    await _photoCache.Execute(GetFilteredPhotoStreamAsync(), Version);
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine("GetFilteredPhotoStreamAsync threw: " + ex.Message);
+                }
             }
 
             return _photoCache.Result.CloneStream();
@@ -129,7 +138,16 @@ namespace FilterExplorer.Models
             }
             else if (_previewCache.Result == null || _previewCache.Version != Version)
             {
-                await _previewCache.Execute(GetFilteredPreviewStreamAsync(), Version);
+                _previewCache.Invalidate();
+
+                try
+                {
+                    await _previewCache.Execute(GetFilteredPreviewStreamAsync(), Version);
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine("GetFilteredPreviewStreamAsync threw: " + ex.Message);
+                }
             }
 
             return _previewCache.Result.CloneStream();
@@ -143,7 +161,16 @@ namespace FilterExplorer.Models
             }
             else if (_thumbnailCache.Result == null || _thumbnailCache.Version != Version)
             {
-                await _thumbnailCache.Execute(GetFilteredThumbnailStreamAsync(), Version);
+                _thumbnailCache.Invalidate();
+
+                try
+                {
+                    await _thumbnailCache.Execute(GetFilteredThumbnailStreamAsync(), Version);
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine("GetFilteredThumbnailStreamAsync threw: " + ex.Message);
+                }
             }
 
             return _thumbnailCache.Result.CloneStream();
@@ -158,6 +185,7 @@ namespace FilterExplorer.Models
             IRandomAccessStream filteredStream = null;
 
             using (var stream = await _photo.GetPhotoAsync())
+            using (var ticket = await TicketManager.AcquireTicket())
             {
                 if (Filters.Count > 0)
                 {
@@ -197,6 +225,7 @@ namespace FilterExplorer.Models
             IRandomAccessStream filteredStream = null;
 
             using (var stream = await _photo.GetPreviewAsync())
+            using (var ticket = await TicketManager.AcquireTicket())
             {
                 if (Filters.Count > 0)
                 {
@@ -236,6 +265,7 @@ namespace FilterExplorer.Models
             IRandomAccessStream filteredStream = null;
 
             using (var stream = await _photo.GetThumbnailAsync())
+            using (var ticket = await TicketManager.AcquireTicket())
             {
                 if (Filters.Count > 0)
                 {

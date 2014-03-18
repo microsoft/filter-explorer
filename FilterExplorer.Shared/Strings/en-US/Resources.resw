@@ -412,4 +412,10 @@
     <value>Showing photos from</value>
     <comment>Directory path containing photos is appended on the right side of this string.</comment>
   </data>
+  <data name="ApplicationHeader.Text" xml:space="preserve">
+    <value>FILTER EXPLORER</value>
+  </data>
+  <data name="ProjectLink" xml:space="preserve">
+    <value>https://github.com/nokia-developer/filter-explorer-rt</value>
+  </data>
 </root>

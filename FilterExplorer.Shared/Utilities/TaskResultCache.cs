@@ -56,6 +56,14 @@ namespace FilterExplorer.Utilities
             if (_task.IsCompleted)
             {
                 Version = version;
+
+#if DEBUG
+                if (Result != null)
+                {
+                    System.Diagnostics.Debug.WriteLine("TaskResultCache.Execute warning: Previous result already exists and may leak if disposable");
+                }
+#endif
+
                 Result = _task.Result;
             }
 

@@ -24,12 +24,20 @@ namespace FilterExplorer.Filters
             typeof(RotationLeftFilter),
             typeof(RotationRightFilter),
             typeof(FlipHorizontalFilter),
-            typeof(FlipVerticalFilter)
+            typeof(FlipVerticalFilter),
+            typeof(BlurFilter)
         };
 
         public static Filter CreateFilter(string id)
         {
-            return (Filter)Activator.CreateInstance(Type.GetType(id));
+            try
+            {
+                return (Filter)Activator.CreateInstance(Type.GetType(id));
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
 
         public static ObservableList<Filter> CreateFilters(List<string> ids)

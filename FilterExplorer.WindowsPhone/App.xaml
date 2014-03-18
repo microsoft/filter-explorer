@@ -12,14 +12,19 @@
     x:Class="FilterExplorer.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:FilterExplorer">
+    xmlns:local="using:FilterExplorer"
+    RequestedTheme="Dark">
 
     <Application.Resources>
         <x:String x:Key="PhotoCaptureTemporaryFilename">CaptureTemp.jpg</x:String>
         <x:String x:Key="PhotoSaveTemporaryFilename">ShareTemp.jpg</x:String>
         <x:Int32 x:Key="MaximumStreamItems">64</x:Int32>
-        <x:Int32 x:Key="MaximumTickets">16</x:Int32>
-        <x:Int32 x:Key="ThumbnailSide">300</x:Int32>
-        <x:Int32 x:Key="PreviewSide">1920</x:Int32>
+        <x:Int32 x:Key="MaximumTickets">8</x:Int32>
+        <x:Int32 x:Key="ThumbnailSide">200</x:Int32>
+        <x:Int32 x:Key="PreviewSide">720</x:Int32>
+        <SolidColorBrush x:Key="FilterExplorerAccentColorBrush" Color="Yellow"/>
+        
+        <!-- Standard style overrides -->
+        <x:String x:Key="ProgressBarIndeterminateForegroundThemeBrush">Yellow</x:String>
     </Application.Resources>
 </Application>

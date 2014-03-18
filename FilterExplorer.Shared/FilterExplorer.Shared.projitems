@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>FilterExplorer</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Commands\CommandFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Commands\DelegateCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\RotatingThumbnailView.xaml.cs">
+      <DependentUpon>RotatingThumbnailView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ThumbnailMosaicView.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\BoolVisibilityConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\FilterListStringConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\NullVisibilityConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\ResolutionStringConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\VersionStringConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Filters\FilterFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Filters\Filters.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\FilteredPhotoModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\PhotoLibraryModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\PhotoModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\PhotoShareModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\SessionModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\HighlightStrategy.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\ObservableList.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\TaskResultCache.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\Ticket.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\TicketManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\AboutPageViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\FilterPageViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\PhotoPageViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\PreviewViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\StreamPageViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ThumbnailViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ViewModelBase.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="$(MSBuildThisFileDirectory)Controls\RotatingThumbnailView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <PRIResource Include="$(MSBuildThisFileDirectory)Strings\en-US\Resources.resw" />
+  </ItemGroup>
+</Project>

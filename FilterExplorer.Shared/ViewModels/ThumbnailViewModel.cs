@@ -39,10 +39,17 @@ namespace FilterExplorer.ViewModels
 
                     Title = _filter != null ? _filter.Name : string.Empty;
 
-                    Model.Filters.Clear();
+                    if (Model.Filters.Count > 0)
+                    {
+                        Model.Filters.RemoveLast();
+                    }
+
                     Model.Filters.Add(_filter);
 
-                    UpdateThumbnailAsync();
+                    if (_thumbnail != null && !Processing)
+                    {
+                        UpdateThumbnailAsync();
+                    }
                 }
             }
         }
@@ -69,7 +76,7 @@ namespace FilterExplorer.ViewModels
         {
             get
             {
-                if (_thumbnail == null)
+                if (_thumbnail == null && !Processing)
                 {
                     UpdateThumbnailAsync();
                 }
@@ -88,8 +95,12 @@ namespace FilterExplorer.ViewModels
                     }
 
                     _thumbnail = value;
-                    _thumbnail.ImageOpened += BitmapImage_ImageOpened;
-                    _thumbnail.ImageFailed += BitmapImage_ImageFailed;
+
+                    if (_thumbnail != null)
+                    {
+                        _thumbnail.ImageOpened += BitmapImage_ImageOpened;
+                        _thumbnail.ImageFailed += BitmapImage_ImageFailed;
+                    }
                 }
             }
         }
@@ -115,19 +126,22 @@ namespace FilterExplorer.ViewModels
         public ThumbnailViewModel(FilteredPhotoModel model, Filter filter, bool highlight = false)
         {
             Model = new FilteredPhotoModel(model);
-            Model.Filters.Add(filter);
-
-            Filter = filter;
             Highlight = highlight;
+
+            _filter = filter;
+            Title = _filter != null ? _filter.Name : string.Empty;
+            Model.Filters.Add(_filter);
         }
 
         private async void UpdateThumbnailAsync()
         {
             Processing = true;
 
+            int maximumSide = (int)Windows.UI.Xaml.Application.Current.Resources["ThumbnailSide"];
+
             using (var stream = await Model.GetFilteredThumbnailAsync())
             {
-                var bitmap = new BitmapImage();
+                var bitmap = new BitmapImage() { DecodePixelWidth = maximumSide };
                 bitmap.SetSource(stream);
 
                 Thumbnail = bitmap;

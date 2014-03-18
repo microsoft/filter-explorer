@@ -29,7 +29,7 @@ namespace FilterExplorer.Views
         {
             this.InitializeComponent();
 
-            var strategy = GetHighlightStrategyForOrientation(DisplayInformation.GetForCurrentView().CurrentOrientation);
+            var strategy = new HighlightStrategy(12, new List<int> { 0, 7 });
 
             _viewModel = new StreamPageViewModel(strategy);
 
@@ -42,6 +42,8 @@ namespace FilterExplorer.Views
         {
             base.OnNavigatedTo(e);
 
+            DisplayInformation.AutoRotationPreferences = DisplayOrientations.Portrait;
+
             if (!_viewModel.IsInitialized)
             {
                 await _viewModel.InitializeAsync();
@@ -50,8 +52,6 @@ namespace FilterExplorer.Views
             }
 
             _timer.Start();
-
-            DisplayInformation.GetForCurrentView().OrientationChanged += DisplayInformation_OrientationChanged;
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
@@ -59,18 +59,6 @@ namespace FilterExplorer.Views
             base.OnNavigatingFrom(e);
 
             _timer.Stop();
-
-            DisplayInformation.GetForCurrentView().OrientationChanged -= DisplayInformation_OrientationChanged;
-        }
-
-        private void DisplayInformation_OrientationChanged(DisplayInformation sender, object args)
-        {
-            var strategy = GetHighlightStrategyForOrientation(DisplayInformation.GetForCurrentView().CurrentOrientation);
-
-            if (_viewModel.ChangeHighlightStrategyCommand.CanExecute(strategy))
-            {
-                _viewModel.ChangeHighlightStrategyCommand.Execute(strategy);
-            }
         }
 
         private void GridView_ItemClick(object sender, ItemClickEventArgs e)
@@ -85,28 +73,9 @@ namespace FilterExplorer.Views
 
         private void DispatcherTimer_Tick(object sender, object e)
         {
-            if (_viewModel.RefreshSomePhotosCommand.CanExecute(null))
+            if (!_viewModel.Processing && _viewModel.RefreshSomePhotosCommand.CanExecute(null))
             {
                 _viewModel.RefreshSomePhotosCommand.Execute(null);
-            }
-        }
-
-        private HighlightStrategy GetHighlightStrategyForOrientation(DisplayOrientations orientation)
-        {
-            switch (orientation)
-            {
-                case DisplayOrientations.Portrait:
-                case DisplayOrientations.PortraitFlipped:
-                    {
-                        // Portrait
-                        return new HighlightStrategy(18, new List<int> { 0, 5, 8});
-                    }
-
-                default:
-                    {
-                        // Landscape
-                        return new HighlightStrategy(15, new List<int> { 0, 7, 11 });
-                    }
             }
         }
     }

@@ -20,8 +20,6 @@
     d:DesignWidth="400">
 
     <Grid>
-        <Border Background="{ThemeResource ListViewItemPlaceholderBackgroundThemeBrush}">
-            <Image x:Name="ThumbnailImage" Stretch="UniformToFill"/>
-        </Border>
+        <Image x:Name="ThumbnailImage" Stretch="UniformToFill"/>
     </Grid>
 </UserControl>
