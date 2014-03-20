@@ -14,9 +14,11 @@ using FilterExplorer.Models;
 using FilterExplorer.Utilities;
 using FilterExplorer.Views;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Activation;
+using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -91,10 +93,19 @@ namespace FilterExplorer.ViewModels
                 {
                     var viewModel = (ThumbnailViewModel)parameter;
 
-                    SessionModel.Instance.Photo = new FilteredPhotoModel(viewModel.Model);
+                    try
+                    {
+                        var copy = new FilteredPhotoModel(viewModel.Model);
 
-                    var frame = (Frame)Window.Current.Content;
-                    frame.Navigate(typeof(PhotoPage));
+                        SessionModel.Instance.Photo = copy;
+
+                        var frame = (Frame)Window.Current.Content;
+                        frame.Navigate(typeof(PhotoPage));
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine("SelectPhotoCommand failed: " + ex.Message + '\n' + ex.StackTrace);
+                    }
                 });
 
 #if WINDOWS_PHONE_APP
@@ -107,7 +118,7 @@ namespace FilterExplorer.ViewModels
             OpenPhotoCommand = new DelegateCommand(
                 async (parameter) =>
                 {
-                    var file = await PhotoLibraryModel.PickPhotoFileAsync();
+                    var file = await PickPhotoFileAsync();
 
                     if (file != null)
                     {
@@ -123,7 +134,7 @@ namespace FilterExplorer.ViewModels
             OpenFolderCommand = new DelegateCommand(
                 async (parameter) =>
                 {
-                    var folder = await PhotoLibraryModel.PickPhotoFolderAsync();
+                    var folder = await PickPhotoFolderAsync();
 
                     if (folder != null && (SessionModel.Instance.Folder == null || folder.Path != SessionModel.Instance.Folder.Path))
                     {
@@ -136,7 +147,7 @@ namespace FilterExplorer.ViewModels
             CapturePhotoCommand = new DelegateCommand(
                 async (parameter) =>
                 {
-                    var file = await PhotoLibraryModel.CapturePhotoFileAsync();
+                    var file = await CapturePhotoFileAsync();
 
                     if (file != null)
                     {
@@ -215,7 +226,7 @@ namespace FilterExplorer.ViewModels
             {
                 FolderName = SessionModel.Instance.Folder.DisplayName;
 
-                var models = await PhotoLibraryModel.GetPhotosFromFolderAsync(SessionModel.Instance.Folder, maxItems);
+                var models = await GetPhotosFromFolderAsync(SessionModel.Instance.Folder, maxItems);
 
                 for (var i = 0; i < models.Count; i++)
                 {
@@ -227,7 +238,7 @@ namespace FilterExplorer.ViewModels
             }
             else
             {
-                var models = await PhotoLibraryModel.GetPhotosFromFolderAsync(Windows.Storage.KnownFolders.CameraRoll, maxItems);
+                var models = await GetPhotosFromFolderAsync(Windows.Storage.KnownFolders.CameraRoll, maxItems);
 
                 if (models.Count > 0)
                 {
@@ -235,7 +246,7 @@ namespace FilterExplorer.ViewModels
                 }
                 else
                 {
-                    models = await PhotoLibraryModel.GetPhotosFromFolderAsync(Windows.Storage.KnownFolders.PicturesLibrary, maxItems);
+                    models = await GetPhotosFromFolderAsync(Windows.Storage.KnownFolders.PicturesLibrary, maxItems);
 
                     FolderName = Windows.Storage.KnownFolders.PicturesLibrary.DisplayName;
                 }
@@ -278,6 +289,19 @@ namespace FilterExplorer.ViewModels
             return filter;
         }
 
+#if !WINDOWS_PHONE_APP
+        public static async Task<StorageFolder> PickPhotoFolderAsync()
+        {
+            var picker = new FolderPicker();
+            picker.FileTypeFilter.Add(".jpg");
+            picker.FileTypeFilter.Add(".jpeg");
+            picker.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
+            picker.ViewMode = PickerViewMode.Thumbnail;
+
+            return await picker.PickSingleFolderAsync();
+        }
+#endif
+
 #if WINDOWS_PHONE_APP
         private void StartOpenPhotoFile()
         {
@@ -304,6 +328,66 @@ namespace FilterExplorer.ViewModels
                 frame.Navigate(typeof(PhotoPage));
             }
         }
+#else
+        public static async Task<StorageFile> PickPhotoFileAsync()
+        {
+            var picker = new FileOpenPicker();
+            picker.FileTypeFilter.Add(".jpg");
+            picker.FileTypeFilter.Add(".jpeg");
+            picker.FileTypeFilter.Add("*");
+            picker.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
+            picker.ViewMode = PickerViewMode.Thumbnail;
+
+            return await picker.PickSingleFileAsync();
+        }
 #endif
+
+#if !WINDOWS_PHONE_APP
+        public static async Task<StorageFile> CapturePhotoFileAsync()
+        {
+            var captureUi = new Windows.Media.Capture.CameraCaptureUI();
+            captureUi.PhotoSettings.Format = Windows.Media.Capture.CameraCaptureUIPhotoFormat.Jpeg;
+
+            var file = await captureUi.CaptureFileAsync(Windows.Media.Capture.CameraCaptureUIMode.Photo);
+
+            if (file != null)
+            {
+                var filename = Application.Current.Resources["PhotoCaptureTemporaryFilename"] as string;
+                var folder = ApplicationData.Current.TemporaryFolder;
+                var temporaryFile = await folder.CreateFileAsync(filename, Windows.Storage.CreationCollisionOption.ReplaceExisting);
+
+                CachedFileManager.DeferUpdates(temporaryFile);
+                await file.CopyAndReplaceAsync(temporaryFile);
+                await CachedFileManager.CompleteUpdatesAsync(temporaryFile);
+
+                file = temporaryFile;
+            }
+
+            return file;
+        }
+#endif
+
+        private static async Task<List<FilteredPhotoModel>> GetPhotosFromFolderAsync(StorageFolder folder, uint amount)
+        {
+            var list = new List<FilteredPhotoModel>();
+            var files = await folder.GetFilesAsync();
+
+            foreach (var file in files)
+            {
+                if (list.Count == amount)
+                {
+                    break;
+                }
+
+                var properties = await file.GetBasicPropertiesAsync();
+
+                if (properties.Size > 0 && file.ContentType == "image/jpeg")
+                {
+                    list.Add(new FilteredPhotoModel(file));
+                }
+            }
+
+            return list;
+        }
     }
 }

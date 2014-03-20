@@ -30,14 +30,7 @@ namespace FilterExplorer.Filters
 
         public static Filter CreateFilter(string id)
         {
-            try
-            {
-                return (Filter)Activator.CreateInstance(Type.GetType(id));
-            }
-            catch (Exception ex)
-            {
-                return null;
-            }
+            return (Filter)Activator.CreateInstance(Type.GetType(id));
         }
 
         public static ObservableList<Filter> CreateFilters(List<string> ids)

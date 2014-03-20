@@ -15,6 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Activation;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.Storage.Streams;
@@ -32,8 +33,9 @@ namespace FilterExplorer.ViewModels
         public IDelegateCommand AddFilterCommand { get; private set; }
         public IDelegateCommand RemoveFilterCommand { get; private set; }
         public IDelegateCommand RemoveAllFiltersCommand { get; private set; }
-        
+
         private PreviewViewModel _preview = null;
+        private StorageFile _temporaryFile = null;
 
         public PreviewViewModel Preview
         {
@@ -74,25 +76,33 @@ namespace FilterExplorer.ViewModels
 #if WINDOWS_PHONE_APP
             SavePhotoCommand = new DelegateCommand(
                 (parameter) =>
+                    {
+                        StartSavePhotoFile();
+                    },
+                () =>
                 {
-                    StartSavePhotoFile();
+                    return !Processing;
                 });
 #else
             SavePhotoCommand = new DelegateCommand(
                 async (parameter) =>
                     {
-                        await PhotoLibraryModel.SavePhotoAsync(Preview.Model);
+                        await SavePhotoAsync(Preview.Model);
+                    },
+                () =>
+                    {
+                        return !Processing;
                     });
 #endif
 
             SharePhotoCommand = new DelegateCommand(
                 (parameter) =>
                     {
-                        PhotoShareModel.SharePhotoAsync(Preview.Model);
+                        SharePhotoAsync(Preview.Model);
                     },
                 () =>
                     {
-                        return PhotoShareModel.Available;
+                        return !Processing;
                     });
 
             ShowAboutCommand = new DelegateCommand((parameter) =>
@@ -127,8 +137,6 @@ namespace FilterExplorer.ViewModels
                 {
                     return Preview != null ? Preview.Model.Filters.Count > 0 : false;
                 });
-
-            PhotoShareModel.AvailableChanged += PhotoShareModel_AvailableChanged;
         }
 
         ~PhotoPageViewModel()
@@ -137,8 +145,6 @@ namespace FilterExplorer.ViewModels
             {
                 Preview.Model.Filters.ItemsChanged -= Preview_Model_Filters_ItemsChanged;
             }
-
-            PhotoShareModel.AvailableChanged -= PhotoShareModel_AvailableChanged;
         }
 
         public override Task<bool> InitializeAsync()
@@ -197,7 +203,7 @@ namespace FilterExplorer.ViewModels
             {
                 if (args.File != null)
                 {
-                    await PhotoLibraryModel.SavePhotoAsync(Preview.Model, args.File);
+                    await SavePhotoAsync(Preview.Model, args.File);
 
                     System.Diagnostics.Debug.WriteLine("Photo saved to " + args.File.Path);
                 }
@@ -207,6 +213,115 @@ namespace FilterExplorer.ViewModels
                 }
             }
         }
+#else
+        public static async Task<StorageFile> SavePhotoAsync(FilteredPhotoModel photo)
+        {
+            var filenameFormat = new Windows.ApplicationModel.Resources.ResourceLoader().GetString("PhotoSaveFilenameFormat");
+            var filename = String.Format(filenameFormat, DateTime.Now.ToString("yyyyMMddHHmmss"));
+
+            var picker = new FileSavePicker();
+            picker.SuggestedFileName = filename;
+            picker.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
+            picker.FileTypeChoices.Add(".jpg", new List<string>() { ".jpg" });
+
+            var file = await picker.PickSaveFileAsync();
+
+            if (file != null)
+            {
+                file = await SavePhotoAsync(photo, file);
+            }
+
+            return file;
+        }
 #endif
+
+        private static async Task<StorageFile> SavePhotoAsync(FilteredPhotoModel photo, StorageFile file)
+        {
+            CachedFileManager.DeferUpdates(file);
+
+            using (var fileStream = await file.OpenAsync(Windows.Storage.FileAccessMode.ReadWrite))
+            using (var photoStream = await photo.GetFilteredPhotoAsync())
+            using (var reader = new DataReader(photoStream))
+            using (var writer = new DataWriter(fileStream))
+            {
+                await reader.LoadAsync((uint)photoStream.Size);
+                var buffer = reader.ReadBuffer((uint)photoStream.Size);
+
+                writer.WriteBuffer(buffer);
+                await writer.StoreAsync();
+                await writer.FlushAsync();
+            }
+
+            var status = await CachedFileManager.CompleteUpdatesAsync(file);
+
+            if (status == Windows.Storage.Provider.FileUpdateStatus.Complete)
+            {
+                return file;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        private async void SharePhotoAsync(FilteredPhotoModel photo)
+        {
+            Processing = true;
+
+            _temporaryFile = await SaveTemporaryPhotoAsync(Preview.Model);
+
+            DataTransferManager.GetForCurrentView().DataRequested += DataTransferManager_DataRequested;
+            DataTransferManager.ShowShareUI();
+        }
+
+        private void DataTransferManager_DataRequested(DataTransferManager sender, DataRequestedEventArgs e)
+        {
+            DataTransferManager.GetForCurrentView().DataRequested -= DataTransferManager_DataRequested;
+
+            var deferral = e.Request.GetDeferral();
+
+            try
+            {
+                var loader = new Windows.ApplicationModel.Resources.ResourceLoader();
+
+                DataPackage data = e.Request.Data;
+                data.Properties.ApplicationName = loader.GetString("ApplicationName");
+                data.Properties.Description = loader.GetString("PhotoSharingDescription");
+                data.Properties.Thumbnail = RandomAccessStreamReference.CreateFromFile(_temporaryFile);
+                data.Properties.Title = loader.GetString("PhotoSharingTitle");
+                data.SetStorageItems(new List<StorageFile>() { _temporaryFile });
+                data.SetText(loader.GetString("PhotoSharingText"));
+
+                try
+                {
+                    data.Properties.ApplicationListingUri = Windows.ApplicationModel.Store.CurrentApp.LinkUri;
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine("Getting application store link URI failed: " + ex.Message);
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("DataTransferManager_DataRequested exception: " + ex.Message + '\n' + ex.StackTrace);
+            }
+            finally
+            {
+                deferral.Complete();
+
+                _temporaryFile = null;
+
+                Processing = false;
+            }
+        }
+
+        private async Task<StorageFile> SaveTemporaryPhotoAsync(FilteredPhotoModel photo)
+        {
+            var filename = Application.Current.Resources["PhotoSaveTemporaryFilename"] as string;
+            var folder = ApplicationData.Current.TemporaryFolder;
+            var file = await folder.CreateFileAsync(filename, Windows.Storage.CreationCollisionOption.ReplaceExisting);
+
+            return await SavePhotoAsync(photo, file);
+        }
     }
 }

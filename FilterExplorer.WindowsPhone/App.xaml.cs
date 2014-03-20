@@ -48,6 +48,23 @@ namespace FilterExplorer
             }
 #endif
 
+            CreateRootFrame(e.PreviousExecutionState, e.Arguments);
+        }
+
+        protected override void OnActivated(IActivatedEventArgs e)
+        {
+            CreateRootFrame(e.PreviousExecutionState);
+
+            ContinuationActivatedEventArgs = e as IContinuationActivatedEventArgs;
+            
+            if (ContinuationEventArgsChanged != null)
+            {
+                ContinuationEventArgsChanged(this, ContinuationActivatedEventArgs);
+            }
+        }
+
+        private void CreateRootFrame(ApplicationExecutionState state, string launchArguments = null)
+        {
             Frame rootFrame = Window.Current.Content as Frame;
 
             // Do not repeat app initialization when the Window already has content
@@ -58,9 +75,9 @@ namespace FilterExplorer
                 rootFrame.Background = new Windows.UI.Xaml.Media.SolidColorBrush(Windows.UI.Colors.Black);
 
                 // TODO: change this value to a cache size that is appropriate for your application
-                rootFrame.CacheSize = 1;
+                rootFrame.CacheSize = 0;
 
-                if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
+                if (state == ApplicationExecutionState.Terminated)
                 {
                     SessionModel.Instance.Restore();
 
@@ -74,6 +91,8 @@ namespace FilterExplorer
 
                 // Place the frame in the current Window
                 Window.Current.Content = rootFrame;
+
+                Windows.UI.ViewManagement.StatusBar.GetForCurrentView().HideAsync().AsTask().Wait();
             }
 
             if (rootFrame.Content == null)
@@ -94,20 +113,10 @@ namespace FilterExplorer
                 // When the navigation stack isn't restored navigate to the first page,
                 // configuring the new page by passing required information as a navigation
                 // parameter
-                if (!rootFrame.Navigate(typeof(Views.StreamPage), e.Arguments))
+                if (!rootFrame.Navigate(typeof(Views.StreamPage), launchArguments))
                 {
                     throw new Exception("Failed to create initial page");
                 }
-            }
-        }
-
-        protected override void OnActivated(IActivatedEventArgs e)
-        {
-            ContinuationActivatedEventArgs = e as IContinuationActivatedEventArgs;
-
-            if (ContinuationEventArgsChanged != null)
-            {
-                ContinuationEventArgsChanged(this, ContinuationActivatedEventArgs);
             }
         }
 
@@ -118,8 +127,6 @@ namespace FilterExplorer
         /// <param name="e">Details about the navigation event.</param>
         private void RootFrame_FirstNavigated(object sender, NavigationEventArgs e)
         {
-            Windows.UI.ViewManagement.StatusBar.GetForCurrentView().HideAsync().AsTask().Wait();
-
             var rootFrame = sender as Frame;
             rootFrame.ContentTransitions = this.transitions ?? new TransitionCollection() { new NavigationThemeTransition() };
             rootFrame.Navigated -= this.RootFrame_FirstNavigated;

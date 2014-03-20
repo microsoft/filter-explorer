@@ -26,14 +26,27 @@ namespace FilterExplorer.Utilities
         {
             var count = _tickets.Count;
 
-            while (_tickets.Count >= _maxTickets)
-            {
 #if DEBUG
-                System.Diagnostics.Debug.WriteLine("Waiting for ticket, waiting " + _waitTime + " ms");
+            var totalWaitTime = 0;
 #endif
 
-                await Task.Delay((int)_waitTime + 1);
+            while (_tickets.Count >= _maxTickets)
+            {
+                var waitTime = (int)_waitTime + 1;
+                
+#if DEBUG
+                totalWaitTime += waitTime;
+#endif
+
+                await Task.Delay(waitTime);
             }
+
+#if DEBUG
+            if (totalWaitTime > 0)
+            {
+                System.Diagnostics.Debug.WriteLine("Had to wait for a ticket for a total of " + totalWaitTime + " ms");
+            }
+#endif
 
             Ticket ticket = new Ticket(_index++, DateTime.Now);
 

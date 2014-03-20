@@ -18,8 +18,8 @@
         <x:String x:Key="PhotoCaptureTemporaryFilename">CaptureTemp.jpg</x:String>
         <x:String x:Key="PhotoSaveTemporaryFilename">ShareTemp.jpg</x:String>
         <x:Int32 x:Key="MaximumStreamItems">64</x:Int32>
-        <x:Int32 x:Key="MaximumTickets">16</x:Int32>
-        <x:Int32 x:Key="ThumbnailSide">300</x:Int32>
+        <x:Int32 x:Key="MaximumTickets">24</x:Int32>
+        <x:Int32 x:Key="ThumbnailSide">400</x:Int32>
         <x:Int32 x:Key="PreviewSide">1920</x:Int32>
     </Application.Resources>
 </Application>

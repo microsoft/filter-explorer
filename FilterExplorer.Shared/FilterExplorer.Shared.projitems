@@ -22,9 +22,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Filters\FilterFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Filters\Filters.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\FilteredPhotoModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Models\PhotoLibraryModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\PhotoModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Models\PhotoShareModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\SessionModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities\HighlightStrategy.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities\ObservableList.cs" />

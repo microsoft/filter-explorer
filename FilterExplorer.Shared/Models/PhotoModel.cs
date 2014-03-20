@@ -149,24 +149,6 @@ namespace FilterExplorer.Models
 
             var maximumSide = (int)Windows.UI.Xaml.Application.Current.Resources["ThumbnailSide"];
 
-            //using (var preview = await GetPreviewAsync())
-            //using (var resizedStream = new InMemoryRandomAccessStream())
-            //{
-            //    var buffer = new byte[preview.Size].AsBuffer();
-
-            //    await preview.ReadAsync(buffer, buffer.Length, InputStreamOptions.None);
-
-            //    var resizeConfiguration = new AutoResizeConfiguration(
-            //        (uint)(maximumSide * maximumSide * 4 * 2), new Size(maximumSide, maximumSide),
-            //        new Size(0, 0), AutoResizeMode.Automatic, 0.7, ColorSpace.Yuv420);
-
-            //    buffer = await JpegTools.AutoResizeAsync(buffer, resizeConfiguration);
-
-            //    await resizedStream.WriteAsync(buffer);
-
-            //    return resizedStream.CloneStream();
-            //}
-
             using (var stream = await _file.GetThumbnailAsync(Windows.Storage.FileProperties.ThumbnailMode.PicturesView))
             {
                 if (stream.ContentType == "image/jpeg")
@@ -196,29 +178,10 @@ namespace FilterExplorer.Models
                 }
                 else
                 {
-                    // Imaging SDK does not handle BMP well at the moment, convert BMP to JPEG
-
                     using (var photo = await GetPreviewAsync())
                     {
                         return await ResizeStreamAsync(stream, new Size(maximumSide, maximumSide));
                     }
-
-                    //using (var resizedStream = new InMemoryRandomAccessStream())
-                    //{
-                    //    var buffer = new byte[photo.Size].AsBuffer();
-
-                    //    await photo.ReadAsync(buffer, buffer.Length, InputStreamOptions.None);
-
-                    //    var resizeConfiguration = new AutoResizeConfiguration(
-                    //        512 * 1024, new Size(maximumSide, maximumSide),
-                    //        new Size(0, 0), AutoResizeMode.Automatic, 0.8, ColorSpace.Yuv420);
-
-                    //    buffer = await JpegTools.AutoResizeAsync(buffer, resizeConfiguration);
-
-                    //    await resizedStream.WriteAsync(buffer);
-
-                    //    return resizedStream.CloneStream();
-                    //}
                 }
             }
         }
