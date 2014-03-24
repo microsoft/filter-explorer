@@ -29,6 +29,7 @@ namespace FilterExplorer
         {
             this.InitializeComponent();
             this.Suspending += this.OnSuspending;
+            this.UnhandledException += App_UnhandledException;
 
             Windows.Phone.UI.Input.HardwareButtons.BackPressed += HardwareButtons_BackPressed;
         }
@@ -164,6 +165,11 @@ namespace FilterExplorer
                     e.Handled = true;
                 }
             }
+        }
+
+        private void App_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            System.Diagnostics.Debug.WriteLine("Unhandled exception: " + e.Message + '\n' + e.Exception.StackTrace);
         }
     }
 }

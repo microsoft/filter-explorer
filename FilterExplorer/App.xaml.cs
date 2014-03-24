@@ -33,6 +33,7 @@ namespace FilterExplorer
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+            this.UnhandledException += App_UnhandledException;
         }
 
         /// <summary>
@@ -128,6 +129,11 @@ namespace FilterExplorer
                 var settings = Windows.Storage.ApplicationData.Current.LocalSettings;
                 settings.Values["NavigationState"] = rootFrame.GetNavigationState();
             }
+        }
+
+        private void App_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            System.Diagnostics.Debug.WriteLine("Unhandled exception: " + e.Message + '\n' + e.Exception.StackTrace);
         }
     }
 }
