@@ -1,5 +1,5 @@
-Filter Explorer for Windows
-===========================
+Filter Explorer for Windows 8.1 and Windows Phone 8.1
+=====================================================
 
 Filter Explorer is a Nokia example application which demonstrates some of the image editing
 capabilities and performance of the Nokia Imaging SDK by allowing the user to apply
@@ -29,11 +29,15 @@ Make sure you have the following installed:
  * Visual Studio Express 2013 for Windows
  * Nuget 2.7 or later
 
-To build and run the code sample in simulator:
+To build and run the code sample:
 
  1. Open the SLN file:
     File > Open Project, select the solution (.sln postfix) file
- 2. Select the target 'Simulator' and platform 'x86'.
+ 2. For the
+    * Windows 8.1 (tablet/desktop) version, set 'FilterExplorer.Windows'
+      as StartUp project, select platform 'x86' and target 'Simulator'.
+    * Windows Phone 8.1 version, set 'FilterExplorer.WindowsPhone'
+      as StartUp project, select platform 'x86' and target 'Emulator'.
  3. Press F5 to build the project and run it.
 
 If the project does not compile on the first attempt it's possible that you
@@ -42,14 +46,21 @@ packages are fetched automatically when build process is invoked, so try
 building again. If some packages cannot be found there should be an
 error stating this in the Output panel in Visual Studio Express.
 
-In addition to building and running from source, you can install
-a pre-compiled test build package:
+For Windows 8.1, in addition to building and running from source, you can
+download and install a pre-compiled test build package:
 
- 1. Copy the "FilterExplorer_*_Test.zip" to the target device and uncompress it
+ 1. Download the "FilterExplorer_*_Test.zip" to the target device and uncompress it
  2. Go to folder "FilterExplorer_*_Test"
  3. Right click on file "Add-AppDevPackage.ps1" and select "Run with PowerShell"
  4. Read and accept all prompts (certificate installs etc.)
  5. Application should now be installed ("Filter Explorer")
+
+For Windows Phone 8.1, in addition to building and running from source, you can
+download and install a pre-compiled test build package:
+
+ 1. Download the "FilterExplorer_*_.appx to your computer
+ 2. Install the package to your Windows Phone 8.1 device with the Windows Phone
+    Application Deployment (8.1) tool (comes with the Windows Phone development SDK)
 
 For more information on deploying and testing applications see:
 http://msdn.microsoft.com/library/windows/apps/hh441469.aspx
@@ -62,16 +73,17 @@ About the implementation
 | ------ | ----------- |
 | / | Contains the project file, the license information and this file (README.md) |
 | FilterExplorer | Root folder for the implementation files.  |
-| FilterExplorer/Assets | Graphic assets like icons and tiles. |
-| FilterExplorer/Commands | MVVM commands. |
-| FilterExplorer/Converters | XAML binding converters |
-| FilterExplorer/Filters | Filter wrappers. |
-| FilterExplorer/Models | MVVM models. |
-| FilterExplorer/Strings | Localization files. |
-| FilterExplorer/Utilities | Utility classes. |
-| FilterExplorer/ViewModels | MVVM viewmodels. |
-| FilterExplorer/Views | MVVM views. |
-| FilterExplorer/Properties | Application property files. |
+| FilterExplorer.Shared/Commands | MVVM commands. |
+| FilterExplorer.Shared/Converters | XAML binding converters |
+| FilterExplorer.Shared/Filters | Filter wrappers. |
+| FilterExplorer.Shared/Models | MVVM models. |
+| FilterExplorer.Shared/Strings | Localization files. |
+| FilterExplorer.Shared/Utilities | Utility classes. |
+| FilterExplorer.Shared/ViewModels | MVVM viewmodels. |
+| FilterExplorer.Windows/Assets | Graphic assets like icons and tiles for the Windows version. |
+| FilterExplorer.WindowsPhone/Assets | Graphic assets like icons and tiles for the Windows Phone version. |
+| FilterExplorer.Windows/Views | MVVM views for the Windows version. |
+| FilterExplorer.WindowsPhone/Views | MVVM views for the Windows Phone version. |
 
 Important classes:
 
@@ -80,7 +92,7 @@ Important classes:
 | Filters.Filters | Imaging SDK filters are wrapped in application specific filters. |
 | Models.FilteredPhotoModel | Contains PhotoModel and adds rendering loaded images with filters. |
 | Models.PhotoModel | Handles reading image file contents. |
-| Models.PhotoLibraryModel | Opens and saves files. |
+| Models.SessionModel | Contains the user session. |
 
 
 Known issues
