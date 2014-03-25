@@ -18,7 +18,7 @@
     xmlns:converters="using:FilterExplorer.Converters"
     xmlns:controls="using:FilterExplorer.Controls"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="{ThemeResource PhoneAccentBrush}">
     
     <Page.Resources>
         <converters:BoolVisibilityConverter x:Key="BoolVisibilityConverter"/>
@@ -37,14 +37,8 @@
 
     <Grid x:Name="LayoutRoot">
         <Grid.Background>
-            <ImageBrush ImageSource="/Assets/Background.png"/>
+            <ImageBrush ImageSource="/Assets/Background.png" Stretch="UniformToFill"/>
         </Grid.Background>
-        
-        <Grid.ChildrenTransitions>
-            <TransitionCollection>
-                <EntranceThemeTransition/>
-            </TransitionCollection>
-        </Grid.ChildrenTransitions>
         
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -65,7 +59,7 @@
                 </controls:ThumbnailMosaicView.ItemsPanel>
                 <controls:ThumbnailMosaicView.ItemTemplate>
                     <DataTemplate>
-                        <Border Background="#67000000" Margin="0,0,8,8">
+                        <Border Margin="0,0,8,8">
                             <controls:RotatingThumbnailView ImageSourcePropertyName="Thumbnail"/>
                         </Border>
                     </DataTemplate>
@@ -75,10 +69,7 @@
         
         <ProgressBar VerticalAlignment="Top" Margin="0,2,0,0" IsEnabled="{Binding Processing}"
                      IsIndeterminate="{Binding Processing}"
-                     Visibility="{Binding Processing, Converter={StaticResource BoolVisibilityConverter}}"
-                     Foreground="Pink"
-                     Background="Orange"
-                     BorderBrush="Black"/>
+                     Visibility="{Binding Processing, Converter={StaticResource BoolVisibilityConverter}}"/>
     </Grid>
 
     <Page.BottomAppBar>

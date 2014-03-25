@@ -69,7 +69,6 @@
         </Grid>
     </Grid>
 
-
     <Page.BottomAppBar>
         <CommandBar x:Name="CommandBar" IsOpen="True">
             <AppBarButton x:Uid="PhotoPageAddFilterButton" Icon="Add" Command="{Binding AddFilterCommand}"/>

@@ -25,6 +25,6 @@
         <SolidColorBrush x:Key="FilterExplorerAccentColorBrush" Color="Yellow"/>
         
         <!-- Standard style overrides -->
-        <x:String x:Key="ProgressBarIndeterminateForegroundThemeBrush">Yellow</x:String>
+        <!--<x:String x:Key="ProgressBarIndeterminateForegroundThemeBrush">PhoneAccentColor</x:String>-->
     </Application.Resources>
 </Application>
