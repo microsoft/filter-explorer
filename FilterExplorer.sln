@@ -1,11 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2013 for Windows
-VisualStudioVersion = 12.0.30304.0
+VisualStudioVersion = 12.0.30312.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FilterExplorer", "FilterExplorer\FilterExplorer.csproj", "{46E84DC1-A653-4984-A2AD-4A635F731A26}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FilterExplorer", "FilterExplorer", "{1EBD875B-A6BC-403B-92B3-4D3A00392868}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FilterExplorer.Windows", "FilterExplorer.Windows\FilterExplorer.Windows.csproj", "{46E84DC1-A653-4984-A2AD-4A635F731A26}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "FilterExplorer.Shared", "FilterExplorer.Shared\FilterExplorer.Shared.shproj", "{7541302C-EBCB-4597-9161-7024F3235B86}"
 EndProject

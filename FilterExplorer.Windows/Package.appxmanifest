@@ -2,7 +2,7 @@
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest" xmlns:m2="http://schemas.microsoft.com/appx/2013/manifest">
   <Identity Name="a882fe31-993a-436f-9b8f-4c694d54aae5" Publisher="CN=Filter Explorer" Version="1.0.0.0" />
   <Properties>
-    <DisplayName>Filter Explorer</DisplayName>
+    <DisplayName>FilterExplorer.Windows</DisplayName>
     <PublisherDisplayName>Nokia Developer</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
