@@ -45,8 +45,16 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <StackPanel Grid.Row="0" Margin="24,17,0,17">
-            <TextBlock x:Uid="ApplicationHeader" Style="{StaticResource TitleTextBlockStyle}" Typography.Capitals="SmallCaps"/>
+        <StackPanel Grid.Row="0" Margin="24,17,0,8">
+            <TextBlock x:Uid="ApplicationHeader" Style="{ThemeResource TitleTextBlockStyle}"
+                       Typography.Capitals="SmallCaps" Margin="1,0,0,0"/>
+            <TextBlock Style="{ThemeResource ListViewItemSubheaderTextBlockStyle}"
+                       IsHitTestVisible="false" TextWrapping="NoWrap" Opacity="0.5"
+                       Visibility="{Binding FolderName, Converter={StaticResource NullVisibilityConverter}}"
+                       VerticalAlignment="Center" Margin="-1,0,0,0">
+                <Run x:Uid="StreamPagePathPrefix"/>
+                <Run Text="{Binding FolderName}"/>
+            </TextBlock>
         </StackPanel>
 
         <Grid Grid.Row="1" x:Name="ContentRoot">
@@ -76,8 +84,9 @@
         <CommandBar IsOpen="True" IsSticky="True" >
             <AppBarButton x:Uid="StreamPageOpenPhotoButton" Icon="BrowsePhotos" Command="{Binding OpenPhotoCommand}"/>
             <AppBarButton x:Uid="StreamPageRefreshPhotosButton" Icon="Refresh" Command="{Binding RefreshPhotosCommand}"/>
-            
+
             <CommandBar.SecondaryCommands>
+                <AppBarButton x:Uid="StreamPageOpenFolderButton" Icon="Folder" Command="{Binding OpenFolderCommand}"/>
                 <AppBarButton x:Uid="StreamPageShowAboutButton" Icon="Help" Command="{Binding ShowAboutCommand}"/>
             </CommandBar.SecondaryCommands>
         </CommandBar>

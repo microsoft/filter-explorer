@@ -34,8 +34,8 @@ namespace FilterExplorer.ViewModels
         public IDelegateCommand GoBackCommand { get; private set; }
         public IDelegateCommand SelectPhotoCommand { get; private set; }
         public IDelegateCommand OpenPhotoCommand { get; private set; }
-#if !WINDOWS_PHONE_APP
         public IDelegateCommand OpenFolderCommand { get; private set; }
+#if !WINDOWS_PHONE_APP
         public IDelegateCommand CapturePhotoCommand { get; private set; }
 #endif
         public IDelegateCommand RefreshPhotosCommand { get; private set; }
@@ -129,8 +129,14 @@ namespace FilterExplorer.ViewModels
                     }
                 });
 #endif
-            
-#if !WINDOWS_PHONE_APP
+
+#if WINDOWS_PHONE_APP
+            OpenFolderCommand = new DelegateCommand(
+                (parameter) =>
+                {
+                    StartOpenPhotoFolder();
+                });
+#else
             OpenFolderCommand = new DelegateCommand(
                 async (parameter) =>
                 {
@@ -143,7 +149,9 @@ namespace FilterExplorer.ViewModels
                         await Refresh();
                     }
                 });
+#endif
 
+#if !WINDOWS_PHONE_APP
             CapturePhotoCommand = new DelegateCommand(
                 async (parameter) =>
                 {
@@ -289,19 +297,6 @@ namespace FilterExplorer.ViewModels
             return filter;
         }
 
-#if !WINDOWS_PHONE_APP
-        public static async Task<StorageFolder> PickPhotoFolderAsync()
-        {
-            var picker = new FolderPicker();
-            picker.FileTypeFilter.Add(".jpg");
-            picker.FileTypeFilter.Add(".jpeg");
-            picker.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
-            picker.ViewMode = PickerViewMode.Thumbnail;
-
-            return await picker.PickSingleFolderAsync();
-        }
-#endif
-
 #if WINDOWS_PHONE_APP
         private void StartOpenPhotoFile()
         {
@@ -314,18 +309,45 @@ namespace FilterExplorer.ViewModels
             App.ContinuationEventArgsChanged += App_ContinuationEventArgsChanged;
         }
 
-        private void App_ContinuationEventArgsChanged(object sender, IContinuationActivatedEventArgs e)
+        private void StartOpenPhotoFolder()
+        {
+            var picker = new FolderPicker();
+            picker.FileTypeFilter.Add(".jpg");
+            picker.FileTypeFilter.Add(".jpeg");
+            picker.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
+            picker.ViewMode = PickerViewMode.Thumbnail;
+            picker.ContinuationData["Operation"] = "OpenPhotoFolder";
+            picker.PickFolderAndContinue();
+
+            App.ContinuationEventArgsChanged += App_ContinuationEventArgsChanged;
+        }
+
+        private async void App_ContinuationEventArgsChanged(object sender, IContinuationActivatedEventArgs e)
         {
             App.ContinuationEventArgsChanged -= App_ContinuationEventArgsChanged;
 
-            var args = e as FileOpenPickerContinuationEventArgs;
+            var fileArgs = e as FileOpenPickerContinuationEventArgs;
+            var folderArgs = e as FolderPickerContinuationEventArgs;
 
-            if (args != null && (args.ContinuationData["Operation"] as string) == "OpenPhotoFile" && args.Files != null && args.Files.Count > 0)
+            if (fileArgs != null && (fileArgs.ContinuationData["Operation"] as string) == "OpenPhotoFile" && fileArgs.Files != null && fileArgs.Files.Count > 0)
             {
-                SessionModel.Instance.Photo = new FilteredPhotoModel(args.Files[0]);
+                var file = fileArgs.Files[0];
+
+                SessionModel.Instance.Photo = new FilteredPhotoModel(file);
 
                 var frame = (Frame)Window.Current.Content;
                 frame.Navigate(typeof(PhotoPage));
+            }
+            else if (folderArgs != null && (folderArgs.ContinuationData["Operation"] as string) == "OpenPhotoFolder" && folderArgs.Folder != null)
+            {
+                var folder = folderArgs.Folder;
+
+                if (folder != null && (SessionModel.Instance.Folder == null || folder.Path != SessionModel.Instance.Folder.Path))
+                {
+                    SessionModel.Instance.Folder = folder;
+
+                    await Refresh();
+                }
             }
         }
 #else
@@ -340,9 +362,18 @@ namespace FilterExplorer.ViewModels
 
             return await picker.PickSingleFileAsync();
         }
-#endif
 
-#if !WINDOWS_PHONE_APP
+        public static async Task<StorageFolder> PickPhotoFolderAsync()
+        {
+            var picker = new FolderPicker();
+            picker.FileTypeFilter.Add(".jpg");
+            picker.FileTypeFilter.Add(".jpeg");
+            picker.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
+            picker.ViewMode = PickerViewMode.Thumbnail;
+
+            return await picker.PickSingleFolderAsync();
+        }
+
         public static async Task<StorageFile> CapturePhotoFileAsync()
         {
             var captureUi = new Windows.Media.Capture.CameraCaptureUI();
