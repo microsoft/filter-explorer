@@ -20,7 +20,7 @@
         <x:String x:Key="PhotoSaveTemporaryFilename">ShareTemp.jpg</x:String>
         <x:Int32 x:Key="MaximumStreamItems">64</x:Int32>
         <x:Int32 x:Key="MaximumTickets">12</x:Int32>
-        <x:Int32 x:Key="ThumbnailSide">200</x:Int32>
+        <x:Int32 x:Key="ThumbnailSide">400</x:Int32>
         <x:Int32 x:Key="PreviewSide">800</x:Int32>
         <SolidColorBrush x:Key="FilterExplorerAccentColorBrush" Color="Yellow"/>
         
