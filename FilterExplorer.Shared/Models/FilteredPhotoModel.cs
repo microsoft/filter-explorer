@@ -184,8 +184,8 @@ namespace FilterExplorer.Models
 
             IRandomAccessStream filteredStream = null;
 
-            using (var stream = await _photo.GetPhotoAsync())
             using (var ticket = await TicketManager.AcquireTicket())
+            using (var stream = await _photo.GetPhotoAsync())
             {
                 if (Filters.Count > 0)
                 {
@@ -224,8 +224,8 @@ namespace FilterExplorer.Models
 
             IRandomAccessStream filteredStream = null;
 
-            using (var stream = await _photo.GetPreviewAsync())
             using (var ticket = await TicketManager.AcquireTicket())
+            using (var stream = await _photo.GetPreviewAsync())
             {
                 if (Filters.Count > 0)
                 {
@@ -264,8 +264,8 @@ namespace FilterExplorer.Models
 
             IRandomAccessStream filteredStream = null;
 
-            using (var stream = await _photo.GetThumbnailAsync())
             using (var ticket = await TicketManager.AcquireTicket())
+            using (var stream = await _photo.GetThumbnailAsync())
             {
                 if (Filters.Count > 0)
                 {

@@ -147,42 +147,19 @@ namespace FilterExplorer.Models
             System.Diagnostics.Debug.WriteLine("GetThumbnailStreamAsync invoked " + this.GetHashCode());
 #endif
 
+            var size = await GetPhotoResolutionAsync();
             var maximumSide = (int)Windows.UI.Xaml.Application.Current.Resources["ThumbnailSide"];
 
-            using (var stream = await _file.GetThumbnailAsync(Windows.Storage.FileProperties.ThumbnailMode.PicturesView))
+            if (size.HasValue && (size.Value.Width > maximumSide || size.Value.Height > maximumSide))
             {
-                if (stream.ContentType == "image/jpeg")
+                using (var stream = await GetPhotoAsync())
                 {
-                    if (stream.OriginalWidth <= maximumSide || stream.OriginalHeight <= maximumSide)
-                    {
-                        using (var memoryStream = new InMemoryRandomAccessStream())
-                        {
-                            using (var reader = new DataReader(stream))
-                            using (var writer = new DataWriter(memoryStream))
-                            {
-                                await reader.LoadAsync((uint)stream.Size);
-                                var buffer = reader.ReadBuffer((uint)stream.Size);
-
-                                writer.WriteBuffer(buffer);
-                                await writer.StoreAsync();
-                                await writer.FlushAsync();
-
-                                return memoryStream.CloneStream();
-                            }
-                        }
-                    }
-                    else
-                    {
-                        return await ResizeStreamAsync(stream, new Size(maximumSide, maximumSide));
-                    }
+                    return await ResizeStreamAsync(stream, new Size(maximumSide, maximumSide));
                 }
-                else
-                {
-                    using (var photo = await GetPreviewAsync())
-                    {
-                        return await ResizeStreamAsync(stream, new Size(maximumSide, maximumSide));
-                    }
-                }
+            }
+            else
+            {
+                return await GetPhotoAsync();
             }
         }
 
