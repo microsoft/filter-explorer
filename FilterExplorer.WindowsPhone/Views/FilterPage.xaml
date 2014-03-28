@@ -49,7 +49,7 @@
         </StackPanel>
 
         <Grid Grid.Row="1" x:Name="ContentRoot">
-            <GridView SelectionMode="None" ItemsSource="{Binding Thumbnails}"
+            <GridView x:Name="FilterGrid" SelectionMode="None" ItemsSource="{Binding Thumbnails}"
                       IsItemClickEnabled="True" ItemClick="GridView_ItemClick">
                 <GridView.ItemsPanel>
                     <ItemsPanelTemplate>
@@ -58,7 +58,7 @@
                 </GridView.ItemsPanel>
                 <GridView.ItemTemplate>
                     <DataTemplate>
-                        <Grid Margin="0,0,8,8" Width="111" Height="111">
+                        <Grid Margin="0,0,8,8" Width="{Binding ItemSideLength}" Height="{Binding ItemSideLength}">
                             <Border Background="#67000000">
                                 <Image Source="{Binding Thumbnail}" Stretch="UniformToFill"/>
                             </Border>

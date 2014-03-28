@@ -25,6 +25,21 @@ namespace FilterExplorer.Views
             this.InitializeComponent();
 
             DataContext = _viewModel;
+
+            FilterGrid.LayoutUpdated += FilterGrid_LayoutUpdated;
+        }
+
+        private void FilterGrid_LayoutUpdated(object sender, object e)
+        {
+            var panel = FilterGrid.ItemsPanelRoot as WrapGrid;
+
+            if (panel != null)
+            {
+                var side = (ActualWidth - panel.Margin.Left - panel.Margin.Right) / 3;
+
+                panel.ItemWidth = side;
+                panel.ItemHeight = side;
+            }
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)

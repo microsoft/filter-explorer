@@ -37,16 +37,16 @@ namespace FilterExplorer.Views
 
             _timer.Tick += DispatcherTimer_Tick;
 
-            SizeChanged += StreamPage_SizeChanged;
+            Mosaic.LayoutUpdated += Mosaic_LayoutUpdated;
         }
 
-        private void StreamPage_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void Mosaic_LayoutUpdated(object sender, object e)
         {
             var panel = Mosaic.ItemsPanelRoot as VariableSizedWrapGrid;
 
             if (panel != null)
             {
-                var side = (e.NewSize.Width - panel.Margin.Left - panel.Margin.Right) / 3;
+                var side = (ActualWidth - panel.Margin.Left - panel.Margin.Right) / 3;
 
                 panel.ItemWidth = side;
                 panel.ItemHeight = side;
