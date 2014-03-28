@@ -11,17 +11,20 @@
 using FilterExplorer.Utilities;
 using Nokia.Graphics.Imaging;
 using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.Foundation;
+using Windows.Storage;
+using Windows.Storage.FileProperties;
 using Windows.Storage.Streams;
 
 namespace FilterExplorer.Models
 {
     public class PhotoModel
     {
-        private Windows.Storage.StorageFile _file = null;
-        private Windows.Storage.FileProperties.ImageProperties _properties = null;
+        private StorageFile _file = null;
+        private TaskResultCache<ImageProperties> _propertiesCache = new TaskResultCache<ImageProperties>();
         private TaskResultCache<IRandomAccessStream> _photoCache = new TaskResultCache<IRandomAccessStream>();
         private TaskResultCache<IRandomAccessStream> _previewCache = new TaskResultCache<IRandomAccessStream>();
         private TaskResultCache<IRandomAccessStream> _thumbnailCache = new TaskResultCache<IRandomAccessStream>();
@@ -46,6 +49,7 @@ namespace FilterExplorer.Models
 
         ~PhotoModel()
         {
+            _propertiesCache.Invalidate();
             _photoCache.Invalidate();
             _previewCache.Invalidate();
             _thumbnailCache.Invalidate();
@@ -53,19 +57,44 @@ namespace FilterExplorer.Models
 
         public async Task<Size?> GetPhotoResolutionAsync()
         {
-            Size? size = null; ;
+            Size? size = null;
 
-            if (_properties == null)
+            if (_propertiesCache.Pending)
             {
-                _properties = await _file.Properties.GetImagePropertiesAsync();
+                await _propertiesCache.WaitAsync();
+            }
+            else if (_propertiesCache.Result == null)
+            {
+                await _propertiesCache.Execute(_file.Properties.GetImagePropertiesAsync().AsTask());
             }
 
-            if (_properties != null)
+            if (_propertiesCache.Result != null)
             {
-                size = new Size(_properties.Width, _properties.Height);
+                size = new Size(_propertiesCache.Result.Width, _propertiesCache.Result.Height);
             }
 
             return size;
+        }
+
+        public async Task<PhotoOrientation?> GetPhotoOrientationAsync()
+        {
+            PhotoOrientation? orientation = null;
+
+            if (_propertiesCache.Pending)
+            {
+                await _propertiesCache.WaitAsync();
+            }
+            else if (_propertiesCache.Result == null)
+            {
+                await _propertiesCache.Execute(_file.Properties.GetImagePropertiesAsync().AsTask());
+            }
+
+            if (_propertiesCache.Result != null)
+            {
+                orientation = _propertiesCache.Result.Orientation;
+            }
+
+            return orientation;
         }
 
         public async Task<IRandomAccessStream> GetPhotoAsync()
@@ -128,16 +157,19 @@ namespace FilterExplorer.Models
             var size = await GetPhotoResolutionAsync();
             var maximumSide = (int)Windows.UI.Xaml.Application.Current.Resources["PreviewSide"];
 
-            if (size.HasValue && (size.Value.Width > maximumSide || size.Value.Height > maximumSide))
+            using (var stream = await GetPhotoAsync())
             {
-                using (var stream = await GetPhotoAsync())
+                var orientation = await GetPhotoOrientationAsync();
+                var orientationValue = orientation.HasValue ? orientation.Value : PhotoOrientation.Unspecified;
+
+                if (size.HasValue && (size.Value.Width > maximumSide || size.Value.Height > maximumSide) || orientationValue != PhotoOrientation.Normal)
                 {
-                    return await ResizeStreamAsync(stream, new Size(maximumSide, maximumSide));
+                    return await ResizeStreamAsync(stream, new Size(maximumSide, maximumSide), orientationValue);
                 }
-            }
-            else
-            {
-                return await GetPhotoAsync();
+                else
+                {
+                    return stream.CloneStream();
+                }
             }
         }
 
@@ -149,22 +181,40 @@ namespace FilterExplorer.Models
 
             var size = await GetPhotoResolutionAsync();
             var maximumSide = (int)Windows.UI.Xaml.Application.Current.Resources["ThumbnailSide"];
+            var orientation = await GetPhotoOrientationAsync();
+            var orientationValue = orientation.HasValue ? orientation.Value : PhotoOrientation.Unspecified;
 
-            if (size.HasValue && (size.Value.Width > maximumSide || size.Value.Height > maximumSide))
+            using (var stream = await GetPhotoAsync())
             {
-                using (var stream = await GetPhotoAsync())
-                {
-                    return await ResizeStreamAsync(stream, new Size(maximumSide, maximumSide));
-                }
-            }
-            else
-            {
-                return await GetPhotoAsync();
+                return await ResizeStreamAsync(stream, new Size(maximumSide, maximumSide), orientationValue);
             }
         }
 
-        private async Task<IRandomAccessStream> ResizeStreamAsync(IRandomAccessStream stream, Size size)
+        private async Task<IRandomAccessStream> ResizeStreamAsync(IRandomAccessStream stream, Size size, PhotoOrientation orientation)
         {
+            var rotation = 0;
+
+            switch (orientation)
+            {
+                case PhotoOrientation.Rotate180:
+                    {
+                        rotation = -180;
+                    };
+                    break;
+
+                case PhotoOrientation.Rotate270:
+                    {
+                        rotation = -270;
+                    };
+                    break;
+
+                case PhotoOrientation.Rotate90:
+                    {
+                        rotation = -90;
+                    };
+                    break;
+            }
+
             using (var resizedStream = new InMemoryRandomAccessStream())
             {
                 var buffer = new byte[stream.Size].AsBuffer();
@@ -178,8 +228,33 @@ namespace FilterExplorer.Models
                 buffer = await JpegTools.AutoResizeAsync(buffer, resizeConfiguration);
 
                 await resizedStream.WriteAsync(buffer);
+                await resizedStream.FlushAsync();
 
-                return resizedStream.CloneStream();
+                if (rotation != 0)
+                {
+                    resizedStream.Seek(0);
+
+                    var filters = new List<IFilter>() { new RotationFilter(rotation) };
+
+                    using (var source = new RandomAccessStreamImageSource(resizedStream))
+                    using (var effect = new FilterEffect(source) { Filters = filters })
+                    using (var renderer = new JpegRenderer(effect))
+                    {
+                        buffer = await renderer.RenderAsync();
+
+                        using (var rotatedResizedStream = new InMemoryRandomAccessStream())
+                        {
+                            await rotatedResizedStream.WriteAsync(buffer);
+                            await rotatedResizedStream.FlushAsync();
+
+                            return rotatedResizedStream.CloneStream();
+                        }
+                    }
+                }
+                else
+                {
+                    return resizedStream.CloneStream();
+                }
             }
         }
     }
