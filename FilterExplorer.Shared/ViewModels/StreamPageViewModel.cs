@@ -22,6 +22,7 @@ using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using System.Linq;
 
 namespace FilterExplorer.ViewModels
 {
@@ -401,7 +402,7 @@ namespace FilterExplorer.ViewModels
         private static async Task<List<FilteredPhotoModel>> GetPhotosFromFolderAsync(StorageFolder folder, uint amount)
         {
             var list = new List<FilteredPhotoModel>();
-            var files = await folder.GetFilesAsync();
+            var files = (await folder.GetFilesAsync()).Reverse();
 
             foreach (var file in files)
             {
