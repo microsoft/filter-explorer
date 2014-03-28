@@ -412,7 +412,7 @@ namespace FilterExplorer.ViewModels
 
                 var properties = await file.GetBasicPropertiesAsync();
 
-                if (properties.Size > 0 && file.ContentType == "image/jpeg")
+                if (properties.Size > 0 && file.ContentType == "image/jpeg" && !file.Name.Contains("highres"))
                 {
                     list.Add(new FilteredPhotoModel(file));
                 }
