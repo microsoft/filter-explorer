@@ -44,7 +44,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-
+        
         <StackPanel Grid.Row="0" Margin="24,17,0,8">
             <TextBlock x:Uid="ApplicationHeader" Style="{ThemeResource TitleTextBlockStyle}"
                        Typography.Capitals="SmallCaps" Margin="1,0,0,0"/>
@@ -58,11 +58,11 @@
         </StackPanel>
 
         <Grid Grid.Row="1" x:Name="ContentRoot">
-            <controls:ThumbnailMosaicView SelectionMode="None" ItemsSource="{Binding Thumbnails}"
+            <controls:ThumbnailMosaicView x:Name="Mosaic" SelectionMode="None" ItemsSource="{Binding Thumbnails}"
                                           IsItemClickEnabled="True" ItemClick="GridView_ItemClick">
                 <controls:ThumbnailMosaicView.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <VariableSizedWrapGrid Margin="24,0,16,24" ItemWidth="118" ItemHeight="118" Orientation="Horizontal"/>
+                        <VariableSizedWrapGrid Margin="24,0,16,24" Orientation="Horizontal"/>
                     </ItemsPanelTemplate>
                 </controls:ThumbnailMosaicView.ItemsPanel>
                 <controls:ThumbnailMosaicView.ItemTemplate>

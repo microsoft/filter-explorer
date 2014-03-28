@@ -36,6 +36,21 @@ namespace FilterExplorer.Views
             DataContext = _viewModel;
 
             _timer.Tick += DispatcherTimer_Tick;
+
+            SizeChanged += StreamPage_SizeChanged;
+        }
+
+        private void StreamPage_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            var panel = Mosaic.ItemsPanelRoot as VariableSizedWrapGrid;
+
+            if (panel != null)
+            {
+                var side = (e.NewSize.Width - panel.Margin.Left - panel.Margin.Right) / 3;
+
+                panel.ItemWidth = side;
+                panel.ItemHeight = side;
+            }
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
