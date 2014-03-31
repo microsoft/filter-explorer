@@ -1,0 +1,44 @@
+﻿<phone:PhoneApplicationPage
+    x:Class="ImageProcessingApp.FilterPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+    mc:Ignorable="d"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="PortraitOrLandscape" Orientation="None"
+    shell:SystemTray.IsVisible="False">
+
+    <Grid x:Name="LayoutRoot">
+        <Grid.Background>
+            <ImageBrush ImageSource="/Assets/Graphics/background.png" Stretch="UniformToFill"/>
+        </Grid.Background>
+        
+        <phone:Pivot x:Name="Pivot">
+            <phone:Pivot.Title>
+                <Image x:Name="TitleImage" Source="/Assets/Graphics/title.png" Stretch="None"
+                       HorizontalAlignment="Left" Margin="-8,0,-6,0"/>
+            </phone:Pivot.Title>
+
+            <phone:PivotItem Header="{Binding Path=LocalizedResources.FiltersPage_PivotItemHeader_Artistic, Source={StaticResource LocalizedStrings}}" Margin="12,0,12,0">
+                <ScrollViewer>
+                    <toolkit:WrapPanel x:Name="StandardFiltersWrapPanel" Margin="6,0,6,18"/>
+                </ScrollViewer>
+            </phone:PivotItem>
+
+            <phone:PivotItem Header="{Binding Path=LocalizedResources.FiltersPage_PivotItemHeader_Enhancement, Source={StaticResource LocalizedStrings}}" Margin="12,0,12,0">
+                <ScrollViewer>
+                    <toolkit:WrapPanel x:Name="EnhancementFiltersWrapPanel" Margin="6,0,6,18"/>
+                </ScrollViewer>
+            </phone:PivotItem>
+        </phone:Pivot>
+
+        <ProgressBar x:Name="ProgressBar" VerticalAlignment="Top"
+                     Visibility="Collapsed" IsIndeterminate="False"/>
+    </Grid>
+</phone:PhoneApplicationPage>

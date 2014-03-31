@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Windows Phone
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FilterExplorer", "FilterExplorer\FilterExplorer.csproj", "{84975528-8A0E-4FBA-AA7F-430533C99B99}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{F5B26509-CAE8-47F9-B949-3E8CA9B1F68C}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|ARM = Debug|ARM
+		Debug|x86 = Debug|x86
+		Release|ARM = Release|ARM
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{84975528-8A0E-4FBA-AA7F-430533C99B99}.Debug|ARM.ActiveCfg = Debug|ARM
+		{84975528-8A0E-4FBA-AA7F-430533C99B99}.Debug|ARM.Build.0 = Debug|ARM
+		{84975528-8A0E-4FBA-AA7F-430533C99B99}.Debug|ARM.Deploy.0 = Debug|ARM
+		{84975528-8A0E-4FBA-AA7F-430533C99B99}.Debug|x86.ActiveCfg = Debug|x86
+		{84975528-8A0E-4FBA-AA7F-430533C99B99}.Debug|x86.Build.0 = Debug|x86
+		{84975528-8A0E-4FBA-AA7F-430533C99B99}.Debug|x86.Deploy.0 = Debug|x86
+		{84975528-8A0E-4FBA-AA7F-430533C99B99}.Release|ARM.ActiveCfg = Release|ARM
+		{84975528-8A0E-4FBA-AA7F-430533C99B99}.Release|ARM.Build.0 = Release|ARM
+		{84975528-8A0E-4FBA-AA7F-430533C99B99}.Release|ARM.Deploy.0 = Release|ARM
+		{84975528-8A0E-4FBA-AA7F-430533C99B99}.Release|x86.ActiveCfg = Release|x86
+		{84975528-8A0E-4FBA-AA7F-430533C99B99}.Release|x86.Build.0 = Release|x86
+		{84975528-8A0E-4FBA-AA7F-430533C99B99}.Release|x86.Deploy.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

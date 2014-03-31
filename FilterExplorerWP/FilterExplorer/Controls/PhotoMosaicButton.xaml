@@ -1,0 +1,19 @@
+﻿<UserControl x:Class="ImageProcessingApp.Controls.PhotoMosaicButton"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="clr-namespace:ImageProcessingApp.Controls"
+    mc:Ignorable="d"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    d:DesignHeight="80" d:DesignWidth="480">
+
+    <controls:TiltGrid x:Name="LayoutRoot" Background="Transparent" Tap="Grid_Tap">
+        <TextBlock Text="{Binding Text}"
+                   VerticalAlignment="Center" Style="{StaticResource ImageProcessingAppTextLargeStyle}"
+                   Visibility="{Binding IsEnabled, Converter={StaticResource BoolVisibilityConverter}}"
+                   Margin="12,12,12,24"/>
+    </controls:TiltGrid>
+</UserControl>

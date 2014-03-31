@@ -1,0 +1,272 @@
+﻿<UserControl x:Class="ImageProcessingApp.Controls.PhotoMosaic"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+    xmlns:controls="clr-namespace:ImageProcessingApp.Controls"
+    mc:Ignorable="d"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    d:DesignHeight="960" d:DesignWidth="480">
+    
+    <Grid x:Name="LayoutRoot">
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        
+        <controls:TiltGrid Grid.Row="0" Grid.Column="4" Grid.ColumnSpan="2" Grid.RowSpan="2"
+                       Margin="0,0,12,12" toolkit:TiltEffect.IsTiltEnabled="True"
+                       Visibility="{Binding Image2, Converter={StaticResource NullVisibilityConverter}}"
+                       Projection="{Binding Image2.Projection}"
+                       IsHitTestVisible="{Binding Image2.Ready}">
+            <Grid Opacity="{Binding Image2.Ready, Converter={StaticResource BoolOpacityConverter}}">
+                <Rectangle Fill="{StaticResource ImageProcessingAppFrameBackgroundColorBrush}" Opacity="0.25"/>
+                <Image CacheMode="BitmapCache" Tap="Image_Tap" x:Name="Image2" Source="{Binding Image2.MediumImage}" Stretch="Uniform"/>
+                <Image Source="/Assets/Graphics/shadow.png" VerticalAlignment="Bottom" Margin="0,0,0,-8"/>
+                <Border BorderBrush="{StaticResource ImageProcessingAppFrameBackgroundColorBrush}" BorderThickness="4"/>
+            </Grid>
+        </controls:TiltGrid>
+
+        <controls:TiltGrid Grid.Row="2"  Grid.Column="4" Grid.ColumnSpan="2" Grid.RowSpan="2"
+                       Margin="0,0,12,12" toolkit:TiltEffect.IsTiltEnabled="True"
+                       Visibility="{Binding Image3, Converter={StaticResource NullVisibilityConverter}}"
+                       Projection="{Binding Image3.Projection}"
+                       IsHitTestVisible="{Binding Image3.Ready}">
+            <Grid Opacity="{Binding Image3.Ready, Converter={StaticResource BoolOpacityConverter}}">
+                <Rectangle Fill="{StaticResource ImageProcessingAppFrameBackgroundColorBrush}" Opacity="0.25"/>
+                <Image CacheMode="BitmapCache" Tap="Image_Tap" x:Name="Image3" Source="{Binding Image3.MediumImage}"/>
+                <Image Source="/Assets/Graphics/shadow.png" VerticalAlignment="Bottom" Margin="0,0,0,-8"/>
+                <Border BorderBrush="{StaticResource ImageProcessingAppFrameBackgroundColorBrush}" BorderThickness="4"/>
+            </Grid>
+        </controls:TiltGrid>
+
+        <controls:TiltGrid Grid.Row="4"  Grid.Column="0" Grid.ColumnSpan="1" Grid.RowSpan="1"
+                       Margin="0,0,12,12" toolkit:TiltEffect.IsTiltEnabled="True"
+                       Visibility="{Binding Image4, Converter={StaticResource NullVisibilityConverter}}"
+                       Projection="{Binding Image4.Projection}"
+                       IsHitTestVisible="{Binding Image4.Ready}">
+            <Grid Opacity="{Binding Image4.Ready, Converter={StaticResource BoolOpacityConverter}}">
+                <Rectangle Fill="{StaticResource ImageProcessingAppFrameBackgroundColorBrush}" Opacity="0.25"/>
+                <Image CacheMode="BitmapCache" Tap="Image_Tap" x:Name="Image4" Source="{Binding Image4.SmallImage}" Height="64"/>
+                <Image Source="/Assets/Graphics/shadow.png" VerticalAlignment="Bottom" Margin="0,0,0,-4"/>
+                <Border BorderBrush="{StaticResource ImageProcessingAppFrameBackgroundColorBrush}" BorderThickness="4"/>
+            </Grid>
+        </controls:TiltGrid>
+
+        <controls:TiltGrid Grid.Row="4"  Grid.Column="1" Grid.ColumnSpan="1" Grid.RowSpan="1"
+                       Margin="0,0,12,12" toolkit:TiltEffect.IsTiltEnabled="True"
+                       Visibility="{Binding Image5, Converter={StaticResource NullVisibilityConverter}}"
+                       Projection="{Binding Image5.Projection}"
+                       IsHitTestVisible="{Binding Image5.Ready}">
+            <Grid Opacity="{Binding Image5.Ready, Converter={StaticResource BoolOpacityConverter}}">
+                <Rectangle Fill="{StaticResource ImageProcessingAppFrameBackgroundColorBrush}" Opacity="0.25"/>
+                <Image CacheMode="BitmapCache" Tap="Image_Tap" x:Name="Image5" Source="{Binding Image5.SmallImage}"/>
+                <Image Source="/Assets/Graphics/shadow.png" VerticalAlignment="Bottom" Margin="0,0,0,-4"/>
+                <Border BorderBrush="{StaticResource ImageProcessingAppFrameBackgroundColorBrush}" BorderThickness="4"/>
+            </Grid>
+        </controls:TiltGrid>
+
+        <controls:TiltGrid Grid.Row="5"  Grid.Column="0" Grid.ColumnSpan="1" Grid.RowSpan="1"
+                       Margin="0,0,12,12" toolkit:TiltEffect.IsTiltEnabled="True"
+                       Visibility="{Binding Image6, Converter={StaticResource NullVisibilityConverter}}"
+                       Projection="{Binding Image6.Projection}"
+                       IsHitTestVisible="{Binding Image6.Ready}">
+            <Grid Opacity="{Binding Image6.Ready, Converter={StaticResource BoolOpacityConverter}}">
+                <Rectangle Fill="{StaticResource ImageProcessingAppFrameBackgroundColorBrush}" Opacity="0.25"/>
+                <Image CacheMode="BitmapCache" Tap="Image_Tap" x:Name="Image6" Source="{Binding Image6.SmallImage}" Height="64"/>
+                <Image Source="/Assets/Graphics/shadow.png" VerticalAlignment="Bottom" Margin="0,0,0,-4"/>
+                <Border BorderBrush="{StaticResource ImageProcessingAppFrameBackgroundColorBrush}" BorderThickness="4"/>
+            </Grid>
+        </controls:TiltGrid>
+
+        <controls:TiltGrid Grid.Row="5"  Grid.Column="1" Grid.ColumnSpan="1" Grid.RowSpan="1"
+                       Margin="0,0,12,12" toolkit:TiltEffect.IsTiltEnabled="True"
+                       Visibility="{Binding Image7, Converter={StaticResource NullVisibilityConverter}}"
+                       Projection="{Binding Image7.Projection}"
+                       IsHitTestVisible="{Binding Image7.Ready}">
+            <Grid Opacity="{Binding Image7.Ready, Converter={StaticResource BoolOpacityConverter}}">
+                <Rectangle Fill="{StaticResource ImageProcessingAppFrameBackgroundColorBrush}" Opacity="0.25"/>
+                <Image CacheMode="BitmapCache" Tap="Image_Tap" x:Name="Image7" Source="{Binding Image7.SmallImage}"/>
+                <Image Source="/Assets/Graphics/shadow.png" VerticalAlignment="Bottom" Margin="0,0,0,-4"/>
+                <Border BorderBrush="{StaticResource ImageProcessingAppFrameBackgroundColorBrush}" BorderThickness="4"/>
+            </Grid>
+        </controls:TiltGrid>
+
+        <controls:TiltGrid Grid.Row="4"  Grid.Column="2" Grid.ColumnSpan="2" Grid.RowSpan="2"
+                       Margin="0,0,12,12" toolkit:TiltEffect.IsTiltEnabled="True"
+                       Visibility="{Binding Image8, Converter={StaticResource NullVisibilityConverter}}"
+                       Projection="{Binding Image8.Projection}"
+                       IsHitTestVisible="{Binding Image8.Ready}">
+            <Grid Opacity="{Binding Image8.Ready, Converter={StaticResource BoolOpacityConverter}}">
+                <Rectangle Fill="{StaticResource ImageProcessingAppFrameBackgroundColorBrush}" Opacity="0.25"/>
+                <Image CacheMode="BitmapCache" Tap="Image_Tap" x:Name="Image8" Source="{Binding Image8.MediumImage}"/>
+                <Image Source="/Assets/Graphics/shadow.png" VerticalAlignment="Bottom" Margin="0,0,0,-8"/>
+                <Border BorderBrush="{StaticResource ImageProcessingAppFrameBackgroundColorBrush}" BorderThickness="4"/>
+            </Grid>
+        </controls:TiltGrid>
+
+        <controls:TiltGrid Grid.Row="4"  Grid.Column="4" Grid.ColumnSpan="2" Grid.RowSpan="2"
+                       Margin="0,0,12,12" toolkit:TiltEffect.IsTiltEnabled="True"
+                       Visibility="{Binding Image9, Converter={StaticResource NullVisibilityConverter}}"
+                       Projection="{Binding Image9.Projection}"
+                       IsHitTestVisible="{Binding Image9.Ready}">
+            <Grid Opacity="{Binding Image9.Ready, Converter={StaticResource BoolOpacityConverter}}">
+                <Rectangle Fill="{StaticResource ImageProcessingAppFrameBackgroundColorBrush}" Opacity="0.25"/>
+                <Image CacheMode="BitmapCache" Tap="Image_Tap" x:Name="Image9" Source="{Binding Image9.MediumImage}"/>
+                <Image Source="/Assets/Graphics/shadow.png" VerticalAlignment="Bottom" Margin="0,0,0,-8"/>
+                <Border BorderBrush="{StaticResource ImageProcessingAppFrameBackgroundColorBrush}" BorderThickness="4"/>
+            </Grid>
+        </controls:TiltGrid>
+
+        <controls:TiltGrid Grid.Row="6"  Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="2"
+                       Margin="0,0,12,12" toolkit:TiltEffect.IsTiltEnabled="True"
+                       Visibility="{Binding Image10, Converter={StaticResource NullVisibilityConverter}}"
+                       Projection="{Binding Image10.Projection}"
+                       IsHitTestVisible="{Binding Image10.Ready}">
+            <Grid Opacity="{Binding Image10.Ready, Converter={StaticResource BoolOpacityConverter}}">
+                <Rectangle Fill="{StaticResource ImageProcessingAppFrameBackgroundColorBrush}" Opacity="0.25"/>
+                <Image CacheMode="BitmapCache" Tap="Image_Tap" x:Name="Image10" Source="{Binding Image10.MediumImage}" Height="135"/>
+                <Image Source="/Assets/Graphics/shadow.png" VerticalAlignment="Bottom" Margin="0,0,0,-8"/>
+                <Border BorderBrush="{StaticResource ImageProcessingAppFrameBackgroundColorBrush}" BorderThickness="4"/>
+            </Grid>
+        </controls:TiltGrid>
+
+        <controls:TiltGrid Grid.Row="8"  Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="2"
+                       Margin="0,0,12,12" toolkit:TiltEffect.IsTiltEnabled="True"
+                       Visibility="{Binding Image12, Converter={StaticResource NullVisibilityConverter}}"
+                       Projection="{Binding Image12.Projection}"
+                       IsHitTestVisible="{Binding Image12.Ready}">
+            <Grid Opacity="{Binding Image12.Ready, Converter={StaticResource BoolOpacityConverter}}">
+                <Rectangle Fill="{StaticResource ImageProcessingAppFrameBackgroundColorBrush}" Opacity="0.25"/>
+                <Image CacheMode="BitmapCache" Tap="Image_Tap" x:Name="Image12" Source="{Binding Image12.MediumImage}" Height="135"/>
+                <Image Source="/Assets/Graphics/shadow.png" VerticalAlignment="Bottom" Margin="0,0,0,-8"/>
+                <Border BorderBrush="{StaticResource ImageProcessingAppFrameBackgroundColorBrush}" BorderThickness="4"/>
+            </Grid>
+        </controls:TiltGrid>
+
+        <controls:TiltGrid Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="2"
+                       Margin="0,0,12,12" toolkit:TiltEffect.IsTiltEnabled="True"
+                       Visibility="{Binding Image13, Converter={StaticResource NullVisibilityConverter}}"
+                       Projection="{Binding Image13.Projection}"
+                       IsHitTestVisible="{Binding Image13.Ready}">
+            <Grid Opacity="{Binding Image13.Ready, Converter={StaticResource BoolOpacityConverter}}">
+                <Rectangle Fill="{StaticResource ImageProcessingAppFrameBackgroundColorBrush}" Opacity="0.25"/>
+                <Image CacheMode="BitmapCache" Tap="Image_Tap" x:Name="Image13" Source="{Binding Image13.MediumImage}" Height="135"/>
+                <Image Source="/Assets/Graphics/shadow.png" VerticalAlignment="Bottom" Margin="0,0,0,-8"/>
+                <Border BorderBrush="{StaticResource ImageProcessingAppFrameBackgroundColorBrush}" BorderThickness="4"/>
+            </Grid>
+        </controls:TiltGrid>
+
+        <controls:TiltGrid Grid.Row="10" Grid.Column="2" Grid.ColumnSpan="1" Grid.RowSpan="1"
+                       Margin="0,0,12,12" toolkit:TiltEffect.IsTiltEnabled="True"
+                       Visibility="{Binding Image14, Converter={StaticResource NullVisibilityConverter}}"
+                       Projection="{Binding Image14.Projection}"
+                       IsHitTestVisible="{Binding Image14.Ready}">
+            <Grid Opacity="{Binding Image14.Ready, Converter={StaticResource BoolOpacityConverter}}">
+                <Rectangle Fill="{StaticResource ImageProcessingAppFrameBackgroundColorBrush}" Opacity="0.25"/>
+                <Image CacheMode="BitmapCache" Tap="Image_Tap" x:Name="Image14" Source="{Binding Image14.SmallImage}"/>
+                <Image Source="/Assets/Graphics/shadow.png" VerticalAlignment="Bottom" Margin="0,0,0,-4"/>
+                <Border BorderBrush="{StaticResource ImageProcessingAppFrameBackgroundColorBrush}" BorderThickness="4"/>
+            </Grid>
+        </controls:TiltGrid>
+
+        <controls:TiltGrid Grid.Row="10" Grid.Column="3" Grid.ColumnSpan="1" Grid.RowSpan="1"
+                       Margin="0,0,12,12" toolkit:TiltEffect.IsTiltEnabled="True"
+                       Visibility="{Binding Image15, Converter={StaticResource NullVisibilityConverter}}"
+                       Projection="{Binding Image15.Projection}"
+                       IsHitTestVisible="{Binding Image15.Ready}">
+            <Grid Opacity="{Binding Image15.Ready, Converter={StaticResource BoolOpacityConverter}}">
+                <Rectangle Fill="{StaticResource ImageProcessingAppFrameBackgroundColorBrush}" Opacity="0.25"/>
+                <Image CacheMode="BitmapCache" Tap="Image_Tap" x:Name="Image15" Source="{Binding Image15.SmallImage}"/>
+                <Image Source="/Assets/Graphics/shadow.png" VerticalAlignment="Bottom" Margin="0,0,0,-4"/>
+                <Border BorderBrush="{StaticResource ImageProcessingAppFrameBackgroundColorBrush}" BorderThickness="4"/>
+            </Grid>
+        </controls:TiltGrid>
+
+        <controls:TiltGrid Grid.Row="11" Grid.Column="2" Grid.ColumnSpan="1" Grid.RowSpan="1"
+                       Margin="0,0,12,12" toolkit:TiltEffect.IsTiltEnabled="True"
+                       Visibility="{Binding Image16, Converter={StaticResource NullVisibilityConverter}}"
+                       Projection="{Binding Image16.Projection}"
+                       IsHitTestVisible="{Binding Image16.Ready}">
+            <Grid Opacity="{Binding Image16.Ready, Converter={StaticResource BoolOpacityConverter}}">
+                <Rectangle Fill="{StaticResource ImageProcessingAppFrameBackgroundColorBrush}" Opacity="0.25"/>
+                <Image CacheMode="BitmapCache" Tap="Image_Tap" x:Name="Image16" Source="{Binding Image16.SmallImage}"/>
+                <Image Source="/Assets/Graphics/shadow.png" VerticalAlignment="Bottom" Margin="0,0,0,-4"/>
+                <Border BorderBrush="{StaticResource ImageProcessingAppFrameBackgroundColorBrush}" BorderThickness="4"/>
+            </Grid>
+        </controls:TiltGrid>
+
+        <controls:TiltGrid Grid.Row="11" Grid.Column="3" Grid.ColumnSpan="1" Grid.RowSpan="1"
+                       Margin="0,0,12,12" toolkit:TiltEffect.IsTiltEnabled="True"
+                       Visibility="{Binding Image17, Converter={StaticResource NullVisibilityConverter}}"
+                       Projection="{Binding Image17.Projection}">
+            <Grid Opacity="{Binding Image17.Ready, Converter={StaticResource BoolOpacityConverter}}"
+                       IsHitTestVisible="{Binding Image17.Ready}">
+                <Rectangle Fill="{StaticResource ImageProcessingAppFrameBackgroundColorBrush}" Opacity="0.25"/>
+                <Image CacheMode="BitmapCache" Tap="Image_Tap" x:Name="Image17" Source="{Binding Image17.SmallImage}"/>
+                <Image Source="/Assets/Graphics/shadow.png" VerticalAlignment="Bottom" Margin="0,0,0,-4"/>
+                <Border BorderBrush="{StaticResource ImageProcessingAppFrameBackgroundColorBrush}" BorderThickness="4"/>
+            </Grid>
+        </controls:TiltGrid>
+
+        <controls:TiltGrid Grid.Row="10" Grid.Column="4" Grid.ColumnSpan="2" Grid.RowSpan="2"
+                       Margin="0,0,12,12" toolkit:TiltEffect.IsTiltEnabled="True"
+                       Visibility="{Binding Image18, Converter={StaticResource NullVisibilityConverter}}"
+                       Projection="{Binding Image18.Projection}"
+                       IsHitTestVisible="{Binding Image18.Ready}">
+            <Grid Opacity="{Binding Image18.Ready, Converter={StaticResource BoolOpacityConverter}}">
+                <Rectangle Fill="{StaticResource ImageProcessingAppFrameBackgroundColorBrush}" Opacity="0.25"/>
+                <Image CacheMode="BitmapCache" Tap="Image_Tap" x:Name="Image18" Source="{Binding Image18.MediumImage}"/>
+                <Image Source="/Assets/Graphics/shadow.png" VerticalAlignment="Bottom" Margin="0,0,0,-8"/>
+                <Border BorderBrush="{StaticResource ImageProcessingAppFrameBackgroundColorBrush}" BorderThickness="4"/>
+            </Grid>
+        </controls:TiltGrid>
+
+        <controls:TiltGrid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" Grid.RowSpan="4"
+                       Margin="0,0,12,12" toolkit:TiltEffect.IsTiltEnabled="True"
+                       Visibility="{Binding Image1, Converter={StaticResource NullVisibilityConverter}}"
+                       Projection="{Binding Image1.Projection}"
+                       IsHitTestVisible="{Binding Image1.Ready}">
+            <Grid Opacity="{Binding Image1.Ready, Converter={StaticResource BoolOpacityConverter}}">
+                <Rectangle Fill="{StaticResource ImageProcessingAppFrameBackgroundColorBrush}" Opacity="0.25"/>
+                <Image CacheMode="BitmapCache" Tap="Image_Tap" x:Name="Image1" Source="{Binding Image1.LargeImage}" Height="279"/>
+                <Image Source="/Assets/Graphics/shadow.png" VerticalAlignment="Bottom" Margin="0,0,0,-15"/>
+                <Border BorderBrush="{StaticResource ImageProcessingAppFrameBackgroundColorBrush}" BorderThickness="4"/>
+            </Grid>
+        </controls:TiltGrid>
+
+        <controls:TiltGrid Grid.Row="6"  Grid.Column="2" Grid.ColumnSpan="4" Grid.RowSpan="4"
+                       Margin="0,0,12,12" toolkit:TiltEffect.IsTiltEnabled="True"
+                       Visibility="{Binding Image11, Converter={StaticResource NullVisibilityConverter}}"
+                       Projection="{Binding Image11.Projection}"
+                       IsHitTestVisible="{Binding Image11.Ready}">
+            <Grid Opacity="{Binding Image11.Ready, Converter={StaticResource BoolOpacityConverter}}">
+                <Rectangle Fill="{StaticResource ImageProcessingAppFrameBackgroundColorBrush}" Opacity="0.25"/>
+                <Image CacheMode="BitmapCache" Tap="Image_Tap" x:Name="Image11" Source="{Binding Image11.LargeImage}"/>
+                <Image Source="/Assets/Graphics/shadow.png" VerticalAlignment="Bottom" Margin="0,0,0,-15"/>
+                <Border BorderBrush="{StaticResource ImageProcessingAppFrameBackgroundColorBrush}" BorderThickness="4"/>
+            </Grid>
+        </controls:TiltGrid>
+    </Grid>
+</UserControl>

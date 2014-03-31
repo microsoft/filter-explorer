@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Deployment xmlns="http://schemas.microsoft.com/windowsphone/2012/deployment" AppPlatformVersion="8.0">
+  <DefaultLanguage xmlns="" code="en-US" />
+  <App xmlns="" ProductID="{84975528-8a0e-4fba-aa7f-430533c99b99}" Title="Filter Explorer" RuntimeType="Silverlight" Version="1.3.0.0" Genre="apps.normal" Author="Nokia" Description="Filter Explorer application demonstrates some of the image editing capabilities and performance of the Nokia Imaging SDK by allowing you to apply a number of filter layers to existing or newly captured photos." Publisher="Nokia Developer" PublisherID="{26fd29c2-5c48-422a-9c35-b50da55e9aba}">
+    <IconPath IsRelative="true" IsResource="false">Assets\ApplicationIcon.png</IconPath>
+    <Capabilities>
+      <Capability Name="ID_CAP_MEDIALIB_PHOTO" />
+    </Capabilities>
+    <Tasks>
+      <DefaultTask Name="_default" NavigationPage="Pages/StreamPage.xaml" />
+    </Tasks>
+    <Tokens>
+      <PrimaryToken TokenID="ImageProcessingAppToken" TaskName="_default">
+        <TemplateFlip>
+          <SmallImageURI IsRelative="true" IsResource="false">Assets\Tiles\tile_small.png</SmallImageURI>
+          <Count>0</Count>
+          <BackgroundImageURI IsRelative="true" IsResource="false">Assets\Tiles\tile_medium.png</BackgroundImageURI>
+          <Title>Filter Explorer</Title>
+          <BackContent>
+          </BackContent>
+          <BackBackgroundImageURI>
+          </BackBackgroundImageURI>
+          <BackTitle>
+          </BackTitle>
+          <DeviceLockImageURI>
+          </DeviceLockImageURI>
+          <HasLarge>False</HasLarge>
+        </TemplateFlip>
+      </PrimaryToken>
+    </Tokens>
+    <Extensions>
+      <Extension ExtensionName="Camera_Capture_App" ConsumerID="{5B04B775-356B-4AA0-AAF8-6491FFEA5631}" TaskID="_default" />
+      <Extension ExtensionName="Photos_Extra_Hub" ConsumerID="{5B04B775-356B-4AA0-AAF8-6491FFEA5632}" TaskID="_default" />
+    </Extensions>
+    <ScreenResolutions>
+      <ScreenResolution Name="ID_RESOLUTION_WVGA" />
+      <ScreenResolution Name="ID_RESOLUTION_WXGA" />
+      <ScreenResolution Name="ID_RESOLUTION_HD720P" />
+    </ScreenResolutions>
+    <Requirements>
+      <Requirement Name="ID_REQ_REARCAMERA" />
+    </Requirements>
+    <FunctionalCapabilities>
+      <FunctionalCapability Name="ID_FUNCCAP_EXTEND_MEM" />
+    </FunctionalCapabilities>
+  </App>
+</Deployment>
