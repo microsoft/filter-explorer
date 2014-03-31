@@ -1,0 +1,94 @@
+﻿<!--
+    Copyright (c) 2014 Nokia Corporation. All rights reserved.
+    
+    Nokia and Nokia Connecting People are registered trademarks of Nokia Corporation.
+    Other product and company names mentioned herein may be trademarks
+    or trade names of their respective owners.
+    
+    See the license text file for license information.
+-->
+
+<Page
+    x:Class="FilterExplorer.Views.StreamPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local="using:FilterExplorer"
+    xmlns:converters="using:FilterExplorer.Converters"
+    xmlns:controls="using:FilterExplorer.Controls"
+    mc:Ignorable="d"
+    Background="{ThemeResource PhoneAccentBrush}">
+    
+    <Page.Resources>
+        <converters:BoolVisibilityConverter x:Key="BoolVisibilityConverter"/>
+        <converters:NullVisibilityConverter x:Key="NullVisibilityConverter"/>
+    </Page.Resources>
+
+    <Page.Transitions>
+        <TransitionCollection>
+            <NavigationThemeTransition>
+                <NavigationThemeTransition.DefaultNavigationTransitionInfo>
+                    <ContinuumNavigationTransitionInfo/>
+                </NavigationThemeTransition.DefaultNavigationTransitionInfo>
+            </NavigationThemeTransition>
+        </TransitionCollection>
+    </Page.Transitions>
+
+    <Grid x:Name="LayoutRoot">
+        <Grid.Background>
+            <ImageBrush ImageSource="/Assets/Background.png" Stretch="UniformToFill"/>
+        </Grid.Background>
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <StackPanel Grid.Row="0" Margin="24,17,0,8">
+            <TextBlock x:Uid="ApplicationHeader" Style="{ThemeResource TitleTextBlockStyle}"
+                       Typography.Capitals="SmallCaps" Margin="1,0,0,0"/>
+            <TextBlock Style="{ThemeResource ListViewItemSubheaderTextBlockStyle}"
+                       IsHitTestVisible="false" TextWrapping="NoWrap" Opacity="0.5"
+                       Visibility="{Binding FolderName, Converter={StaticResource NullVisibilityConverter}}"
+                       VerticalAlignment="Center" Margin="-1,0,0,0">
+                <Run x:Uid="StreamPagePathPrefix"/>
+                <Run Text="{Binding FolderName}"/>
+            </TextBlock>
+        </StackPanel>
+
+        <Grid Grid.Row="1" x:Name="ContentRoot">
+            <controls:ThumbnailMosaicView x:Name="Mosaic" SelectionMode="None" ItemsSource="{Binding Thumbnails}"
+                                          IsItemClickEnabled="True" ItemClick="GridView_ItemClick">
+                <controls:ThumbnailMosaicView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <VariableSizedWrapGrid Margin="24,0,16,24" Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </controls:ThumbnailMosaicView.ItemsPanel>
+                <controls:ThumbnailMosaicView.ItemTemplate>
+                    <DataTemplate>
+                        <Border Margin="0,0,8,8">
+                            <controls:RotatingThumbnailView ImageSourcePropertyName="Thumbnail"/>
+                        </Border>
+                    </DataTemplate>
+                </controls:ThumbnailMosaicView.ItemTemplate>
+            </controls:ThumbnailMosaicView>
+        </Grid>
+        
+        <ProgressBar VerticalAlignment="Top" Margin="0,2,0,0" IsEnabled="{Binding Processing}"
+                     IsIndeterminate="{Binding Processing}"
+                     Visibility="{Binding Processing, Converter={StaticResource BoolVisibilityConverter}}"/>
+    </Grid>
+
+    <Page.BottomAppBar>
+        <CommandBar IsOpen="True" IsSticky="True" >
+            <AppBarButton x:Uid="StreamPageOpenPhotoButton" Icon="BrowsePhotos" Command="{Binding OpenPhotoCommand}"/>
+            <AppBarButton x:Uid="StreamPageRefreshPhotosButton" Icon="Refresh" Command="{Binding RefreshPhotosCommand}"/>
+
+            <CommandBar.SecondaryCommands>
+                <AppBarButton x:Uid="StreamPageOpenFolderButton" Icon="Folder" Command="{Binding OpenFolderCommand}"/>
+                <AppBarButton x:Uid="StreamPageShowAboutButton" Icon="Help" Command="{Binding ShowAboutCommand}"/>
+            </CommandBar.SecondaryCommands>
+        </CommandBar>
+    </Page.BottomAppBar>
+</Page>

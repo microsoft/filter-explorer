@@ -1,0 +1,421 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AlphaToGrayscaleFilterName" xml:space="preserve">
+    <value>Alpha to grayscale</value>
+  </data>
+  <data name="AntiqueFilterName" xml:space="preserve">
+    <value>Antique</value>
+  </data>
+  <data name="ApplicationDescription" xml:space="preserve">
+    <value>TODO</value>
+  </data>
+  <data name="ApplicationName" xml:space="preserve">
+    <value>Filter Explorer</value>
+  </data>
+  <data name="AutoEnhanceFilterName" xml:space="preserve">
+    <value>Auto enhance</value>
+  </data>
+  <data name="AutoLevelsFilterName" xml:space="preserve">
+    <value>Auto levels</value>
+  </data>
+  <data name="BlendFilterName" xml:space="preserve">
+    <value>Blend</value>
+  </data>
+  <data name="BlurFilterName" xml:space="preserve">
+    <value>Blur</value>
+  </data>
+  <data name="BrightnessFilterName" xml:space="preserve">
+    <value>Brightness</value>
+  </data>
+  <data name="CartoonFilterName" xml:space="preserve">
+    <value>Cartoon</value>
+  </data>
+  <data name="ChromaKeyFilterName" xml:space="preserve">
+    <value>Chroma key</value>
+  </data>
+  <data name="AdjustColorBlueFilterName" xml:space="preserve">
+    <value>Adjust color blue</value>
+  </data>
+  <data name="AdjustColorGreenFilterName" xml:space="preserve">
+    <value>Adjust color green</value>
+  </data>
+  <data name="AdjustColorRedFilterName" xml:space="preserve">
+    <value>Adjust color red</value>
+  </data>
+  <data name="ColorBoostFilterName" xml:space="preserve">
+    <value>Color boost</value>
+  </data>
+  <data name="SwapRedGreenFilterName" xml:space="preserve">
+    <value>Swap red to green</value>
+  </data>
+  <data name="ContrastFilterName" xml:space="preserve">
+    <value>Contrast</value>
+  </data>
+  <data name="CropFilterName" xml:space="preserve">
+    <value>Crop</value>
+  </data>
+  <data name="CurvesFilterName" xml:space="preserve">
+    <value>Curves</value>
+  </data>
+  <data name="DespeckleFilterName" xml:space="preserve">
+    <value>Despeckle</value>
+  </data>
+  <data name="EmbossFilterName" xml:space="preserve">
+    <value>Emboss</value>
+  </data>
+  <data name="ExposureFilterName" xml:space="preserve">
+    <value>Exposure</value>
+  </data>
+  <data name="FilterPageTitle.Text" xml:space="preserve">
+    <value>select filter</value>
+  </data>
+  <data name="FlipHorizontalFilterName" xml:space="preserve">
+    <value>Flip horizontally</value>
+  </data>
+  <data name="FlipVerticalFilterName" xml:space="preserve">
+    <value>Flip vertically</value>
+  </data>
+  <data name="FogFilterName" xml:space="preserve">
+    <value>Fog</value>
+  </data>
+  <data name="FoundationFilterName" xml:space="preserve">
+    <value>Foundation</value>
+  </data>
+  <data name="GrayscaleFilterName" xml:space="preserve">
+    <value>Grayscale</value>
+  </data>
+  <data name="GrayscaleNegativeFilterName" xml:space="preserve">
+    <value>Grayscale negative</value>
+  </data>
+  <data name="HueSaturationFilterName" xml:space="preserve">
+    <value>HUE saturation</value>
+  </data>
+  <data name="ImageFusionFilterName" xml:space="preserve">
+    <value>Image fusion</value>
+  </data>
+  <data name="LocalBoostAutomaticFilterName" xml:space="preserve">
+    <value>Local boost automatic</value>
+  </data>
+  <data name="LomoFilterName" xml:space="preserve">
+    <value>Lomo</value>
+  </data>
+  <data name="MagicPenFilterName" xml:space="preserve">
+    <value>Magic pen</value>
+  </data>
+  <data name="MilkyFilterName" xml:space="preserve">
+    <value>Milky</value>
+  </data>
+  <data name="MirrorFilterName" xml:space="preserve">
+    <value>Mirror</value>
+  </data>
+  <data name="MonoColorBlueFilterName" xml:space="preserve">
+    <value>Mono color blue</value>
+  </data>
+  <data name="MonoColorGreenFilterName" xml:space="preserve">
+    <value>Mono color green</value>
+  </data>
+  <data name="MonoColorRedFilterName" xml:space="preserve">
+    <value>Mono color red</value>
+  </data>
+  <data name="MoonlightFilterName" xml:space="preserve">
+    <value>Moonlight</value>
+  </data>
+  <data name="NegativeFilterName" xml:space="preserve">
+    <value>Negative</value>
+  </data>
+  <data name="NoiseFilterName" xml:space="preserve">
+    <value>Noise</value>
+  </data>
+  <data name="OilyFilterName" xml:space="preserve">
+    <value>Oily</value>
+  </data>
+  <data name="PaintFilterName" xml:space="preserve">
+    <value>Paint</value>
+  </data>
+  <data name="PhotoPageAddFilterButton.Label" xml:space="preserve">
+    <value>Add filter</value>
+  </data>
+  <data name="PhotoPageGoBackButton.Label" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="PhotoPageRemoveFilterButton.Label" xml:space="preserve">
+    <value>Undo filter</value>
+  </data>
+  <data name="PhotoPageSavePhotoButton.Label" xml:space="preserve">
+    <value>Save a copy</value>
+  </data>
+  <data name="PhotoPageSharePhotoButton.Label" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="PhotoSaveFilenameFormat" xml:space="preserve">
+    <value>Filter Explorer {0}</value>
+  </data>
+  <data name="PhotoSaveFolderName" xml:space="preserve">
+    <value>Filter Explorer</value>
+  </data>
+  <data name="PhotoSharingDescription" xml:space="preserve">
+    <value>Share current photo</value>
+  </data>
+  <data name="PhotoSharingLink" xml:space="preserve">
+    <value>https://github.com/nokia-developer/filter-explorer-rt</value>
+  </data>
+  <data name="PhotoSharingText" xml:space="preserve">
+    <value>Check this photo I filtered with Filter Explorer!</value>
+  </data>
+  <data name="PhotoSharingTitle" xml:space="preserve">
+    <value>Filter Explorer</value>
+  </data>
+  <data name="PosterizeFilterName" xml:space="preserve">
+    <value>Posterize</value>
+  </data>
+  <data name="ReframingFilterName" xml:space="preserve">
+    <value>Reframing</value>
+  </data>
+  <data name="RotationLeftFilterName" xml:space="preserve">
+    <value>Rotate left</value>
+  </data>
+  <data name="RotationRightFilterName" xml:space="preserve">
+    <value>Rotate right</value>
+  </data>
+  <data name="SepiaFilterName" xml:space="preserve">
+    <value>Sepia</value>
+  </data>
+  <data name="SharpnessFilterName" xml:space="preserve">
+    <value>Sharpness</value>
+  </data>
+  <data name="SketchFilterName" xml:space="preserve">
+    <value>Sketch</value>
+  </data>
+  <data name="SolarizeFilterName" xml:space="preserve">
+    <value>Solarize</value>
+  </data>
+  <data name="SplitToneFilterName" xml:space="preserve">
+    <value>Split tone</value>
+  </data>
+  <data name="SpotlightFilterName" xml:space="preserve">
+    <value>Spotlight</value>
+  </data>
+  <data name="StampFilterName" xml:space="preserve">
+    <value>Stamp</value>
+  </data>
+  <data name="StreamPageOpenFolderButton.Label" xml:space="preserve">
+    <value>Change folder</value>
+  </data>
+  <data name="StreamPageOpenPhotoButton.Label" xml:space="preserve">
+    <value>Open photo</value>
+  </data>
+  <data name="StreamPageTitle.Text" xml:space="preserve">
+    <value>Filter Explorer</value>
+  </data>
+  <data name="TemperatureAndTintFilterName" xml:space="preserve">
+    <value>Temperature &amp; tint</value>
+  </data>
+  <data name="VignettingFilterName" xml:space="preserve">
+    <value>Vignetting</value>
+  </data>
+  <data name="WarpFilterName" xml:space="preserve">
+    <value>Warp</value>
+  </data>
+  <data name="WatercolorFilterName" xml:space="preserve">
+    <value>Watercolor</value>
+  </data>
+  <data name="WhiteBalanceFilterName" xml:space="preserve">
+    <value>White balance</value>
+  </data>
+  <data name="WhiteboardEnhancementFilterName" xml:space="preserve">
+    <value>Whiteboard</value>
+  </data>
+  <data name="PhotoPageRemoveAllFiltersButton.Label" xml:space="preserve">
+    <value>Clear filters</value>
+  </data>
+  <data name="PhotoPageFiltersTitle.Text" xml:space="preserve">
+    <value>Filters</value>
+  </data>
+  <data name="PhotoPageResolutionTitle.Text" xml:space="preserve">
+    <value>Resolution</value>
+  </data>
+  <data name="PhotoPageZeroFiltersText" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="PhotoPageUnknownResolutionText" xml:space="preserve">
+    <value>Unknown</value>
+  </data>
+  <data name="StreamPageCapturePhotoButton.Label" xml:space="preserve">
+    <value>Capture</value>
+  </data>
+  <data name="StreamPageRefreshPhotosButton.Label" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
+  <data name="LevelsFilterName" xml:space="preserve">
+    <value>Levels</value>
+  </data>
+  <data name="SwapBlueGreenFilterName" xml:space="preserve">
+    <value>Swap blue to green</value>
+  </data>
+  <data name="SwapBlueRedFilterName" xml:space="preserve">
+    <value>Swap blue to red</value>
+  </data>
+  <data name="SwapGreenBlueFilterName" xml:space="preserve">
+    <value>Swap green to blue</value>
+  </data>
+  <data name="SwapGreenRedFilterName" xml:space="preserve">
+    <value>Swap green to red</value>
+  </data>
+  <data name="SwapRedBlueFilterName" xml:space="preserve">
+    <value>Swap red to blue</value>
+  </data>
+  <data name="ColorizationBlueFilterName" xml:space="preserve">
+    <value>Colorization blue</value>
+  </data>
+  <data name="ColorizationGreenFilterName" xml:space="preserve">
+    <value>Colorization green</value>
+  </data>
+  <data name="ColorizationRedFilterName" xml:space="preserve">
+    <value>Colorization red</value>
+  </data>
+  <data name="AboutPageTitle.Text" xml:space="preserve">
+    <value>about</value>
+  </data>
+  <data name="AboutPageProjectLink.Content" xml:space="preserve">
+    <value>Visit the Filter Explorer RT Nokia Developer GitHub repository</value>
+  </data>
+  <data name="AboutPageProjectLink.NavigateUri" xml:space="preserve">
+    <value>https://github.com/nokia-developer/filter-explorer-rt</value>
+  </data>
+  <data name="AboutPageDescriptionText.Text" xml:space="preserve">
+    <value>Filter Explorer is a Nokia example application which demonstrates some of the image editing capabilities and performance of the Nokia Imaging SDK by allowing the user to apply a number of filter layers to existing or newly captured photos.</value>
+  </data>
+  <data name="AboutPageVersionText" xml:space="preserve">
+    <value>Filter Explorer version {0}</value>
+  </data>
+  <data name="StreamPageShowAboutButton.Label" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="StreamPagePathPrefix.Text" xml:space="preserve">
+    <value>Showing photos from</value>
+    <comment>Directory path containing photos is appended on the right side of this string.</comment>
+  </data>
+  <data name="ApplicationHeader.Text" xml:space="preserve">
+    <value>FILTER EXPLORER</value>
+  </data>
+  <data name="ProjectLink" xml:space="preserve">
+    <value>https://github.com/nokia-developer/filter-explorer-rt</value>
+  </data>
+</root>
