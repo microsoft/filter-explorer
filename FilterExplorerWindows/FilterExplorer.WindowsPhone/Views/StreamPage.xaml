@@ -86,7 +86,10 @@
             <AppBarButton x:Uid="StreamPageRefreshPhotosButton" Icon="Refresh" Command="{Binding RefreshPhotosCommand}"/>
 
             <CommandBar.SecondaryCommands>
+                <!-- TODO Open folder disabled on WP8.1 for now because the functionality does not work
+                          in the current preview WP8.1 SDK. Enable again when this FolderPicker works.
                 <AppBarButton x:Uid="StreamPageOpenFolderButton" Icon="Folder" Command="{Binding OpenFolderCommand}"/>
+                -->
                 <AppBarButton x:Uid="StreamPageShowAboutButton" Icon="Help" Command="{Binding ShowAboutCommand}"/>
             </CommandBar.SecondaryCommands>
         </CommandBar>
