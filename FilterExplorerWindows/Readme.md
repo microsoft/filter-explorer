@@ -6,7 +6,7 @@ capabilities and performance of the Nokia Imaging SDK by allowing the user to ap
 a number of filter layers to existing photos.
 
 This example application is hosted in GitHub:
-https://github.com/nokia-developer/filter-explorer-rt/
+https://github.com/nokia-developer/filter-explorer/
 
 Developed with Microsoft Visual Studio Express 2013 for Windows.
 
@@ -18,6 +18,11 @@ Tested to work on:
 
  * Nokia Lumia 2520
  * Windows 8.1 x86 desktop
+ * Windows Phone 8.1 emulator
+
+For more information on implementation, visit Nokia Lumia
+Developer's Library:
+http://developer.nokia.com/resources/library/Lumia/nokia-imaging-sdk/sample-projects/filter-explorer.html
 
 
 Instructions
@@ -81,8 +86,8 @@ About the implementation
 | FilterExplorer.Shared/Utilities | Utility classes. |
 | FilterExplorer.Shared/ViewModels | MVVM viewmodels. |
 | FilterExplorer.Windows/Assets | Graphic assets like icons and tiles for the Windows version. |
-| FilterExplorer.WindowsPhone/Assets | Graphic assets like icons and tiles for the Windows Phone version. |
 | FilterExplorer.Windows/Views | MVVM views for the Windows version. |
+| FilterExplorer.WindowsPhone/Assets | Graphic assets like icons and tiles for the Windows Phone version. |
 | FilterExplorer.WindowsPhone/Views | MVVM views for the Windows Phone version. |
 
 Important classes:
@@ -105,18 +110,14 @@ License
 -------
 
 See the license text file delivered with this project:
-https://github.com/nokia-developer/filter-explorer-rt/blob/master/License.txt
-
-
-Downloads
----------
-
-| Project | Release | Download |
-| ------- | --------| -------- |
-| Filter Explorer for Windows | v1.0 | [filter-explorer-rt-1.0.zip](https://github.com/nokia-developer/filter-explorer-rt/archive/v1.0.zip) |
+https://github.com/nokia-developer/filter-explorer/blob/master/License.txt
 
 
 Version history
 ---------------
 
- * v1.0: First public release of Filter Explorer for Windows
+ * 1.4: Second public release of Filter Explorer for Windows
+   - Added Windows Phone 8.1 support
+   - Updated to latest Nokia Imaging SDK
+
+ * 1.0: First public release of Filter Explorer for Windows
