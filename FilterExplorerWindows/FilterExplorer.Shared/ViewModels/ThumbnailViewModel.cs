@@ -10,6 +10,7 @@
 
 using FilterExplorer.Filters;
 using FilterExplorer.Models;
+using System;
 using Windows.Storage.Streams;
 using Windows.UI.Xaml.Media.Imaging;
 
@@ -139,12 +140,21 @@ namespace FilterExplorer.ViewModels
 
             int maximumSide = (int)Windows.UI.Xaml.Application.Current.Resources["ThumbnailSide"];
 
-            using (var stream = await Model.GetFilteredThumbnailAsync())
+            try
             {
-                var bitmap = new BitmapImage() { DecodePixelWidth = maximumSide };
-                bitmap.SetSource(stream);
+                using (var stream = await Model.GetFilteredThumbnailAsync())
+                {
+                    var bitmap = new BitmapImage() { DecodePixelWidth = maximumSide };
+                    bitmap.SetSource(stream);
 
-                Thumbnail = bitmap;
+                    Thumbnail = bitmap;
+                }
+            }
+            catch (Exception ex)
+            {
+                Processing = false;
+
+                System.Diagnostics.Debug.WriteLine("UpdateThumbnailAsync exception: " + ex.Message + '\n' + ex.StackTrace);
             }
         }
 

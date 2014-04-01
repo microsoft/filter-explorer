@@ -96,13 +96,20 @@ namespace FilterExplorer.ViewModels
         {
             Processing = true;
 
-            using (var stream = await Model.GetFilteredPreviewAsync())
+            try
             {
-                var maximumSide = (int)Windows.UI.Xaml.Application.Current.Resources["PreviewSide"];
-                var bitmap = new BitmapImage() { DecodePixelWidth = maximumSide };
-                bitmap.SetSource(stream);
+                using (var stream = await Model.GetFilteredPreviewAsync())
+                {
+                    var maximumSide = (int)Windows.UI.Xaml.Application.Current.Resources["PreviewSide"];
+                    var bitmap = new BitmapImage() { DecodePixelWidth = maximumSide };
+                    bitmap.SetSource(stream);
 
-                Preview = bitmap;
+                    Preview = bitmap;
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("UpdatePreview exception: " + ex.Message + '\n' + ex.StackTrace);
             }
 
             Processing = false;
