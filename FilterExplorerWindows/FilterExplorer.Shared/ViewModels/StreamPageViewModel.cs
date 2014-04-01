@@ -249,16 +249,16 @@ namespace FilterExplorer.ViewModels
             {
                 var models = await GetPhotosFromFolderAsync(Windows.Storage.KnownFolders.CameraRoll, maxItems);
 
-                if (models.Count > 0)
-                {
-                    FolderName = Windows.Storage.KnownFolders.CameraRoll.DisplayName;
-                }
-                else
+                FolderName = Windows.Storage.KnownFolders.CameraRoll.DisplayName;
+                
+#if !WINDOWS_PHONE_APP
+                if (models.Count == 0)
                 {
                     models = await GetPhotosFromFolderAsync(Windows.Storage.KnownFolders.PicturesLibrary, maxItems);
 
                     FolderName = Windows.Storage.KnownFolders.PicturesLibrary.DisplayName;
                 }
+#endif
 
                 for (var i = 0; i < models.Count; i++)
                 {
