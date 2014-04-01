@@ -87,7 +87,7 @@ None.
 
 
 License
--------------------------------------------------------------------------------
+-------
 
 See the license text file delivered with this project:
 https://github.com/nokia-developer/filter-explorer/blob/master/License.txt

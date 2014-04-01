@@ -9,11 +9,17 @@ This repository contains two separate implementation solutions:
 
 | Folder | Description |
 | ------ | ----------- |
-| FilterExplorerWP | Filter Explorer for Windows Phone 8 |
-| FilterExplorerWindows | Filter Explorer for Windows and Windows Phone 8.1 |
+| [FilterExplorerWP](https://github.com/nokia-developer/filter-explorer/FilterExplorerWP) | Filter Explorer for Windows Phone 8 |
+| [FilterExplorerWindows](https://github.com/nokia-developer/filter-explorer/FilterExplorerWindows) | Filter Explorer for Windows and Windows Phone 8.1 |
 
 These example applications are hosted in GitHub:
 https://github.com/nokia-developer/filter-explorer/
+
+License
+-------
+
+See the license text file delivered with this project:
+https://github.com/nokia-developer/filter-explorer/blob/master/License.txt
 
 
 Downloads
