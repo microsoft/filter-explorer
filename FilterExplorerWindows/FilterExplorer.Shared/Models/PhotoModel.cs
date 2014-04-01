@@ -179,15 +179,58 @@ namespace FilterExplorer.Models
             System.Diagnostics.Debug.WriteLine("GetThumbnailStreamAsync invoked " + this.GetHashCode());
 #endif
 
-            var size = await GetPhotoResolutionAsync();
             var maximumSide = (int)Windows.UI.Xaml.Application.Current.Resources["ThumbnailSide"];
             var orientation = await GetPhotoOrientationAsync();
             var orientationValue = orientation.HasValue ? orientation.Value : PhotoOrientation.Unspecified;
+
+#if WINDOWS_PHONE_APP
+            // TODO Getting platform thumbnails is currently broken in the WP8.1 preview SDK,
+            //      thus generating thumbnails from the large original photos. Change to platform
+            //      thumbnails again when platform is live & fine.
+
+            var size = await GetPhotoResolutionAsync();
 
             using (var stream = await GetPhotoAsync())
             {
                 return await ResizeStreamAsync(stream, new Size(maximumSide, maximumSide), orientationValue);
             }
+#else
+            using (var stream = await _file.GetThumbnailAsync(Windows.Storage.FileProperties.ThumbnailMode.PicturesView))
+            {
+                if (stream.ContentType == "image/jpeg")
+                {
+                    if (stream.OriginalWidth <= maximumSide || stream.OriginalHeight <= maximumSide)
+                    {
+                        using (var memoryStream = new InMemoryRandomAccessStream())
+                        {
+                            using (var reader = new DataReader(stream))
+                            using (var writer = new DataWriter(memoryStream))
+                            {
+                                await reader.LoadAsync((uint)stream.Size);
+                                var buffer = reader.ReadBuffer((uint)stream.Size);
+
+                                writer.WriteBuffer(buffer);
+                                await writer.StoreAsync();
+                                await writer.FlushAsync();
+
+                                return memoryStream.CloneStream();
+                            }
+                        }
+                    }
+                    else
+                    {
+                        return await ResizeStreamAsync(stream, new Size(maximumSide, maximumSide), orientationValue);
+                    }
+                }
+                else
+                {
+                    using (var preview = await GetPreviewAsync())
+                    {
+                        return await ResizeStreamAsync(preview, new Size(maximumSide, maximumSide), orientationValue);
+                    }
+                }
+            }
+#endif
         }
 
         private async Task<IRandomAccessStream> ResizeStreamAsync(IRandomAccessStream stream, Size size, PhotoOrientation orientation)
@@ -218,6 +261,8 @@ namespace FilterExplorer.Models
             using (var resizedStream = new InMemoryRandomAccessStream())
             {
                 var buffer = new byte[stream.Size].AsBuffer();
+
+                stream.Seek(0);
 
                 await stream.ReadAsync(buffer, buffer.Length, InputStreamOptions.None);
 
