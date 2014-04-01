@@ -274,7 +274,7 @@
     <value>Share current photo</value>
   </data>
   <data name="PhotoSharingLink" xml:space="preserve">
-    <value>https://github.com/nokia-developer/filter-explorer-rt</value>
+    <value>https://github.com/nokia-developer/filter-explorer</value>
   </data>
   <data name="PhotoSharingText" xml:space="preserve">
     <value>Check this photo I filtered with Filter Explorer!</value>
@@ -394,10 +394,10 @@
     <value>about</value>
   </data>
   <data name="AboutPageProjectLink.Content" xml:space="preserve">
-    <value>Visit the Filter Explorer RT Nokia Developer GitHub repository</value>
+    <value>Visit the Filter Explorer Nokia Developer GitHub repository</value>
   </data>
   <data name="AboutPageProjectLink.NavigateUri" xml:space="preserve">
-    <value>https://github.com/nokia-developer/filter-explorer-rt</value>
+    <value>https://github.com/nokia-developer/filter-explorer</value>
   </data>
   <data name="AboutPageDescriptionText.Text" xml:space="preserve">
     <value>Filter Explorer is a Nokia example application which demonstrates some of the image editing capabilities and performance of the Nokia Imaging SDK by allowing the user to apply a number of filter layers to existing or newly captured photos.</value>
@@ -416,6 +416,6 @@
     <value>FILTER EXPLORER</value>
   </data>
   <data name="ProjectLink" xml:space="preserve">
-    <value>https://github.com/nokia-developer/filter-explorer-rt</value>
+    <value>https://github.com/nokia-developer/filter-explorer</value>
   </data>
 </root>
