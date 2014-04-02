@@ -46,7 +46,7 @@ namespace FilterExplorer.Views
         {
             base.OnNavigatedTo(e);
 
-            DisplayInformation.AutoRotationPreferences = DisplayOrientations.Landscape | DisplayOrientations.Portrait;
+            DisplayInformation.AutoRotationPreferences = DisplayOrientations.Portrait;
 
             if (!_viewModel.IsInitialized)
             {
