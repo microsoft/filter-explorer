@@ -29,7 +29,9 @@ namespace FilterExplorer.ViewModels
         public IDelegateCommand GoBackCommand { get; private set; }
         public IDelegateCommand SavePhotoCommand { get; private set; }
         public IDelegateCommand SharePhotoCommand { get; private set; }
+#if WINDOWS_PHONE_APP
         public IDelegateCommand ShowAboutCommand { get; private set; }
+#endif
         public IDelegateCommand AddFilterCommand { get; private set; }
         public IDelegateCommand RemoveFilterCommand { get; private set; }
         public IDelegateCommand RemoveAllFiltersCommand { get; private set; }
@@ -105,11 +107,13 @@ namespace FilterExplorer.ViewModels
                         return !Processing;
                     });
 
+#if WINDOWS_PHONE_APP
             ShowAboutCommand = new DelegateCommand((parameter) =>
                 {
                     var frame = (Frame)Window.Current.Content;
                     frame.Navigate(typeof(AboutPage));
                 });
+#endif
 
             AddFilterCommand = new DelegateCommand(
                 (parameter) =>

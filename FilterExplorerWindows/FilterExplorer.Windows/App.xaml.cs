@@ -9,9 +9,11 @@
  */
 
 using FilterExplorer.Models;
+using FilterExplorer.Views;
 using System;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
+using Windows.UI.ApplicationSettings;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -134,6 +136,25 @@ namespace FilterExplorer
         private void App_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             System.Diagnostics.Debug.WriteLine("Unhandled exception: " + e.Message + '\n' + e.Exception.StackTrace);
+        }
+
+        protected override void OnWindowCreated(WindowCreatedEventArgs args)
+        {
+            SettingsPane.GetForCurrentView().CommandsRequested += OnCommandsRequested;
+        }
+
+        private void OnCommandsRequested(SettingsPane sender, SettingsPaneCommandsRequestedEventArgs args)
+        {
+            var label = new Windows.ApplicationModel.Resources.ResourceLoader().GetString("AboutFlyoutCommandLabel");
+
+            args.Request.ApplicationCommands.Add(new SettingsCommand("", label, (handler) => ShowAboutFlyout()));
+        }
+
+        public void ShowAboutFlyout()
+        {
+            var flyout = new AboutFlyout();
+
+            flyout.Show();
         }
     }
 }

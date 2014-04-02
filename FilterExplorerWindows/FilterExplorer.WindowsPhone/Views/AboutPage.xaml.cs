@@ -30,8 +30,6 @@ namespace FilterExplorer.Views
             this.InitializeComponent();
 
             DataContext = _viewModel;
-
-            LinkTextBlock.Text = new Windows.ApplicationModel.Resources.ResourceLoader().GetString("ProjectLink");
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)

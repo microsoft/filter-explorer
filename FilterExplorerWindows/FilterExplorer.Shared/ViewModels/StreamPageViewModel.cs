@@ -41,7 +41,9 @@ namespace FilterExplorer.ViewModels
 #endif
         public IDelegateCommand RefreshPhotosCommand { get; private set; }
         public IDelegateCommand RefreshSomePhotosCommand { get; private set; }
+#if WINDOWS_PHONE_APP
         public IDelegateCommand ShowAboutCommand { get; private set; }
+#endif
         public IDelegateCommand ChangeHighlightStrategyCommand { get; private set; }
 
         public ObservableCollection<ThumbnailViewModel> Thumbnails { get; private set; }
@@ -168,11 +170,13 @@ namespace FilterExplorer.ViewModels
                 });
 #endif
 
+#if WINDOWS_PHONE_APP
             ShowAboutCommand = new DelegateCommand((parameter) =>
                 {
                     var frame = (Frame)Window.Current.Content;
                     frame.Navigate(typeof(AboutPage));
                 });
+#endif
 
             RefreshPhotosCommand = new DelegateCommand(
                 async (parameter) =>

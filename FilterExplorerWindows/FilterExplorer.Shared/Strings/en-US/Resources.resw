@@ -394,7 +394,7 @@
     <value>about</value>
   </data>
   <data name="AboutPageProjectLink.Content" xml:space="preserve">
-    <value>Visit the Filter Explorer Nokia Developer GitHub repository</value>
+    <value>Visit Filter Explorer GitHub repository</value>
   </data>
   <data name="AboutPageProjectLink.NavigateUri" xml:space="preserve">
     <value>https://github.com/nokia-developer/filter-explorer</value>
@@ -417,5 +417,11 @@
   </data>
   <data name="ProjectLink" xml:space="preserve">
     <value>https://github.com/nokia-developer/filter-explorer</value>
+  </data>
+  <data name="AboutFlyoutCommandLabel" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="AboutPageProjectLinkText.Text" xml:space="preserve">
+    <value>Visit Filter Explorer GitHub repository</value>
   </data>
 </root>

@@ -9,33 +9,21 @@
  */
 
 using FilterExplorer.ViewModels;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Navigation;
 
 namespace FilterExplorer.Views
 {
-    public sealed partial class AboutPage : Page
+    public sealed partial class AboutFlyout : SettingsFlyout
     {
         private AboutPageViewModel _viewModel = new AboutPageViewModel();
 
-        public AboutPage()
+        public AboutFlyout()
         {
             this.InitializeComponent();
 
             DataContext = _viewModel;
-        }
 
-        protected override async void OnNavigatedTo(NavigationEventArgs e)
-        {
-            base.OnNavigatedTo(e);
-
-            if (!_viewModel.IsInitialized)
-            {
-                await _viewModel.InitializeAsync();
-
-                Window.Current.Activate();
-            }
+            Title = new Windows.ApplicationModel.Resources.ResourceLoader().GetString("AboutFlyoutCommandLabel");
         }
     }
 }
