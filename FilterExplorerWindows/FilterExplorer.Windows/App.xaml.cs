@@ -207,7 +207,9 @@ namespace FilterExplorer
         {
             var filename = Application.Current.Resources["PhotoSaveTemporaryFilename"] as string;
             var folder = ApplicationData.Current.TemporaryFolder;
-            var file = await folder.CreateFileAsync(filename, Windows.Storage.CreationCollisionOption.ReplaceExisting);
+            var task = folder.CreateFileAsync(filename, Windows.Storage.CreationCollisionOption.ReplaceExisting).AsTask();
+            task.Wait();
+            var file = task.Result;
 
             CachedFileManager.DeferUpdates(file);
 
