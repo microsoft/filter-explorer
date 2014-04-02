@@ -165,38 +165,41 @@ namespace FilterExplorer
 
         private async void OnDataRequested(DataTransferManager sender, DataRequestedEventArgs e)
         {
-            var deferral = e.Request.GetDeferral();
-
-            var file = await SaveTemporaryPhotoAsync(SessionModel.Instance.Photo);
-
-            try
+            if (SessionModel.Instance.Photo != null)
             {
-                var loader = new Windows.ApplicationModel.Resources.ResourceLoader();
+                var deferral = e.Request.GetDeferral();
 
-                DataPackage data = e.Request.Data;
-                data.Properties.ApplicationName = loader.GetString("ApplicationName");
-                data.Properties.Description = loader.GetString("PhotoSharingDescription");
-                data.Properties.Thumbnail = RandomAccessStreamReference.CreateFromFile(file);
-                data.Properties.Title = loader.GetString("PhotoSharingTitle");
-                data.SetStorageItems(new List<StorageFile>() { file });
-                data.SetText(loader.GetString("PhotoSharingText"));
+                var file = await SaveTemporaryPhotoAsync(SessionModel.Instance.Photo);
 
                 try
                 {
-                    data.Properties.ApplicationListingUri = Windows.ApplicationModel.Store.CurrentApp.LinkUri;
+                    var loader = new Windows.ApplicationModel.Resources.ResourceLoader();
+
+                    DataPackage data = e.Request.Data;
+                    data.Properties.ApplicationName = loader.GetString("ApplicationName");
+                    data.Properties.Description = loader.GetString("PhotoSharingDescription");
+                    data.Properties.Thumbnail = RandomAccessStreamReference.CreateFromFile(file);
+                    data.Properties.Title = loader.GetString("PhotoSharingTitle");
+                    data.SetStorageItems(new List<StorageFile>() { file });
+                    data.SetText(loader.GetString("PhotoSharingText"));
+
+                    try
+                    {
+                        data.Properties.ApplicationListingUri = Windows.ApplicationModel.Store.CurrentApp.LinkUri;
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine("Getting application store link URI failed: " + ex.Message);
+                    }
                 }
                 catch (Exception ex)
                 {
-                    System.Diagnostics.Debug.WriteLine("Getting application store link URI failed: " + ex.Message);
+                    System.Diagnostics.Debug.WriteLine("DataTransferManager_DataRequested exception: " + ex.Message + '\n' + ex.StackTrace);
                 }
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine("DataTransferManager_DataRequested exception: " + ex.Message + '\n' + ex.StackTrace);
-            }
-            finally
-            {
-                deferral.Complete();
+                finally
+                {
+                    deferral.Complete();
+                }
             }
         }
 
