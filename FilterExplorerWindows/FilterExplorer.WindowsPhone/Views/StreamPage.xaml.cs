@@ -8,6 +8,7 @@
  * See the license text file for license information.
  */
 
+using FilterExplorer.Models;
 using FilterExplorer.Utilities;
 using FilterExplorer.ViewModels;
 using System;
@@ -58,6 +59,8 @@ namespace FilterExplorer.Views
             base.OnNavigatedTo(e);
 
             DisplayInformation.AutoRotationPreferences = DisplayOrientations.Portrait;
+
+            SessionModel.Instance.Photo = null;
 
             if (!_viewModel.IsInitialized)
             {

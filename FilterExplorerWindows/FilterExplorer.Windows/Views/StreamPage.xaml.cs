@@ -8,6 +8,7 @@
  * See the license text file for license information.
  */
 
+using FilterExplorer.Models;
 using FilterExplorer.Utilities;
 using FilterExplorer.ViewModels;
 using System;
@@ -41,6 +42,8 @@ namespace FilterExplorer.Views
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
+
+            SessionModel.Instance.Photo = null;
 
             if (!_viewModel.IsInitialized)
             {
