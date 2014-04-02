@@ -116,7 +116,7 @@ https://github.com/nokia-developer/filter-explorer/blob/master/License.txt
 Version history
 ---------------
 
- * 1.4: Second public release of Filter Explorer for Windows
+ * 2.0: Second public release of Filter Explorer for Windows
    - Added Windows Phone 8.1 support
    - Updated to latest Nokia Imaging SDK
 

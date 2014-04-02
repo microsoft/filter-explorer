@@ -96,7 +96,7 @@ https://github.com/nokia-developer/filter-explorer/blob/master/License.txt
 Version history
 ---------------
 
- * 1.4: Fifth public release of Filter Explorer
+ * 2.0: Fifth public release of Filter Explorer
    - Updated to latest Nokia Imaging SDK
 
  * 1.3: Fourth public release of Filter Explorer

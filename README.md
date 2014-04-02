@@ -27,4 +27,4 @@ Downloads
 
 | Project | Release | Download |
 | ------- | --------| -------- |
-| Filter Explorer WP8, Windows, WP8.1 | v1.4 | [filter-explorer-1.4.zip](https://github.com/nokia-developer/filter-explorer/archive/v1.4.zip) |
+| Filter Explorer WP8, Windows, WP8.1 | v2.0 | [filter-explorer-2.0.zip](https://github.com/nokia-developer/filter-explorer/archive/v2.0.zip) |
