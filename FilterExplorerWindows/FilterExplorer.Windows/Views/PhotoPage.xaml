@@ -75,7 +75,6 @@
 
             <CommandBar.SecondaryCommands>
                 <AppBarButton x:Uid="PhotoPageSavePhotoButton" Icon="Save" Command="{Binding SavePhotoCommand}"/>
-                <AppBarButton x:Uid="PhotoPageSharePhotoButton" Icon="ReShare" Command="{Binding SharePhotoCommand}"/>
             </CommandBar.SecondaryCommands>
         </CommandBar>
     </Page.BottomAppBar>

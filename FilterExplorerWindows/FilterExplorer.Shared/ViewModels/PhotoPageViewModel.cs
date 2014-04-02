@@ -28,8 +28,8 @@ namespace FilterExplorer.ViewModels
     {
         public IDelegateCommand GoBackCommand { get; private set; }
         public IDelegateCommand SavePhotoCommand { get; private set; }
-        public IDelegateCommand SharePhotoCommand { get; private set; }
 #if WINDOWS_PHONE_APP
+        public IDelegateCommand SharePhotoCommand { get; private set; }
         public IDelegateCommand ShowAboutCommand { get; private set; }
 #endif
         public IDelegateCommand AddFilterCommand { get; private set; }
@@ -37,7 +37,6 @@ namespace FilterExplorer.ViewModels
         public IDelegateCommand RemoveAllFiltersCommand { get; private set; }
 
         private PreviewViewModel _preview = null;
-        private StorageFile _temporaryFile = null;
 
         public PreviewViewModel Preview
         {
@@ -97,17 +96,17 @@ namespace FilterExplorer.ViewModels
                     });
 #endif
 
+#if WINDOWS_PHONE_APP
             SharePhotoCommand = new DelegateCommand(
                 (parameter) =>
                     {
-                        SharePhotoAsync(Preview.Model);
+                        DataTransferManager.ShowShareUI();
                     },
                 () =>
                     {
                         return !Processing;
                     });
 
-#if WINDOWS_PHONE_APP
             ShowAboutCommand = new DelegateCommand((parameter) =>
                 {
                     var frame = (Frame)Window.Current.Content;
@@ -141,10 +140,13 @@ namespace FilterExplorer.ViewModels
                 {
                     return Preview != null ? Preview.Model.Filters.Count > 0 : false;
                 });
+
         }
 
         ~PhotoPageViewModel()
         {
+            //DataTransferManager.GetForCurrentView().DataRequested -= DataTransferManager_DataRequested;
+
             if (Preview != null)
             {
                 Preview.Model.Filters.ItemsChanged -= Preview_Model_Filters_ItemsChanged;
@@ -174,11 +176,6 @@ namespace FilterExplorer.ViewModels
         {
             RemoveFilterCommand.RaiseCanExecuteChanged();
             RemoveAllFiltersCommand.RaiseCanExecuteChanged();
-        }
-
-        private void PhotoShareModel_AvailableChanged(object sender, EventArgs e)
-        {
-            SharePhotoCommand.RaiseCanExecuteChanged();
         }
 
 #if WINDOWS_PHONE_APP
@@ -266,66 +263,6 @@ namespace FilterExplorer.ViewModels
             {
                 return null;
             }
-        }
-
-        private async void SharePhotoAsync(FilteredPhotoModel photo)
-        {
-            Processing = true;
-
-            _temporaryFile = await SaveTemporaryPhotoAsync(Preview.Model);
-
-            DataTransferManager.GetForCurrentView().DataRequested += DataTransferManager_DataRequested;
-            DataTransferManager.ShowShareUI();
-        }
-
-        private void DataTransferManager_DataRequested(DataTransferManager sender, DataRequestedEventArgs e)
-        {
-            DataTransferManager.GetForCurrentView().DataRequested -= DataTransferManager_DataRequested;
-
-            var deferral = e.Request.GetDeferral();
-
-            try
-            {
-                var loader = new Windows.ApplicationModel.Resources.ResourceLoader();
-
-                DataPackage data = e.Request.Data;
-                data.Properties.ApplicationName = loader.GetString("ApplicationName");
-                data.Properties.Description = loader.GetString("PhotoSharingDescription");
-                data.Properties.Thumbnail = RandomAccessStreamReference.CreateFromFile(_temporaryFile);
-                data.Properties.Title = loader.GetString("PhotoSharingTitle");
-                data.SetStorageItems(new List<StorageFile>() { _temporaryFile });
-                data.SetText(loader.GetString("PhotoSharingText"));
-
-                try
-                {
-                    data.Properties.ApplicationListingUri = Windows.ApplicationModel.Store.CurrentApp.LinkUri;
-                }
-                catch (Exception ex)
-                {
-                    System.Diagnostics.Debug.WriteLine("Getting application store link URI failed: " + ex.Message);
-                }
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine("DataTransferManager_DataRequested exception: " + ex.Message + '\n' + ex.StackTrace);
-            }
-            finally
-            {
-                deferral.Complete();
-
-                _temporaryFile = null;
-
-                Processing = false;
-            }
-        }
-
-        private async Task<StorageFile> SaveTemporaryPhotoAsync(FilteredPhotoModel photo)
-        {
-            var filename = Application.Current.Resources["PhotoSaveTemporaryFilename"] as string;
-            var folder = ApplicationData.Current.TemporaryFolder;
-            var file = await folder.CreateFileAsync(filename, Windows.Storage.CreationCollisionOption.ReplaceExisting);
-
-            return await SavePhotoAsync(photo, file);
         }
     }
 }

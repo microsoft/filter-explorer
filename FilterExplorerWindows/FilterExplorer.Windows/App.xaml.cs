@@ -11,8 +11,13 @@
 using FilterExplorer.Models;
 using FilterExplorer.Views;
 using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
+using Windows.ApplicationModel.DataTransfer;
+using Windows.Storage;
+using Windows.Storage.Streams;
 using Windows.UI.ApplicationSettings;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -141,6 +146,7 @@ namespace FilterExplorer
         protected override void OnWindowCreated(WindowCreatedEventArgs args)
         {
             SettingsPane.GetForCurrentView().CommandsRequested += OnCommandsRequested;
+            DataTransferManager.GetForCurrentView().DataRequested += OnDataRequested;
         }
 
         private void OnCommandsRequested(SettingsPane sender, SettingsPaneCommandsRequestedEventArgs args)
@@ -155,6 +161,76 @@ namespace FilterExplorer
             var flyout = new AboutFlyout();
 
             flyout.Show();
+        }
+
+        private async void OnDataRequested(DataTransferManager sender, DataRequestedEventArgs e)
+        {
+            var deferral = e.Request.GetDeferral();
+
+            var file = await SaveTemporaryPhotoAsync(SessionModel.Instance.Photo);
+
+            try
+            {
+                var loader = new Windows.ApplicationModel.Resources.ResourceLoader();
+
+                DataPackage data = e.Request.Data;
+                data.Properties.ApplicationName = loader.GetString("ApplicationName");
+                data.Properties.Description = loader.GetString("PhotoSharingDescription");
+                data.Properties.Thumbnail = RandomAccessStreamReference.CreateFromFile(file);
+                data.Properties.Title = loader.GetString("PhotoSharingTitle");
+                data.SetStorageItems(new List<StorageFile>() { file });
+                data.SetText(loader.GetString("PhotoSharingText"));
+
+                try
+                {
+                    data.Properties.ApplicationListingUri = Windows.ApplicationModel.Store.CurrentApp.LinkUri;
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine("Getting application store link URI failed: " + ex.Message);
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("DataTransferManager_DataRequested exception: " + ex.Message + '\n' + ex.StackTrace);
+            }
+            finally
+            {
+                deferral.Complete();
+            }
+        }
+
+        private async Task<StorageFile> SaveTemporaryPhotoAsync(FilteredPhotoModel photo)
+        {
+            var filename = Application.Current.Resources["PhotoSaveTemporaryFilename"] as string;
+            var folder = ApplicationData.Current.TemporaryFolder;
+            var file = await folder.CreateFileAsync(filename, Windows.Storage.CreationCollisionOption.ReplaceExisting);
+
+            CachedFileManager.DeferUpdates(file);
+
+            using (var fileStream = await file.OpenAsync(Windows.Storage.FileAccessMode.ReadWrite))
+            using (var photoStream = await photo.GetFilteredPhotoAsync())
+            using (var reader = new DataReader(photoStream))
+            using (var writer = new DataWriter(fileStream))
+            {
+                await reader.LoadAsync((uint)photoStream.Size);
+                var buffer = reader.ReadBuffer((uint)photoStream.Size);
+
+                writer.WriteBuffer(buffer);
+                await writer.StoreAsync();
+                await writer.FlushAsync();
+            }
+
+            var status = await CachedFileManager.CompleteUpdatesAsync(file);
+
+            if (status == Windows.Storage.Provider.FileUpdateStatus.Complete)
+            {
+                return file;
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }
