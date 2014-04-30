@@ -183,23 +183,11 @@ namespace FilterExplorer.Models
             var orientation = await GetPhotoOrientationAsync();
             var orientationValue = orientation.HasValue ? orientation.Value : PhotoOrientation.Unspecified;
 
-#if WINDOWS_PHONE_APP
-            // TODO Getting platform thumbnails is currently broken in the WP8.1 preview SDK,
-            //      thus generating thumbnails from the large original photos. Change to platform
-            //      thumbnails again when platform is live & fine.
-
-            var size = await GetPhotoResolutionAsync();
-
-            using (var stream = await GetPhotoAsync())
-            {
-                return await ResizeStreamAsync(stream, new Size(maximumSide, maximumSide), orientationValue);
-            }
-#else
             using (var stream = await _file.GetThumbnailAsync(Windows.Storage.FileProperties.ThumbnailMode.PicturesView))
             {
                 if (stream.ContentType == "image/jpeg")
                 {
-                    if (stream.OriginalWidth <= maximumSide || stream.OriginalHeight <= maximumSide)
+                    if ((stream.OriginalWidth <= maximumSide || stream.OriginalHeight <= maximumSide) && orientationValue == PhotoOrientation.Normal)
                     {
                         using (var memoryStream = new InMemoryRandomAccessStream())
                         {
@@ -230,7 +218,6 @@ namespace FilterExplorer.Models
                     }
                 }
             }
-#endif
         }
 
         private async Task<IRandomAccessStream> ResizeStreamAsync(IRandomAccessStream stream, Size size, PhotoOrientation orientation)
