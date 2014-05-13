@@ -17,7 +17,7 @@ namespace FilterExplorer.Commands
     {
         public static IDelegateCommand CreateGoBackCommand()
         {
-            return new DelegateCommand((parameter) =>
+            return new DelegateCommand(parameter =>
             {
                 var frame = (Frame)Window.Current.Content;
 

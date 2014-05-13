@@ -8,6 +8,7 @@
  * See the license text file for license information.
  */
 
+using System.Linq;
 using FilterExplorer.Filters;
 using FilterExplorer.Utilities;
 using Nokia.Graphics.Imaging;
@@ -189,12 +190,7 @@ namespace FilterExplorer.Models
             {
                 if (Filters.Count > 0)
                 {
-                    var list = new List<IFilter>();
-
-                    foreach (var filter in Filters)
-                    {
-                        list.Add(filter.GetFilter());
-                    }
+                    var list = Filters.Select(filter => filter.GetFilter()).ToList();
 
                     filteredStream = new InMemoryRandomAccessStream();
 
@@ -229,12 +225,7 @@ namespace FilterExplorer.Models
             {
                 if (Filters.Count > 0)
                 {
-                    var list = new List<IFilter>();
-
-                    foreach (var filter in Filters)
-                    {
-                        list.Add(filter.GetFilter());
-                    }
+                    var list = Filters.Select(filter => filter.GetFilter()).ToList();
 
                     filteredStream = new InMemoryRandomAccessStream();
 
@@ -269,12 +260,7 @@ namespace FilterExplorer.Models
             {
                 if (Filters.Count > 0)
                 {
-                    var list = new List<IFilter>();
-
-                    foreach (var filter in Filters)
-                    {
-                        list.Add(filter.GetFilter());
-                    }
+                    var list = Filters.Select(filter => filter.GetFilter()).ToList();
 
                     filteredStream = new InMemoryRandomAccessStream();
 

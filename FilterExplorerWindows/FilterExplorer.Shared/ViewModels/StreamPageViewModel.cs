@@ -390,13 +390,16 @@ namespace FilterExplorer.ViewModels
             {
                 var filename = Application.Current.Resources["PhotoCaptureTemporaryFilename"] as string;
                 var folder = ApplicationData.Current.TemporaryFolder;
-                var temporaryFile = await folder.CreateFileAsync(filename, Windows.Storage.CreationCollisionOption.ReplaceExisting);
+                if (filename != null)
+                {
+                    var temporaryFile = await folder.CreateFileAsync(filename, Windows.Storage.CreationCollisionOption.ReplaceExisting);
 
-                CachedFileManager.DeferUpdates(temporaryFile);
-                await file.CopyAndReplaceAsync(temporaryFile);
-                await CachedFileManager.CompleteUpdatesAsync(temporaryFile);
+                    CachedFileManager.DeferUpdates(temporaryFile);
+                    await file.CopyAndReplaceAsync(temporaryFile);
+                    await CachedFileManager.CompleteUpdatesAsync(temporaryFile);
 
-                file = temporaryFile;
+                    file = temporaryFile;
+                }
             }
 
             return file;

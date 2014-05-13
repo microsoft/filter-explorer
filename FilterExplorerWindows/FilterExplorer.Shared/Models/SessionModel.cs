@@ -48,8 +48,7 @@ namespace FilterExplorer.Models
 
             if (Photo != null)
             {
-                var photoJson = new JsonObject();
-                photoJson.Add("Path", JsonValue.CreateStringValue(Photo.File.Path));
+                var photoJson = new JsonObject {{"Path", JsonValue.CreateStringValue(Photo.File.Path)}};
                 var filterIdsJson = new JsonArray();
                 
                 foreach (var filter in Photo.Filters)

@@ -207,34 +207,37 @@ namespace FilterExplorer
         {
             var filename = Application.Current.Resources["PhotoSaveTemporaryFilename"] as string;
             var folder = ApplicationData.Current.TemporaryFolder;
-            var task = folder.CreateFileAsync(filename, Windows.Storage.CreationCollisionOption.ReplaceExisting).AsTask();
-            task.Wait();
-            var file = task.Result;
-
-            CachedFileManager.DeferUpdates(file);
-
-            using (var fileStream = await file.OpenAsync(Windows.Storage.FileAccessMode.ReadWrite))
-            using (var photoStream = await photo.GetFilteredPhotoAsync())
-            using (var reader = new DataReader(photoStream))
-            using (var writer = new DataWriter(fileStream))
+            if (filename != null)
             {
-                await reader.LoadAsync((uint)photoStream.Size);
-                var buffer = reader.ReadBuffer((uint)photoStream.Size);
+                var task = folder.CreateFileAsync(filename, Windows.Storage.CreationCollisionOption.ReplaceExisting).AsTask();
+                task.Wait();
+                var file = task.Result;
 
-                writer.WriteBuffer(buffer);
-                await writer.StoreAsync();
-                await writer.FlushAsync();
-            }
+                CachedFileManager.DeferUpdates(file);
 
-            var status = await CachedFileManager.CompleteUpdatesAsync(file);
+                using (var fileStream = await file.OpenAsync(Windows.Storage.FileAccessMode.ReadWrite))
+                using (var photoStream = await photo.GetFilteredPhotoAsync())
+                using (var reader = new DataReader(photoStream))
+                using (var writer = new DataWriter(fileStream))
+                {
+                    await reader.LoadAsync((uint)photoStream.Size);
+                    var buffer = reader.ReadBuffer((uint)photoStream.Size);
 
-            if (status == Windows.Storage.Provider.FileUpdateStatus.Complete)
-            {
-                return file;
-            }
-            else
-            {
-                return null;
+                    writer.WriteBuffer(buffer);
+                    await writer.StoreAsync();
+                    await writer.FlushAsync();
+                }
+
+                var status = await CachedFileManager.CompleteUpdatesAsync(file);
+
+                if (status == Windows.Storage.Provider.FileUpdateStatus.Complete)
+                {
+                    return file;
+                }
+                else
+                {
+                    return null;
+                }
             }
         }
     }

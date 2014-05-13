@@ -17,7 +17,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:converters="using:FilterExplorer.Converters"
     mc:Ignorable="d"
-    IconSource="Assets/StoreLogo.png"
+    IconSource="/Assets/StoreLogo.png"
     d:DesignWidth="346">
 
     <SettingsFlyout.Resources>

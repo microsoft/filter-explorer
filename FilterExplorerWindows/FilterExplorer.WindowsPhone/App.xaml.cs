@@ -134,8 +134,11 @@ namespace FilterExplorer
         private void RootFrame_FirstNavigated(object sender, NavigationEventArgs e)
         {
             var rootFrame = sender as Frame;
-            rootFrame.ContentTransitions = this.transitions ?? new TransitionCollection() { new NavigationThemeTransition() };
-            rootFrame.Navigated -= this.RootFrame_FirstNavigated;
+            if (rootFrame != null)
+            {
+                rootFrame.ContentTransitions = this.transitions ?? new TransitionCollection() { new NavigationThemeTransition() };
+                rootFrame.Navigated -= this.RootFrame_FirstNavigated;
+            }
         }
 
         /// <summary>

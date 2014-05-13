@@ -82,10 +82,10 @@ namespace FilterExplorer.Utilities
         {
             if (Result != null)
             {
-                if (Result is IDisposable)
+                var result = Result as IDisposable;
+                if (result != null)
                 {
-                    var disposable = (IDisposable)Result;
-                    disposable.Dispose();
+                    result.Dispose();
                 }
 
                 Result = null;
