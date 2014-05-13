@@ -11,8 +11,14 @@ namespace ImageProcessingApp.Pages
         {
             InitializeComponent();
 
-            VersionTextBlock.Text = String.Format(AppResources.AboutPage_TextBlock_Version,
-                XDocument.Load("WMAppManifest.xml").Root.Element("App").Attribute("Version").Value);
+            var xElement = XDocument.Load("WMAppManifest.xml").Root;
+            if (xElement != null)
+            {
+                var element = xElement.Element("App");
+                if (element != null)
+                    VersionTextBlock.Text = String.Format(AppResources.AboutPage_TextBlock_Version,
+                        element.Attribute("Version").Value);
+            }
         }
     }
 }

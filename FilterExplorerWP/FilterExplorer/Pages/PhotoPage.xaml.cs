@@ -114,55 +114,57 @@ namespace ImageProcessingApp
             _photoChooserTask.Completed += Task_Completed;
             _cameraCaptureTask.Completed += Task_Completed;
 
-            _addButton = new ApplicationBarIconButton();
-            _addButton.Text = AppResources.PhotoPage_Button_AddFilter;
-            _addButton.IsEnabled = false;
-            _addButton.IconUri = new Uri("/Assets/Icons/add.png", UriKind.Relative);
+            _addButton = new ApplicationBarIconButton
+            {
+                Text = AppResources.PhotoPage_Button_AddFilter,
+                IsEnabled = false,
+                IconUri = new Uri("/Assets/Icons/add.png", UriKind.Relative)
+            };
             _addButton.Click += AddButton_Click;
 
             ApplicationBar.Buttons.Add(_addButton);
 
-            _undoButton = new ApplicationBarIconButton();
-            _undoButton.Text = AppResources.PhotoPage_Button_UndoFilter;
-            _undoButton.IsEnabled = false;
-            _undoButton.IconUri = new Uri("/Assets/Icons/undo.png", UriKind.Relative);
+            _undoButton = new ApplicationBarIconButton
+            {
+                Text = AppResources.PhotoPage_Button_UndoFilter,
+                IsEnabled = false,
+                IconUri = new Uri("/Assets/Icons/undo.png", UriKind.Relative)
+            };
             _undoButton.Click += UndoButton_Click;
 
             ApplicationBar.Buttons.Add(_undoButton);
 
-            _saveButton = new ApplicationBarIconButton();
-            _saveButton.Text = AppResources.PhotoPage_Button_Save;
-            _saveButton.IsEnabled = true;
-            _saveButton.IconUri = new Uri("/Assets/Icons/save.png", UriKind.Relative);
+            _saveButton = new ApplicationBarIconButton
+            {
+                Text = AppResources.PhotoPage_Button_Save,
+                IsEnabled = true,
+                IconUri = new Uri("/Assets/Icons/save.png", UriKind.Relative)
+            };
             _saveButton.Click += SaveButton_Click;
 
             ApplicationBar.Buttons.Add(_saveButton);
 
-            _shareButton = new ApplicationBarIconButton();
-            _shareButton.Text = AppResources.PhotoPage_Button_Share;
-            _shareButton.IsEnabled = true;
-            _shareButton.IconUri = new Uri("/Assets/Icons/share.png", UriKind.Relative);
+            _shareButton = new ApplicationBarIconButton
+            {
+                Text = AppResources.PhotoPage_Button_Share,
+                IsEnabled = true,
+                IconUri = new Uri("/Assets/Icons/share.png", UriKind.Relative)
+            };
             _shareButton.Click += ShareButton_Click;
 
             ApplicationBar.Buttons.Add(_shareButton);
 
-            _libraryItem = new ApplicationBarMenuItem();
-            _libraryItem.Text = AppResources.PhotoPage_Menu_Library;
-            _libraryItem.IsEnabled = true;
+            _libraryItem = new ApplicationBarMenuItem {Text = AppResources.PhotoPage_Menu_Library, IsEnabled = true};
             _libraryItem.Click += LibraryItem_Click;
 
             ApplicationBar.MenuItems.Add(_libraryItem);
 
-            _cameraItem = new ApplicationBarMenuItem();
-            _cameraItem.Text = AppResources.PhotoPage_Menu_Camera;
-            _cameraItem.IsEnabled = true;
+            _cameraItem = new ApplicationBarMenuItem {Text = AppResources.PhotoPage_Menu_Camera, IsEnabled = true};
             _cameraItem.Click += CameraItem_Click;
 
             ApplicationBar.MenuItems.Add(_cameraItem);
 
-            _aboutItem = new ApplicationBarMenuItem();
-            _aboutItem.Text = AppResources.App_Menu_About;
-            _aboutItem.IsEnabled = true;
+            _aboutItem = new ApplicationBarMenuItem {Text = AppResources.App_Menu_About, IsEnabled = true};
             _aboutItem.Click += AboutItem_Click;
 
             ApplicationBar.MenuItems.Add(_aboutItem);
@@ -255,7 +257,8 @@ namespace ImageProcessingApp
                 }
                 else
                 {
-                    App.PhotoModel.Dispose();
+                    if (App.PhotoModel != null) 
+                        App.PhotoModel.Dispose();
                     App.PhotoModel = null;
 
                     GC.Collect();
@@ -354,12 +357,15 @@ namespace ImageProcessingApp
                         GC.Collect();
                     }
 
-                    using (MemoryStream stream = new MemoryStream())
+                    using (var stream = new MemoryStream())
                     {
                         e.ChosenPhoto.CopyTo(stream);
 
-                        App.PhotoModel = new PhotoModel() { Buffer = stream.GetWindowsRuntimeBuffer() };
-                        App.PhotoModel.Captured = (sender == _cameraCaptureTask);
+                        App.PhotoModel = new PhotoModel
+                        {
+                            Buffer = stream.GetWindowsRuntimeBuffer(),
+                            Captured = (sender == _cameraCaptureTask)
+                        };
                         App.PhotoModel.Dirty = App.PhotoModel.Captured;
                         App.PhotoModel.Path = e.OriginalFileName;
                     }

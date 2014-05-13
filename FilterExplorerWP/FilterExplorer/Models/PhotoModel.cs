@@ -34,12 +34,10 @@ namespace ImageProcessingApp.Models
         {
             get
             {
-                using (BufferImageSource source = new BufferImageSource(_buffer))
-                using (JpegRenderer renderer = new JpegRenderer(source))
+                using (var source = new BufferImageSource(_buffer))
+                using (var renderer = new JpegRenderer(source))
                 {
-                    IBuffer buffer = null;
-
-                    Task.Run(async () => { buffer = await renderer.RenderAsync(); }).Wait();
+                    IBuffer buffer = renderer.RenderAsync().AsTask().GetAwaiter().GetResult();
 
                     return buffer;
                 }
@@ -145,9 +143,9 @@ namespace ImageProcessingApp.Models
         /// <param name="bitmap">Bitmap to render to</param>
         public async Task RenderBitmapAsync(WriteableBitmap bitmap)
         {
-            using (BufferImageSource source = new BufferImageSource(_buffer))
-            using (FilterEffect effect = new FilterEffect(source) { Filters = _components })
-            using (WriteableBitmapRenderer renderer = new WriteableBitmapRenderer(effect, bitmap))
+            using (var source = new BufferImageSource(_buffer))
+            using (var effect = new FilterEffect(source) { Filters = _components })
+            using (var renderer = new WriteableBitmapRenderer(effect, bitmap))
             {
                 await renderer.RenderAsync();
 
@@ -163,9 +161,9 @@ namespace ImageProcessingApp.Models
         /// <returns>Buffer containing the filtered image data</returns>
         public async Task<IBuffer> RenderFullBufferAsync()
         {
-            using (BufferImageSource source = new BufferImageSource(_buffer))
-            using (FilterEffect effect = new FilterEffect(source) { Filters = _components })
-            using (JpegRenderer renderer = new JpegRenderer(effect))
+            using (var source = new BufferImageSource(_buffer))
+            using (var effect = new FilterEffect(source) { Filters = _components })
+            using (var renderer = new JpegRenderer(effect))
             {
                 return await renderer.RenderAsync();
             }
@@ -173,7 +171,7 @@ namespace ImageProcessingApp.Models
 
         public async Task<Windows.Foundation.Size> GetImageSizeAsync()
         {
-            using (BufferImageSource source = new BufferImageSource(_buffer))
+            using (var source = new BufferImageSource(_buffer))
             {
                 return (await source.GetInfoAsync()).ImageSize;
             }

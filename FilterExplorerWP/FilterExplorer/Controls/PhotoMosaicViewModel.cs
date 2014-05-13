@@ -118,7 +118,7 @@ namespace ImageProcessingApp.ViewModels
         {
             if (StreamItemTapped != null)
             {
-                StreamItemTapped(this, new StreamItemTappedEventArgs()
+                StreamItemTapped(this, new StreamItemTappedEventArgs
                 {
                     Item = Item(i - 1).Model
                 });

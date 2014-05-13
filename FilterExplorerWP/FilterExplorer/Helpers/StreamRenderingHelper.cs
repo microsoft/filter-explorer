@@ -1,11 +1,8 @@
 ﻿using Nokia.Graphics.Imaging;
-using Nokia.InteropServices.WindowsRuntime;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 
 namespace ImageProcessingApp.Models
@@ -205,9 +202,9 @@ namespace ImageProcessingApp.Models
                     }
 
                     thumbnailStream.Position = 0;
-
-                    using (StreamImageSource source = new StreamImageSource(thumbnailStream))
-                    using (FilterEffect effect = new FilterEffect(source))
+                    
+                    using (var source = new StreamImageSource(thumbnailStream))
+                    using (var effect = new FilterEffect(source))
                     {
                         List<IFilter> filters = new List<IFilter>();
 

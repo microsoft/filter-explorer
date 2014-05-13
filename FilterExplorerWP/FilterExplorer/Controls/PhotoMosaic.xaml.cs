@@ -13,9 +13,9 @@ namespace ImageProcessingApp.Controls
 
         private void Image_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            PhotoMosaicViewModel m = DataContext as PhotoMosaicViewModel;
+            var m = DataContext as PhotoMosaicViewModel;
 
-            Image i = sender as Image;
+            var i = sender as Image;
 
             if (m != null && i != null)
             {

@@ -1,8 +1,6 @@
 ﻿using ImageProcessingApp.Models;
-using System;
 using System.IO;
 using System.IO.IsolatedStorage;
-using System.Threading.Tasks;
 using System.Xml.Serialization;
 using Windows.Storage.Streams;
 using System.Runtime.InteropServices.WindowsRuntime;

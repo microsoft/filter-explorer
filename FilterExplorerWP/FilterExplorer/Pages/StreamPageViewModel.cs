@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using Nokia.InteropServices.WindowsRuntime;
 using Microsoft.Xna.Framework.Media.PhoneExtensions;
 
 namespace ImageProcessingApp.ViewModels
@@ -99,7 +98,8 @@ namespace ImageProcessingApp.ViewModels
 
         private void PhotoMosaicButtonViewModel_RetrieveRequested(object sender, PhotoMosaicButtonViewModelRetrieveEventArgs e)
         {
-            (sender as PhotoMosaicButtonViewModel).IsEnabled = false;
+            var photoMosaicButtonViewModel = sender as PhotoMosaicButtonViewModel;
+            if (photoMosaicButtonViewModel != null) photoMosaicButtonViewModel.IsEnabled = false;
 
             AddPhotoSet();
         }

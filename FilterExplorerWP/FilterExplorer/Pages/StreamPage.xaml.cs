@@ -5,7 +5,6 @@ using ImageProcessingApp.ViewModels;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using Microsoft.Phone.Tasks;
-using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Media.PhoneExtensions;
 using System;
 using System.Collections.Generic;
@@ -77,33 +76,37 @@ namespace ImageProcessingApp
             _photoChooserTask.Completed += Task_Completed;
             _cameraCaptureTask.Completed += Task_Completed;
 
-            _libraryButton = new ApplicationBarIconButton();
-            _libraryButton.Text = AppResources.StreamPage_Button_Library;
-            _libraryButton.IsEnabled = true;
-            _libraryButton.IconUri = new Uri("/Assets/Icons/folder.png", UriKind.Relative);
+            _libraryButton = new ApplicationBarIconButton
+            {
+                Text = AppResources.StreamPage_Button_Library,
+                IsEnabled = true,
+                IconUri = new Uri("/Assets/Icons/folder.png", UriKind.Relative)
+            };
             _libraryButton.Click += LibraryButton_Click;
 
             ApplicationBar.Buttons.Add(_libraryButton);
 
-            _cameraButton = new ApplicationBarIconButton();
-            _cameraButton.Text = AppResources.StreamPage_Button_Camera;
-            _cameraButton.IsEnabled = true;
-            _cameraButton.IconUri = new Uri("/Assets/Icons/camera.png", UriKind.Relative);
+            _cameraButton = new ApplicationBarIconButton
+            {
+                Text = AppResources.StreamPage_Button_Camera,
+                IsEnabled = true,
+                IconUri = new Uri("/Assets/Icons/camera.png", UriKind.Relative)
+            };
             _cameraButton.Click += CameraButton_Click;
 
             ApplicationBar.Buttons.Add(_cameraButton);
 
-            _refreshButton = new ApplicationBarIconButton();
-            _refreshButton.Text = AppResources.StreamPage_Button_Refresh;
-            _refreshButton.IsEnabled = true;
-            _refreshButton.IconUri = new Uri("/Assets/Icons/refresh.png", UriKind.Relative);
+            _refreshButton = new ApplicationBarIconButton
+            {
+                Text = AppResources.StreamPage_Button_Refresh,
+                IsEnabled = true,
+                IconUri = new Uri("/Assets/Icons/refresh.png", UriKind.Relative)
+            };
             _refreshButton.Click += RefreshButton_Click;
 
             ApplicationBar.Buttons.Add(_refreshButton);
 
-            _aboutItem = new ApplicationBarMenuItem();
-            _aboutItem.Text = AppResources.App_Menu_About;
-            _aboutItem.IsEnabled = true;
+            _aboutItem = new ApplicationBarMenuItem {Text = AppResources.App_Menu_About, IsEnabled = true};
             _aboutItem.Click += AboutItem_Click;
 
             ApplicationBar.MenuItems.Add(_aboutItem);
@@ -209,10 +212,13 @@ namespace ImageProcessingApp
             {
                 e.Item.Picture.GetImage().CopyTo(stream);
 
-                App.PhotoModel = new PhotoModel() { Buffer = stream.GetWindowsRuntimeBuffer() };
-                App.PhotoModel.Captured = false;
-                App.PhotoModel.Dirty = true;
-                App.PhotoModel.Path = e.Item.Picture.GetPath();
+                App.PhotoModel = new PhotoModel
+                {
+                    Buffer = stream.GetWindowsRuntimeBuffer(),
+                    Captured = false,
+                    Dirty = true,
+                    Path = e.Item.Picture.GetPath()
+                };
 
                 if (e.Item.Filter != null)
                 {
@@ -284,13 +290,16 @@ namespace ImageProcessingApp
                     {
                         e.ChosenPhoto.CopyTo(stream);
 
-                        App.PhotoModel = new PhotoModel() { Buffer = stream.GetWindowsRuntimeBuffer() };
-                        App.PhotoModel.Captured = (sender == _cameraCaptureTask);
+                        App.PhotoModel = new PhotoModel
+                        {
+                            Buffer = stream.GetWindowsRuntimeBuffer(),
+                            Captured = (sender == _cameraCaptureTask)
+                        };
                         App.PhotoModel.Dirty = App.PhotoModel.Captured;
                         App.PhotoModel.Path = e.OriginalFileName;
                     }
 
-                    Dispatcher.BeginInvoke(() => { NavigationService.Navigate(new Uri("/Pages/PhotoPage.xaml", UriKind.Relative)); });
+                    Dispatcher.BeginInvoke(() => NavigationService.Navigate(new Uri("/Pages/PhotoPage.xaml", UriKind.Relative)));
                 }
                 else
                 {

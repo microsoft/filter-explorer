@@ -111,8 +111,8 @@ namespace ImageProcessingApp
         /// <param name="panel">Wrap panel to be populated with the generated thumbnails</param>
         private async Task RenderThumbnailsAsync(Bitmap bitmap, int side, List<FilterModel> list, WrapPanel panel)
         {
-            using (BitmapImageSource source = new BitmapImageSource(bitmap))
-            using (FilterEffect effect = new FilterEffect(source))
+            using (var source = new BitmapImageSource(bitmap))
+            using (var effect = new FilterEffect(source))
             {
                 foreach (FilterModel filter in list)
                 {
@@ -120,13 +120,13 @@ namespace ImageProcessingApp
 
                     WriteableBitmap writeableBitmap = new WriteableBitmap(side, side);
 
-                    using (WriteableBitmapRenderer renderer = new WriteableBitmapRenderer(effect, writeableBitmap))
+                    using (var renderer = new WriteableBitmapRenderer(effect, writeableBitmap))
                     {
                         await renderer.RenderAsync();
 
                         writeableBitmap.Invalidate();
 
-                        PhotoThumbnail photoThumbnail = new PhotoThumbnail()
+                        var photoThumbnail = new PhotoThumbnail()
                         {
                             Bitmap = writeableBitmap,
                             Text = filter.Name,
@@ -134,9 +134,11 @@ namespace ImageProcessingApp
                             Margin = new Thickness(6)
                         };
 
+                        FilterModel tempFilter = filter;
+
                         photoThumbnail.Tap += (object sender, System.Windows.Input.GestureEventArgs e) =>
                         {
-                            App.PhotoModel.ApplyFilter(filter);
+                            App.PhotoModel.ApplyFilter(tempFilter);
                             App.PhotoModel.Dirty = true;
 
                             NavigationService.GoBack();
