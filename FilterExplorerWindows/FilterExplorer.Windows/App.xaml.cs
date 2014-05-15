@@ -239,6 +239,8 @@ namespace FilterExplorer
                     return null;
                 }
             }
+
+            return null;
         }
     }
 }
