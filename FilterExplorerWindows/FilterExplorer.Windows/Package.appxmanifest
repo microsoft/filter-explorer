@@ -3,7 +3,7 @@
   <Identity Name="a882fe31-993a-436f-9b8f-4c694d54aae5" Publisher="CN=Filter Explorer" Version="2.0.0.0" />
   <Properties>
     <DisplayName>FilterExplorer.Windows</DisplayName>
-    <PublisherDisplayName>Nokia Developer</PublisherDisplayName>
+    <PublisherDisplayName>Microsoft Mobile</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
   <Prerequisites>

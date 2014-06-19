@@ -4,7 +4,7 @@
   <mp:PhoneIdentity PhoneProductId="dbd41dbc-cad7-4ce7-a1d0-255f952831c8" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>FilterExplorer.WindowsPhone</DisplayName>
-    <PublisherDisplayName>Nokia Developer</PublisherDisplayName>
+    <PublisherDisplayName>Microsoft Mobile</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
   <Prerequisites>
