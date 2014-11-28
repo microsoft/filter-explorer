@@ -1,8 +1,8 @@
 Filter Explorer
 ===============
 
-Filter Explorer is a Nokia example application which demonstrates some of the image editing
-capabilities and performance of the Nokia Imaging SDK by allowing the user to apply
+Filter Explorer is an example application which demonstrates some of the image editing
+capabilities and performance of the Imaging SDK by allowing the user to apply
 a number of filter layers to existing photos.
 
 This repository contains two separate implementation solutions:
