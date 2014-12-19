@@ -22,7 +22,7 @@
     <AppxBundlePlatforms>x86|arm</AppxBundlePlatforms>
     <AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
     <AppxBundle>Never</AppxBundle>
-    <NuGetPackageImportStamp>56e52d02</NuGetPackageImportStamp>
+    <NuGetPackageImportStamp>f4a6b74e</NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -132,6 +132,7 @@
       <SubType>Designer</SubType>
     </AppxManifest>
     <None Include="FilterExplorer_TemporaryKey.pfx" />
+    <None Include="Help\Lumia Imaging SDK.chm" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -173,14 +174,12 @@
     <VisualStudioVersion>12.0</VisualStudioVersion>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
-  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
-  <Import Project="..\packages\NokiaImagingSDK.1.2.115\build\win81\NokiaImagingSDK.targets" Condition="Exists('..\packages\NokiaImagingSDK.1.2.115\build\win81\NokiaImagingSDK.targets')" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />  
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    <PropertyGroup>      
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\NokiaImagingSDK.1.2.115\build\win81\NokiaImagingSDK.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NokiaImagingSDK.1.2.115\build\win81\NokiaImagingSDK.targets'))" />
-  </Target>
+   </Target>
+  <Import Project="..\packages\LumiaImagingSDK.2.0.101-beta\build\win81\LumiaImagingSDK.targets" Condition="Exists('..\packages\LumiaImagingSDK.2.0.101-beta\build\win81\LumiaImagingSDK.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

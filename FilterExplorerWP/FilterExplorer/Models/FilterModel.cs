@@ -1,4 +1,7 @@
-﻿using Nokia.Graphics.Imaging;
+﻿using Lumia.Imaging;
+using Lumia.Imaging.Adjustments;
+using Lumia.Imaging.Artistic;
+using Lumia.Imaging.Transforms;
 using System.Collections.Generic;
 using System.Xml.Serialization;
 

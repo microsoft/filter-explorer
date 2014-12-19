@@ -27,6 +27,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Utilities\HighlightStrategy.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities\ObservableList.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities\TaskResultCache.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\ThumbnailCollection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities\Ticket.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities\TicketManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\AboutPageViewModel.cs" />

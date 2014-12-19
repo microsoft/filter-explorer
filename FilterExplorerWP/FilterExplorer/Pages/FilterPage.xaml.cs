@@ -1,9 +1,8 @@
 ﻿using ImageProcessingApp.Controls;
 using ImageProcessingApp.Models;
 using Microsoft.Phone.Controls;
-using Nokia.Graphics;
-using Nokia.Graphics.Imaging;
-using Nokia.InteropServices.WindowsRuntime;
+using Lumia.Imaging;
+using Lumia.InteropServices.WindowsRuntime;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;

@@ -1,4 +1,5 @@
-﻿using Nokia.Graphics.Imaging;
+﻿using Lumia.Imaging;
+using Lumia.Imaging.Transforms;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;

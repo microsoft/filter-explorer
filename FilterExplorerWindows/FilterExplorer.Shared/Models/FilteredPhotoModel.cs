@@ -1,17 +1,28 @@
 ﻿/*
- * Copyright (c) 2014 Microsoft Mobile. All rights reserved.
- *
- * Nokia and Nokia Connecting People are registered trademarks of Nokia Corporation.
- * Other product and company names mentioned herein may be trademarks
- * or trade names of their respective owners.
- *
- * See the license text file for license information.
+ * Copyright (c) 2014 Microsoft Mobile
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  */
 
 using System.Linq;
 using FilterExplorer.Filters;
 using FilterExplorer.Utilities;
-using Nokia.Graphics.Imaging;
+using Lumia.Imaging;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -21,7 +32,7 @@ using Windows.Storage.Streams;
 
 namespace FilterExplorer.Models
 {
-    public class FilteredPhotoModel
+    public class FilteredPhotoModel : IDisposable
     {
         private PhotoModel _photo = null;
         private uint _version = 0;
@@ -97,12 +108,7 @@ namespace FilterExplorer.Models
             Filters = new ObservableList<Filter>();
             Filters.ItemsChanged += Filters_ItemsChanged;
         }
-
-        ~FilteredPhotoModel()
-        {
-            Filters.ItemsChanged -= Filters_ItemsChanged;
-        }
-
+        
         public async Task<Size?> GetPhotoResolutionAsync()
         {
             return await _photo.GetPhotoResolutionAsync();
@@ -314,5 +320,20 @@ namespace FilterExplorer.Models
                 FilteredThumbnailChanged(this, EventArgs.Empty);
             }
         }
+
+        private  void Dispose(bool disposing)
+        {
+            if (!disposing)
+                return;
+
+            Filters.ItemsChanged -= Filters_ItemsChanged;
+            Filters.Clear();
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+
     }
 }

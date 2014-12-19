@@ -1,8 +1,8 @@
 Filter Explorer
 ===============
 
-Filter Explorer is an example application which demonstrates some of the image editing
-capabilities and performance of the Imaging SDK by allowing the user to apply
+Filter Explorer is a Lumia example application which demonstrates some of the image editing
+capabilities and performance of the Lumia Imaging SDK by allowing the user to apply
 a number of filter layers to existing photos.
 
 This repository contains two separate implementation solutions:
@@ -27,4 +27,4 @@ Downloads
 
 | Project | Release | Download |
 | ------- | --------| -------- |
-| Filter Explorer WP8, Windows, WP8.1 | v2.0 | [filter-explorer-2.0.zip](https://github.com/Microsoft/filter-explorer/archive/v2.0.zip) |
+| Filter Explorer WP8, Windows, WP8.1 | v2.0 | [filter-explorer-2.0.zip](https://github.com/microsoft/filter-explorer/archive/v2.0.zip) |

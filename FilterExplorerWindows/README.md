@@ -1,8 +1,8 @@
 Filter Explorer for Windows 8.1 and Windows Phone 8.1
 =====================================================
 
-Filter Explorer is a Nokia example application which demonstrates some of the image editing
-capabilities and performance of the Nokia Imaging SDK by allowing the user to apply
+Filter Explorer is a Lumia example application which demonstrates some of the image editing
+capabilities and performance of the Lumia Imaging SDK by allowing the user to apply
 a number of filter layers to existing photos.
 
 This example application is hosted in GitHub:
@@ -20,10 +20,8 @@ Tested to work on:
  * Windows 8.1 x86 desktop
  * Windows Phone 8.1 emulator
 
-For more information on implementation, visit Nokia Lumia
-Developer's Library:
-http://developer.nokia.com/resources/library/Lumia/nokia-imaging-sdk/sample-projects/filter-explorer.html
-
+For more information on implementation, visit Lumia Developer's Library:
+http://dev.windows.com/en-us/featured/lumia
 
 Instructions
 ------------
@@ -118,6 +116,6 @@ Version history
 
  * 2.0: Second public release of Filter Explorer for Windows
    - Added Windows Phone 8.1 support
-   - Updated to latest Nokia Imaging SDK
+   - Updated to latest Lumia Imaging SDK
 
  * 1.0: First public release of Filter Explorer for Windows
