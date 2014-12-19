@@ -179,7 +179,7 @@
     <PropertyGroup>      
     </PropertyGroup>
    </Target>
-  <Import Project="..\packages\LumiaImagingSDK.2.0.101-beta\build\win81\LumiaImagingSDK.targets" Condition="Exists('..\packages\LumiaImagingSDK.2.0.101-beta\build\win81\LumiaImagingSDK.targets')" />
+  <Import Project="..\packages\LumiaImagingSDK.2.0.184\build\win81\LumiaImagingSDK.targets" Condition="Exists('..\packages\LumiaImagingSDK.2.0.184\build\win81\LumiaImagingSDK.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

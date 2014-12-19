@@ -224,7 +224,7 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Lumia.Imaging.Managed">
-      <HintPath>..\packages\LumiaImagingSDK.2.0.101-beta\lib\wp8\Lumia.Imaging.Managed.dll</HintPath>
+      <HintPath>..\packages\LumiaImagingSDK.2.0.184\lib\wp8\Lumia.Imaging.Managed.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Phone.Controls, Version=8.0.0.0, Culture=neutral, PublicKeyToken=24eec0d8c86cda1e, processorArchitecture=MSIL" />
@@ -248,5 +248,5 @@
     </PropertyGroup>
   </Target>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
-  <Import Project="..\packages\LumiaImagingSDK.2.0.101-beta\build\wp8\LumiaImagingSDK.targets" Condition="Exists('..\packages\LumiaImagingSDK.2.0.101-beta\build\wp8\LumiaImagingSDK.targets')" />
+  <Import Project="..\packages\LumiaImagingSDK.2.0.184\build\wp8\LumiaImagingSDK.targets" Condition="Exists('..\packages\LumiaImagingSDK.2.0.184\build\wp8\LumiaImagingSDK.targets')" />
 </Project>
