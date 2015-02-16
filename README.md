@@ -20,11 +20,3 @@ License
 
 See the license text file delivered with this project:
 https://github.com/Microsoft/filter-explorer/blob/master/License.txt
-
-
-Downloads
----------
-
-| Project | Release | Download |
-| ------- | --------| -------- |
-| Filter Explorer WP8, Windows, WP8.1 | v2.0 | [filter-explorer-2.0.zip](https://github.com/microsoft/filter-explorer/archive/v2.0.zip) |
