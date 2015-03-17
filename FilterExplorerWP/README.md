@@ -22,7 +22,7 @@ Tested to work on:
  * Nokia Lumia 920
 
 For more information on implementation, visit Lumia Developer's Library:
-http://dev.windows.com/en-us/featured/lumia
+http://go.microsoft.com/fwlink/?LinkId=528373
 
 
 Instructions
